@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SOV shortlist</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Schibsted+Grotesk:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#F5F4EF;color:#16161A;font-family:'Schibsted Grotesk',system-ui,sans-serif}
+a{color:#2F5BEA}a:hover{color:#1E3FB0}
+.disp{font-family:'Bricolage Grotesque',system-ui,sans-serif}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:999px;font-weight:600;font-size:16px;text-decoration:none;box-sizing:border-box}
+.btn-p{background:#16161A;color:#FFFFFF}.btn-p:hover{background:#2F5BEA;color:#FFFFFF}
+.btn-s{border:1.5px solid #16161A;color:#16161A}.btn-s:hover{background:#16161A;color:#FFFFFF}
+.nav a{color:#16161A;text-decoration:none;font-weight:500}.nav a:hover{color:#2F5BEA}.nav a.btn-p,.nav a.btn-p:hover{color:#FFFFFF}
+.card{background:#FFFFFF;border:1px solid #DEDBD2;border-radius:16px;box-sizing:border-box}
+.tag{display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;font-size:13px;font-weight:600}
+.hint{margin:0;font-size:14px;color:#5A5850;line-height:1.45}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column;">
+<header style="border-bottom: 1px solid #DEDBD2; background: #FFFFFF;">
+<div style="max-width: 1200px; margin: 0 auto; padding: 14px 24px; display: flex; flex-wrap: wrap; gap: 12px 32px; align-items: center; justify-content: space-between;">
+<a href="Main.dc.html" class="disp" style="font-size: 28px; font-weight: 800; color: #16161A; text-decoration: none; letter-spacing: -0.03em;">sov</a>
+<nav class="nav" aria-label="Account" style="display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center; font-size: 15px;">
+<a href="Brief.dc.html" aria-current="page" style="color: #2F5BEA;">Briefs</a>
+<a href="Project.dc.html">Projects</a>
+<a href="Outcome.dc.html">Reports</a>
+<span style="display: inline-flex; align-items: center; gap: 8px; color: #3D3B35;"><span aria-hidden="true" style="width: 32px; height: 32px; border-radius: 50%; background: #16161A; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700;">AH</span>The Ashby Hotel</span>
+</nav>
+</div>
+</header>
+
+<main style="max-width: 1200px; width: 100%; margin: 0 auto; padding: 40px 24px 64px; box-sizing: border-box; display: flex; flex-direction: column; gap: 28px;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between; align-items: flex-end;">
+<div style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 8px;">
+<a href="Brief.dc.html" style="font-size: 15px; font-weight: 600; text-decoration: none;">Back to brief</a>
+<h1 class="disp" style="margin: 0; font-size: 44px; letter-spacing: -0.03em; line-height: 1.05;">Your shortlist: lobby mural</h1>
+<p class="hint" style="font-size: 17px;">Three vetted artists matched on theme, scale, low-odor materials, schedule and budget. Pick who you want to see a concept from.</p>
+</div>
+<div class="card" style="flex: 0 1 360px; padding: 16px 20px; display: flex; gap: 12px; align-items: flex-start;">
+<span aria-hidden="true" style="width: 36px; height: 36px; border-radius: 50%; background: #E3EAFD; color: #1E3FB0; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;">C</span>
+<p style="margin: 0; font-size: 14px; line-height: 1.45; color: #3D3B35;"><b style="color: #16161A;">Curator note:</b> all three have finished walls this size in occupied buildings. Dani's work is fabric, so it installs in two days instead of three weeks.</p>
+</div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
+<sc-for list="{{artists}}" as="a" hint-placeholder-count="3">
+<article class="card" style="{{a.cardStyle}}">
+<div aria-hidden="true" style="{{a.artStyle}}"><span style="font-size: 13px; font-weight: 600; color: #FFFFFF; background: rgba(22,22,26,0.55); padding: 4px 10px; border-radius: 999px;">Artwork photo</span></div>
+<div style="padding: 20px; display: flex; flex-direction: column; gap: 14px; flex: 1;">
+<div style="display: flex; justify-content: space-between; gap: 12px; align-items: flex-start;">
+<div style="min-width: 0;"><h2 class="disp" style="margin: 0; font-size: 24px; letter-spacing: -0.02em;">{{a.name}}</h2><p class="hint" style="margin-top: 4px;">{{a.meta}}</p></div>
+<span class="tag" style="background: #E2F0E8; color: #1F5A3D; flex-shrink: 0;">{{a.fit}}</span>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 6px;"><span class="tag" style="background: #F5F4EF;">Vetted</span><span class="tag" style="background: #F5F4EF;">Insured per project</span><span class="tag" style="background: #F5F4EF;">{{a.record}}</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<p style="margin: 0; font-weight: 700; font-size: 15px;">Why this fits</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.5; color: #3D3B35;">{{a.why}}</p>
+</div>
+<p style="margin: 0; font-size: 15px;"><span style="color: #5A5850;">Creative fee from</span> <b>{{a.fee}}</b></p>
+<div style="margin-top: auto; display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
+<button type="button" onClick="{{a.pick}}" aria-pressed="{{a.on}}" style="{{a.btnStyle}}">{{a.btnLabel}}</button>
+<a href="Profile.dc.html" style="font-weight: 600; font-size: 15px; min-height: 44px; display: inline-flex; align-items: center;">View profile</a>
+</div>
+</div>
+</article>
+</sc-for>
+</div>
+
+<div class="card" style="padding: 20px 24px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; position: sticky; bottom: 16px; box-shadow: 0 8px 24px rgba(22,22,26,0.08);">
+<div style="display: flex; flex-direction: column; gap: 4px;">
+<p style="margin: 0; font-weight: 700; font-size: 18px;">{{count}} artists invited to a paid concept round</p>
+<p class="hint">Each artist is paid $400 for a concept, from your budget. Contact details are shared once you accept the sourcing terms.</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center;">
+<p style="margin: 0; font-size: 15px;">Concept fees: <b>{{total}}</b></p>
+<a class="btn btn-p" href="Scope.dc.html">Fund concepts and continue</a>
+</div>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1500}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { invited: { micah: true, dani: true, reese: false } };
+}
+renderVals() {
+const list = [
+{ id: 'micah', name: 'Micah The Artyst', meta: 'Murals, mixed media, collage · Greensboro · 13 years', fit: 'Strong fit', record: '12 walls delivered', color: '#D9622B',
+why: 'Large-scale murals with layered collage. Has painted local history themes without being literal, and works in low-odor acrylic.', fee: '$3,400' },
+{ id: 'dani', name: 'Dani Okafor', meta: 'Textile installation · High Point · 9 years', fit: 'Strong fit', record: '8 installs delivered', color: '#5E3F94',
+why: 'Builds from the city’s textile history in actual fabric. Made off site, installed in two days, nothing to air out.', fee: '$3,800' },
+{ id: 'reese', name: 'Reese Calloway', meta: 'Painting, rotating loans · Winston-Salem · 6 years', fit: 'Good fit', record: '5 placements', color: '#2F7A55',
+why: 'Could place a rotating set of large canvases now while a mural is planned for later. Lower first cost.', fee: '$2,200' }
+];
+const inv = this.state.invited;
+const artists = list.map(a => ({
+...a, on: !!inv[a.id],
+cardStyle: 'display:flex;flex-direction:column;overflow:hidden;' + (inv[a.id] ? 'border:2px solid #16161A;' : ''),
+artStyle: 'height:180px;background:' + a.color + ';display:flex;align-items:flex-end;padding:12px;box-sizing:border-box',
+btnLabel: inv[a.id] ? 'Invited to concept round' : 'Invite to concept round',
+btnStyle: inv[a.id]
+? 'min-height:44px;padding:0 18px;border-radius:999px;border:1.5px solid #16161A;background:#16161A;color:#FFFFFF;font:inherit;font-size:15px;font-weight:600;cursor:pointer'
+: 'min-height:44px;padding:0 18px;border-radius:999px;border:1.5px solid #16161A;background:#FFFFFF;color:#16161A;font:inherit;font-size:15px;font-weight:600;cursor:pointer',
+pick: () => this.setState({ invited: Object.assign({}, inv, { [a.id]: !inv[a.id] }) })
+}));
+const count = artists.filter(a => a.on).length;
+return { artists, count, total: '$' + (count * 400).toLocaleString('en-US') };
+}
+}
+</script>
+</body>
+</html>

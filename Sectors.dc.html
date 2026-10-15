@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SOV: who we serve</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Schibsted+Grotesk:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#F5F4EF;color:#16161A;font-family:'Schibsted Grotesk',system-ui,sans-serif}
+a{color:#2F5BEA}a:hover{color:#1E3FB0}
+.disp{font-family:'Bricolage Grotesque',system-ui,sans-serif}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:999px;font-weight:600;font-size:16px;text-decoration:none;box-sizing:border-box}
+.btn-p{background:#16161A;color:#FFFFFF}.btn-p:hover{background:#2F5BEA;color:#FFFFFF}
+.nav a{color:#16161A;text-decoration:none;font-weight:500}.nav a:hover{color:#2F5BEA}.nav a.btn-p,.nav a.btn-p:hover{color:#FFFFFF}
+.card{background:#FFFFFF;border:1px solid #DEDBD2;border-radius:16px;box-sizing:border-box}
+.hint{margin:0;font-size:14px;color:#5A5850;line-height:1.45}
+.eyebrow{margin:0;font-size:14px;font-weight:600;letter-spacing:0.14em;color:#5A5850}
+.li{margin:0;font-size:16px;line-height:1.5;color:#3D3B35}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column;">
+<header style="border-bottom: 1px solid #DEDBD2;">
+<div style="max-width: 1200px; margin: 0 auto; padding: 14px 24px; display: flex; flex-wrap: wrap; gap: 12px 32px; align-items: center; justify-content: space-between;">
+<a href="Main.dc.html" class="disp" style="font-size: 28px; font-weight: 800; color: #16161A; text-decoration: none; letter-spacing: -0.03em;">sov</a>
+<nav class="nav" aria-label="Main" style="display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center; font-size: 15px;">
+<a href="Sectors.dc.html" aria-current="page" style="color: #2F5BEA;">Who we serve</a>
+<a href="Map.dc.html">How it works</a>
+<a href="ForArtists.dc.html">For artists</a>
+<a href="Team.dc.html">About</a>
+<a href="account/login.html">Artist log in</a>
+<a class="btn btn-p" href="Brief.dc.html" style="min-height: 44px;">Start a brief</a>
+</nav>
+</div>
+</header>
+
+<main style="max-width: 1200px; width: 100%; margin: 0 auto; padding: 48px 24px 72px; box-sizing: border-box; display: flex; flex-direction: column; gap: 28px;">
+<div style="display: flex; flex-direction: column; gap: 12px; max-width: 860px;">
+<p class="eyebrow">WHO WE SERVE</p>
+<h1 class="disp" style="margin: 0; font-size: clamp(40px, 5vw, 60px); line-height: 1.02; letter-spacing: -0.03em;">Start with one space. Scale only if it works.</h1>
+<p style="margin: 0; font-size: 19px; line-height: 1.5; color: #3D3B35;">We don't sell "art." We sell one defined pilot with a fixed scope, a schedule your team can plan around, and a clear yes-or-no decision at the end.</p>
+</div>
+
+<div role="tablist" aria-label="Sector" style="display: flex; flex-wrap: wrap; gap: 8px;">
+<sc-for list="{{tabs}}" as="t" hint-placeholder-count="3"><button type="button" role="tab" aria-selected="{{t.on}}" onClick="{{t.pick}}" style="{{t.style}}">{{t.label}}</button></sc-for>
+</div>
+
+<section class="card" aria-labelledby="sec-h" style="padding: 32px; display: flex; flex-direction: column; gap: 24px;">
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+<div style="flex: 1 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 12px;">
+<h2 id="sec-h" class="disp" style="margin: 0; font-size: 34px; letter-spacing: -0.02em; line-height: 1.1;">{{s.head}}</h2>
+<p class="li" style="font-size: 18px;">{{s.lede}}</p>
+<p class="hint" style="font-size: 15px;"><b style="color: #16161A;">Who usually decides:</b> {{s.buyers}}</p>
+</div>
+<div style="flex: 1 1 320px; min-width: 0; padding: 24px; border-radius: 16px; background: #16161A; color: #F5F4EF; display: flex; flex-direction: column; gap: 10px;">
+<p style="margin: 0; font-size: 13px; letter-spacing: 0.12em; color: #B9B5AA;">THE PILOT</p>
+<p class="disp" style="margin: 0; font-size: 24px; font-weight: 700; line-height: 1.2;">{{s.pilot}}</p>
+<p style="margin: 0; color: #D6D3CA; line-height: 1.5;">{{s.pilotNote}}</p>
+<a class="btn" href="Brief.dc.html" style="background: #F5F4EF; color: #16161A; align-self: flex-start;">Scope this pilot</a>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
+<div style="padding: 20px; border-radius: 14px; background: #F5F4EF;"><p style="margin: 0 0 8px; font-weight: 700;">What you're worried about</p><sc-for list="{{s.fears}}" as="x" hint-placeholder-count="3"><p class="li" style="font-size: 15px; margin-bottom: 4px;">· {{x}}</p></sc-for></div>
+<div style="padding: 20px; border-radius: 14px; background: #E3EAFD;"><p style="margin: 0 0 8px; font-weight: 700;">What we handle</p><sc-for list="{{s.handle}}" as="x" hint-placeholder-count="3"><p class="li" style="font-size: 15px; margin-bottom: 4px; color: #1D2A55;">· {{x}}</p></sc-for></div>
+<div style="padding: 20px; border-radius: 14px; background: #E2F0E8;"><p style="margin: 0 0 8px; font-weight: 700;">What you get at the end</p><sc-for list="{{s.get}}" as="x" hint-placeholder-count="3"><p class="li" style="font-size: 15px; margin-bottom: 4px; color: #1F5A3D;">· {{x}}</p></sc-for></div>
+</div>
+</section>
+
+<section aria-labelledby="ladder-h" style="display: flex; flex-direction: column; gap: 14px;">
+<h2 id="ladder-h" class="disp" style="margin: 0; font-size: 30px; letter-spacing: -0.02em;">Four ways to work with us, smallest first</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px;">
+<div class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 6px;"><p class="hint">1 · Start here</p><p style="margin: 0; font-weight: 700; font-size: 18px;">Discovery and shortlist</p><p class="disp" style="margin: 0; font-size: 26px; font-weight: 800;">$2,500</p><p class="hint">A clear brief, 3 to 5 vetted artists and budget tiers in two weeks. Credited to your project if you go ahead.</p></div>
+<div class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 6px;"><p class="hint">2 · The pilot</p><p style="margin: 0; font-weight: 700; font-size: 18px;">One space, one work</p><p class="disp" style="margin: 0; font-size: 26px; font-weight: 800;">$8K–$25K</p><p class="hint">A lobby piece, a mural or one patient area, installed and insured, all in.</p></div>
+<div class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 6px;"><p class="hint">3 · Make it an event</p><p style="margin: 0; font-weight: 700; font-size: 18px;">Launch activation</p><p class="disp" style="margin: 0; font-size: 26px; font-weight: 800;">$4K–$10K</p><p class="hint">Live painting, an opening program or workshops, with photos and video you can use.</p></div>
+<div class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 6px;"><p class="hint">4 · Keep it fresh</p><p style="margin: 0; font-weight: 700; font-size: 18px;">Rotation program</p><p class="disp" style="margin: 0; font-size: 26px; font-weight: 800;">from $800/mo</p><p class="hint">Original work on loan, swapped each season, insured while it hangs.</p></div>
+</div>
+<p class="hint">Every price is all in. Our fee sits inside your budget on its own line, never on top.</p>
+</section>
+</main>
+<footer style="border-top: 1px solid #DEDBD2;">
+<div style="max-width: 1200px; margin: 0 auto; padding: 24px; display: flex; flex-wrap: wrap; gap: 12px 32px; justify-content: space-between; font-size: 14px; color: #5A5850;">
+<span>SOV Creative Marketplace · North Carolina</span>
+<span>Prototype for team and board review. Prices are proposed.</span>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1600}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { tab: 'hotel' };
+}
+renderVals() {
+const data = {
+hotel: { label: 'Hotels and hospitality', head: 'Hotels: give guests a reason to remember the place.',
+lede: 'New builds, conversions and renovations need art that tells the story of where the hotel sits, delivered on the pre-opening schedule.',
+buyers: 'owner or developer, interior designer, brand and marketing, pre-opening GM, procurement firm.',
+pilot: 'One lobby statement piece, or a 90-day opening program',
+pilotNote: 'A shortlist of local artists, concept options, install before opening, plus launch content for your marketing team.',
+fears: ['Generic art that could hang in any hotel', 'Missing the opening date', 'An artist nobody can reach'],
+handle: ['Local story research and a clear brief', 'Vetting, contracts and insurance', 'Fabrication, shipping and install'],
+get: ['A signature piece guests photograph', 'Opening-week photos and video', 'A plan for guest rooms and future phases'] },
+dev: { label: 'Developers and placemaking', head: 'Developers: build identity before the first lease is signed.',
+lede: 'Mixed-use and residential projects use public art to give a place a name people say out loud, and to bring foot traffic early.',
+buyers: 'development principal, project executive, architect or landscape architect, leasing and marketing, property manager.',
+pilot: 'One mural or one placemaking event, with budget tiers',
+pilotNote: 'One accountable creative lead for artists, permits, schedule and install, timed to leasing and opening.',
+fears: ['Activity that doesn\'t help leasing', 'Permits and community pushback', 'Scope that drifts'],
+handle: ['Concepts tied to the place and the community', 'Permits, wall owner sign-off and mural rights notice', 'Schedule, install and closeout package'],
+get: ['A landmark people give directions by', 'Content for leasing and PR', 'A phase plan for the rest of the site'] },
+health: { label: 'Healthcare', head: 'Healthcare: calm, dignity and a sense of place for patients and staff.',
+lede: 'Hospitals, clinics, hospice and surgery centers need durable, cleanable art chosen with patients and staff in mind.',
+buyers: 'facilities and capital projects, patient experience, hospital foundation or arts program, supply chain.',
+pilot: 'One waiting area or patient unit, or a 6-week workshop series',
+pilotNote: 'Artist vetting, concept options, infection-control-safe materials, install and a maintenance sheet for facilities.',
+fears: ['Infection control and cleanability', 'Disruption to care', 'Art that feels off for patients'],
+handle: ['Materials and install that meet facility rules', 'COI, W-9 and vendor setup', 'Phased install around patient flow'],
+get: ['A space patients and families notice', 'Maintenance and closeout documents', 'A rollout plan for other sites'] }
+};
+const on = 'min-height:48px;padding:0 20px;border-radius:999px;border:1.5px solid #16161A;background:#16161A;color:#FFFFFF;font:inherit;font-size:16px;font-weight:600;cursor:pointer';
+const off = 'min-height:48px;padding:0 20px;border-radius:999px;border:1.5px solid #C9C5BA;background:#FFFFFF;color:#16161A;font:inherit;font-size:16px;font-weight:500;cursor:pointer';
+const tabs = Object.keys(data).map(k => ({ label: data[k].label, on: this.state.tab === k, style: this.state.tab === k ? on : off, pick: () => this.setState({ tab: k }) }));
+return { tabs, s: data[this.state.tab] };
+}
+}
+</script>
+</body>
+</html>

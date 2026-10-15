@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Set a new password</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="app.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="config.js"></script>
+<script src="common.js"></script>
+</head>
+<body>
+<header class="topbar"><div class="wrap"><a class="logo" href="../index.html">sov</a></div></header>
+<main class="wrap" style="max-width:460px;padding-top:48px">
+  <form id="f" class="card pad stack" novalidate>
+    <h1 class="disp" style="font-size:32px">Set a new password</h1>
+    <label class="f">New password <input id="pw" type="password" autocomplete="new-password" minlength="8" required><span class="hint">At least 8 characters.</span></label>
+    <p id="msg" role="alert" class="err" hidden></p>
+    <button class="btn btn-blue" type="submit">Save password</button>
+  </form>
+</main>
+<script>
+$('#f').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const msg = $('#msg'); msg.hidden = true;
+  if ($('#pw').value.length < 8) { msg.textContent = 'Use at least 8 characters.'; msg.hidden = false; return; }
+  const { error } = await sb.auth.updateUser({ password: $('#pw').value });
+  if (error) { msg.textContent = 'This reset link has expired. Go back to log in and request a new one.'; msg.hidden = false; return; }
+  toast('Password saved'); setTimeout(() => location.replace('index.html'), 800);
+});
+</script>
+</body>
+</html>

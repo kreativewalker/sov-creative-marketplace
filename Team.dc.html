@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SOV: about and team</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Schibsted+Grotesk:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#F5F4EF;color:#16161A;font-family:'Schibsted Grotesk',system-ui,sans-serif}
+a{color:#2F5BEA}a:hover{color:#1E3FB0}
+.disp{font-family:'Bricolage Grotesque',system-ui,sans-serif}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:999px;font-weight:600;font-size:16px;text-decoration:none;box-sizing:border-box}
+.btn-p{background:#16161A;color:#FFFFFF}.btn-p:hover{background:#2F5BEA;color:#FFFFFF}
+.nav a{color:#16161A;text-decoration:none;font-weight:500}.nav a:hover{color:#2F5BEA}.nav a.btn-p,.nav a.btn-p:hover{color:#FFFFFF}
+.card{background:#FFFFFF;border:1px solid #DEDBD2;border-radius:16px;box-sizing:border-box}
+.hint{margin:0;font-size:14px;color:#5A5850;line-height:1.45}
+.eyebrow{margin:0;font-size:14px;font-weight:600;letter-spacing:0.14em;color:#5A5850}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column;">
+<header style="border-bottom: 1px solid #DEDBD2;">
+<div style="max-width: 1200px; margin: 0 auto; padding: 14px 24px; display: flex; flex-wrap: wrap; gap: 12px 32px; align-items: center; justify-content: space-between;">
+<a href="Main.dc.html" class="disp" style="font-size: 28px; font-weight: 800; color: #16161A; text-decoration: none; letter-spacing: -0.03em;">sov</a>
+<nav class="nav" aria-label="Main" style="display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center; font-size: 15px;">
+<a href="Sectors.dc.html">Who we serve</a>
+<a href="Map.dc.html">How it works</a>
+<a href="ForArtists.dc.html">For artists</a>
+<a href="Team.dc.html" aria-current="page" style="color: #2F5BEA;">About</a>
+<a href="account/login.html">Artist log in</a>
+<a class="btn btn-p" href="Brief.dc.html" style="min-height: 44px;">Start a brief</a>
+</nav>
+</div>
+</header>
+
+<main style="max-width: 1200px; width: 100%; margin: 0 auto; padding: 48px 24px 72px; box-sizing: border-box; display: flex; flex-direction: column; gap: 40px;">
+<div style="display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-end;">
+<div style="flex: 1 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 12px;">
+<p class="eyebrow">ABOUT SOV</p>
+<h1 class="disp" style="margin: 0; font-size: clamp(40px, 5vw, 60px); line-height: 1.02; letter-spacing: -0.03em;">Built by people who have done the work.</h1>
+<p style="margin: 0; font-size: 19px; line-height: 1.55; color: #3D3B35;">SOV is a creative marketplace run like a studio. We turn what an organization wants a space to feel like into a clear brief, find the right artists, deliver the work, and protect the originality that makes it worth having.</p>
+</div>
+<div class="card" style="flex: 1 1 320px; min-width: 0; padding: 24px; display: flex; flex-direction: column; gap: 8px;">
+<p style="margin: 0; font-weight: 700;">How we work</p>
+<p class="disp" style="margin: 0; font-size: 22px; font-weight: 700; line-height: 1.25;">People own the outcome. AI does the legwork.</p>
+<p class="hint" style="font-size: 15px;">Judgment, relationships, taste and accountability stay with people. AI helps us search, organize and catch what's missing.</p>
+</div>
+</div>
+
+<section aria-labelledby="team-h" style="display: flex; flex-direction: column; gap: 16px;">
+<h2 id="team-h" class="disp" style="margin: 0; font-size: 32px; letter-spacing: -0.02em;">Six leads, one owner for every step</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 14px;">
+<sc-for list="{{team}}" as="m" hint-placeholder-count="6">
+<article class="card" style="padding: 22px; display: flex; flex-direction: column; gap: 10px;">
+<div style="display: flex; gap: 14px; align-items: center;"><span aria-hidden="true" style="{{m.dot}}">{{m.ini}}</span><div style="min-width: 0;"><h3 style="margin: 0; font-size: 18px;">{{m.title}}</h3><p class="hint">{{m.name}}</p></div></div>
+<p style="margin: 0; line-height: 1.5; color: #3D3B35;">{{m.mission}}</p>
+<p class="hint"><b style="color: #16161A;">Owns:</b> {{m.owns}}</p>
+</article>
+</sc-for>
+</div>
+</section>
+
+<section aria-labelledby="ai-h" style="display: flex; flex-wrap: wrap; gap: 20px;">
+<div style="flex: 1 1 520px; min-width: 0; padding: 28px; border-radius: 20px; background: #16161A; color: #F5F4EF; display: flex; flex-direction: column; gap: 14px;">
+<h2 id="ai-h" class="disp" style="margin: 0; font-size: 28px;">Where AI helps, and where it stops</h2>
+<div style="display: flex; flex-direction: column; gap: 10px;">
+<p style="margin: 0; line-height: 1.5;"><b style="color: #8FD3AE;">Green: AI can do it.</b> <span style="color: #D6D3CA;">Summaries, reminders, internal tags, draft checklists.</span></p>
+<p style="margin: 0; line-height: 1.5;"><b style="color: #F2B632;">Yellow: AI drafts, a person approves.</b> <span style="color: #D6D3CA;">Match rankings, briefs, proposals, outreach.</span></p>
+<p style="margin: 0; line-height: 1.5;"><b style="color: #F08A8A;">Red: people decide.</b> <span style="color: #D6D3CA;">Contracts, prices, payments, turning an artist down, anything public.</span></p>
+</div>
+<p style="margin: 0; font-size: 14px; color: #B9B5AA; line-height: 1.5;">Our AI concierge gives guidance, not legal, tax or insurance advice. A person checks every decision about money or contracts, and you can always ask to talk to someone.</p>
+</div>
+<div class="card" style="flex: 1 1 360px; min-width: 0; padding: 28px; display: flex; flex-direction: column; gap: 10px;">
+<p class="eyebrow">EVERY YEAR, IN PUBLIC</p>
+<h2 class="disp" style="margin: 0; font-size: 26px; line-height: 1.15;">The SOV Creative Economy Report</h2>
+<p style="margin: 0; line-height: 1.5; color: #3D3B35;">What was spent, what it was spent on, and how much reached artists, broken down by type of work: corporate, hospitality, healthcare, murals, live painting, rentals and licensing.</p>
+<p class="hint">Shown as totals, medians and ranges only. No category is published until it has enough artists that no one can be identified.</p>
+</div>
+</section>
+
+<section style="border-radius: 24px; background: #2F5BEA; color: #FFFFFF; padding: 36px; display: flex; flex-wrap: wrap; gap: 20px; align-items: center; justify-content: space-between;">
+<p class="disp" style="margin: 0; font-size: 28px; font-weight: 700; flex: 1 1 420px;">Have a space that needs a story? Start with one.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px;"><a class="btn" href="Brief.dc.html" style="background: #FFFFFF; color: #16161A;">Start a brief</a><a class="btn" href="account/signup.html?utm_source=sov-website&amp;utm_medium=apply-button" style="border: 1.5px solid #FFFFFF; color: #FFFFFF;">Apply as an artist</a></div>
+</section>
+</main>
+<footer style="border-top: 1px solid #DEDBD2;">
+<div style="max-width: 1200px; margin: 0 auto; padding: 24px; display: flex; flex-wrap: wrap; gap: 12px 32px; justify-content: space-between; font-size: 14px; color: #5A5850;">
+<span>SOV Creative Marketplace · North Carolina</span>
+<span>Prototype for team and board review. Names to be confirmed.</span>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1800}}'>
+class Component extends DCLogic {
+renderVals() {
+const dot = c => 'width:48px;height:48px;border-radius:50%;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;color:#FFFFFF;background:' + c;
+const team = [
+{ ini: 'MA', c: '#D9622B', title: 'Founder and Chief Creative Officer', name: 'Micah The Artyst', mission: 'Sets direction, protects the creative standard and builds trust with clients.', owns: 'vision, offers, pricing guardrails, key sales, culture' },
+{ ini: 'TA', c: '#2F5BEA', title: 'Head of Technology and AI Systems', name: '[Name]', mission: 'Turns how we work into reliable software, data and automation.', owns: 'platform, integrations, security, AI workflows, testing' },
+{ ini: 'CE', c: '#5E3F94', title: 'Head of Curation and Experiences', name: '[Name], interior designer and event curator', mission: 'Translates place, audience and brand into a clear creative brief.', owns: 'briefs, curation standards, art plans, creative review' },
+{ ini: 'OP', c: '#2F7A55', title: 'Head of Operations and Product Launch', name: '[Name], project and product manager', mission: 'Turns approved work into controlled projects and repeatable offers.', owns: 'scope, budget, schedule, risk log, delivery, closeout' },
+{ ini: 'GM', c: '#9E2338', title: 'Head of Growth, Media and Production', name: '[Name], production company owner', mission: 'Creates demand and turns finished projects into stories and proof.', owns: 'campaigns, content, case studies, launch media' },
+{ ini: 'MP', c: '#9E6A00', title: 'Head of Marketplace Partnerships and Artist Development', name: '[Name], talent manager', mission: 'Builds strong relationships on both sides of the marketplace.', owns: 'artist pipeline, vetting, brand partners, artist success' }
+];
+return { team: team.map(m => ({ ...m, dot: dot(m.c) })) };
+}
+}
+</script>
+</body>
+</html>

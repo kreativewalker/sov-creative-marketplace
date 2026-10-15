@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOV team review</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="app.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="config.js"></script>
+<script src="common.js"></script>
+<style>
+.split{display:grid;grid-template-columns:minmax(300px,420px) 1fr;gap:20px;align-items:start}
+@media (max-width:900px){.split{grid-template-columns:1fr}}
+.list button.item{display:flex;width:100%;text-align:left;gap:12px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;cursor:pointer;font:inherit;color:inherit}
+.list button.item[aria-current="true"]{border-color:var(--blue);box-shadow:0 0 0 2px var(--blue-l)}
+.thumb{width:52px;height:52px;border-radius:10px;object-fit:cover;background:var(--soft);flex:0 0 52px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.kpi b{display:block;font-size:30px;font-family:'Bricolage Grotesque',system-ui,sans-serif}
+.big img{width:100%;border-radius:12px;background:var(--soft)}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="wrap">
+  <a class="logo" href="../index.html">sov</a>
+  <nav class="nav"><a href="team.html" aria-current="page">Team review</a><a href="index.html">My dashboard</a><button class="linkbtn" id="out" style="color:var(--ink2);text-decoration:none">Log out</button></nav>
+</div></header>
+<main class="dash wrap" id="view"><p class="hint">Loading...</p></main>
+<script src="team.js"></script>
+</body>
+</html>

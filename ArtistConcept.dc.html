@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SOV submit a concept</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Schibsted+Grotesk:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#F5F4EF;color:#16161A;font-family:'Schibsted Grotesk',system-ui,sans-serif}
+a{color:#2F5BEA}a:hover{color:#1E3FB0}
+.disp{font-family:'Bricolage Grotesque',system-ui,sans-serif}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:999px;font-weight:600;font-size:16px;text-decoration:none;box-sizing:border-box}
+.btn-p{background:#16161A;color:#FFFFFF}.btn-p:hover{background:#2F5BEA;color:#FFFFFF}
+.nav a{color:#16161A;text-decoration:none;font-weight:500}.nav a:hover{color:#2F5BEA}.nav a.btn-p,.nav a.btn-p:hover{color:#FFFFFF}
+.card{background:#FFFFFF;border:1px solid #DEDBD2;border-radius:16px;box-sizing:border-box}
+.hint{margin:0;font-size:14px;color:#5A5850;line-height:1.45}
+label{font-weight:600;font-size:15px}
+.in{width:100%;box-sizing:border-box;min-height:48px;padding:12px 14px;border:1px solid #C9C5BA;border-radius:10px;font:inherit;font-size:16px;background:#FFFFFF;color:#16161A}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column;">
+<header style="border-bottom: 1px solid #DEDBD2; background: #FFFFFF;">
+<div style="max-width: 1200px; margin: 0 auto; padding: 14px 24px; display: flex; flex-wrap: wrap; gap: 12px 32px; align-items: center; justify-content: space-between;">
+<a href="ArtistHome.dc.html" class="disp" style="font-size: 28px; font-weight: 800; color: #16161A; text-decoration: none; letter-spacing: -0.03em;">sov</a>
+<nav class="nav" aria-label="Artist" style="display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center; font-size: 15px;">
+<a href="ArtistHome.dc.html">Home</a>
+<a href="ArtistInvite.dc.html" aria-current="page" style="color: #2F5BEA;">Invitations</a>
+<a href="ArtistProject.dc.html">Projects</a>
+<a href="ArtistSetup.dc.html">My offers</a>
+<a href="ArtistData.dc.html">Privacy</a>
+<span style="display: inline-flex; align-items: center; gap: 8px; color: #3D3B35;"><span aria-hidden="true" style="width: 32px; height: 32px; border-radius: 50%; background: #D9622B; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700;">MA</span>Micah The Artyst</span>
+</nav>
+</div>
+</header>
+
+<main style="max-width: 1200px; width: 100%; margin: 0 auto; padding: 32px 24px 64px; box-sizing: border-box; display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start;">
+<form style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 20px;" aria-labelledby="c-h">
+<a href="ArtistInvite.dc.html" style="font-size: 15px; font-weight: 600; text-decoration: none;">Back to the invitation</a>
+<h1 id="c-h" class="disp" style="margin: 0; font-size: 44px; letter-spacing: -0.03em; line-height: 1.05;">Show them what you see for this space.</h1>
+<p class="hint" style="font-size: 17px;">A sketch, a mood board or a photo of past work is enough. You're paid $400 for this, so give it what $400 is worth, not a free commission.</p>
+
+<div class="card" style="padding: 24px; display: flex; flex-direction: column; gap: 12px;">
+<p style="margin: 0; font-weight: 700; font-size: 18px;">Images</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px;">
+<div style="aspect-ratio: 4 / 3; border-radius: 12px; background: #5E3F94; display: flex; align-items: flex-end; padding: 10px; box-sizing: border-box;"><span style="font-size: 13px; color: #FFFFFF; font-weight: 600;">sketch-wall-1.jpg</span></div>
+<div style="aspect-ratio: 4 / 3; border-radius: 12px; background: #2F7A55; display: flex; align-items: flex-end; padding: 10px; box-sizing: border-box;"><span style="font-size: 13px; color: #FFFFFF; font-weight: 600;">palette.jpg</span></div>
+<button type="button" style="aspect-ratio: 4 / 3; border-radius: 12px; border: 1.5px dashed #A9A498; background: #FAF9F6; font: inherit; color: #3D3B35; font-weight: 600; cursor: pointer;">Add images</button>
+</div>
+<p class="hint">Watermarked when shared. Full-size files stay with you until a project is signed.</p>
+</div>
+
+<div class="card" style="padding: 24px; display: flex; flex-direction: column; gap: 14px;">
+<p style="margin: 0; font-weight: 700; font-size: 18px;">Tell it through the five lenses</p>
+<p class="hint">These match how the clinic's team will review it, so they answer in the same language.</p>
+<label for="see"><span style="color: #8A6200;">SEE</span> · What should people notice first?</label><input id="see" class="in" value="Soft horizon lines that settle the eye.">
+<label for="feel"><span style="color: #9E2338;">FEEL</span> · What should it stir in them?</label><input id="feel" class="in" value="The quiet of a Piedmont morning.">
+<label for="exp"><span style="color: #2F7A55;">EXPERIENCE</span> · How should their body move with it?</label><input id="exp" class="in" value="Eyes travel slowly across the room, not toward the door.">
+</div>
+
+<div class="card" style="padding: 24px; display: flex; flex-wrap: wrap; gap: 16px;">
+<div style="flex: 1 1 220px; min-width: 0; display: flex; flex-direction: column; gap: 8px;"><label for="fee">Your fee</label><input id="fee" class="in" value="$2,100"></div>
+<div style="flex: 1 1 220px; min-width: 0; display: flex; flex-direction: column; gap: 8px;"><label for="time">Time you need on site</label><input id="time" class="in" value="4 days, after hours"></div>
+</div>
+
+<sc-if value="{{open}}" hint-placeholder-val="{{true}}">
+<div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
+<button type="button" onClick="{{send}}" style="min-height: 48px; padding: 0 22px; border-radius: 999px; border: 0; background: #16161A; color: #FFFFFF; font: inherit; font-weight: 600; font-size: 16px; cursor: pointer;">Send my concept</button>
+<a href="Concierge.dc.html" style="font-weight: 600;">Not sure? Ask the concierge</a>
+</div>
+</sc-if>
+<sc-if value="{{sent}}" hint-placeholder-val="{{false}}">
+<div style="padding: 16px; border-radius: 12px; background: #E2F0E8; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between;">
+<p style="margin: 0; font-weight: 600; color: #1F5A3D;">Sent. Your $400 concept fee is on its way. We'll tell you the moment the clinic responds.</p>
+<a class="btn btn-p" href="ArtistHome.dc.html">Back to dashboard</a>
+</div>
+</sc-if>
+</form>
+
+<aside style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+<div class="card" style="padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+<p style="margin: 0; font-weight: 700; font-size: 18px;">The brief, in one line</p>
+<p class="hint" style="font-size: 15px;">A calmer waiting room that feels local, not clinical. Three walls, wipeable, no strong odors.</p>
+</div>
+<div class="card" style="padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+<p style="margin: 0; font-weight: 700; font-size: 18px;">Your concept stays yours</p>
+<p class="hint" style="font-size: 15px;">If the clinic doesn't move forward, they can't use your idea or hand it to someone else.</p>
+</div>
+</aside>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1500}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { sent: false };
+}
+renderVals() {
+return { open: !this.state.sent, sent: this.state.sent, send: () => this.setState({ sent: true }) };
+}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SOV project room, artist view</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Schibsted+Grotesk:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#F5F4EF;color:#16161A;font-family:'Schibsted Grotesk',system-ui,sans-serif}
+a{color:#2F5BEA}a:hover{color:#1E3FB0}
+.disp{font-family:'Bricolage Grotesque',system-ui,sans-serif}
+.nav a{color:#16161A;text-decoration:none;font-weight:500}.nav a:hover{color:#2F5BEA}.nav a.btn-p,.nav a.btn-p:hover{color:#FFFFFF}
+.card{background:#FFFFFF;border:1px solid #DEDBD2;border-radius:16px;box-sizing:border-box}
+.hint{margin:0;font-size:14px;color:#5A5850;line-height:1.45}
+.step{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #ECEAE3}
+.dot{width:24px;height:24px;border-radius:50%;flex-shrink:0;margin-top:1px}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column;">
+<header style="border-bottom: 1px solid #DEDBD2; background: #FFFFFF;">
+<div style="max-width: 1200px; margin: 0 auto; padding: 14px 24px; display: flex; flex-wrap: wrap; gap: 12px 32px; align-items: center; justify-content: space-between;">
+<a href="ArtistHome.dc.html" class="disp" style="font-size: 28px; font-weight: 800; color: #16161A; text-decoration: none; letter-spacing: -0.03em;">sov</a>
+<nav class="nav" aria-label="Artist" style="display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center; font-size: 15px;">
+<a href="ArtistHome.dc.html">Home</a>
+<a href="ArtistInvite.dc.html">Invitations</a>
+<a href="ArtistProject.dc.html" aria-current="page" style="color: #2F5BEA;">Projects</a>
+<a href="ArtistSetup.dc.html">My offers</a>
+<a href="ArtistData.dc.html">Privacy</a>
+<span style="display: inline-flex; align-items: center; gap: 8px; color: #3D3B35;"><span aria-hidden="true" style="width: 32px; height: 32px; border-radius: 50%; background: #D9622B; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700;">MA</span>Micah The Artyst</span>
+</nav>
+</div>
+</header>
+
+<main style="max-width: 1200px; width: 100%; margin: 0 auto; padding: 32px 24px 64px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px;">
+<div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: flex-end;">
+<div style="min-width: 0;">
+<p style="margin: 0; font-size: 14px; font-weight: 600; letter-spacing: 0.14em; color: #5A5850;">PROJECT ROOM · YOUR VIEW</p>
+<h1 class="disp" style="margin: 4px 0 0; font-size: 44px; letter-spacing: -0.03em; line-height: 1.05;">Lobby mural, The Ashby Hotel</h1>
+<p class="hint" style="font-size: 16px; margin-top: 6px;">Your project manager: [Name] · Insurance certificate on file</p>
+</div>
+</div>
+
+<section aria-labelledby="money-h" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px;">
+<h2 id="money-h" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);">Your money</h2>
+<div class="card" style="padding: 20px;"><p class="hint">Paid to you</p><p class="disp" style="margin: 4px 0 0; font-size: 32px; font-weight: 800;">{{paid}}</p><p class="hint">{{paidNote}}</p></div>
+<div class="card" style="padding: 20px; border: 2px solid #2F7A55;"><p class="hint">Held for you, already funded</p><p class="disp" style="margin: 4px 0 0; font-size: 32px; font-weight: 800;">{{held}}</p><p class="hint">{{heldNote}}</p></div>
+<div class="card" style="padding: 20px;"><p class="hint">Still to come</p><p class="disp" style="margin: 4px 0 0; font-size: 32px; font-weight: 800;">$7,000</p><p class="hint">At final sign-off. Your $17,000 share of the project in total.</p></div>
+</section>
+
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+<section class="card" aria-labelledby="ms-h" style="flex: 999 1 560px; min-width: 0; padding: 24px;">
+<h2 id="ms-h" style="margin: 0 0 4px; font-size: 20px;">What's next</h2>
+<div class="step"><span class="dot" style="background: #2F7A55;" aria-hidden="true"></span><div style="flex: 1;"><p style="margin: 0; font-weight: 600;">Signed, materials money received</p></div><span class="hint">Done</span></div>
+<div class="step"><span class="dot" style="background: #2F7A55;" aria-hidden="true"></span><div style="flex: 1;"><p style="margin: 0; font-weight: 600;">Wall prep and condition report</p></div><span class="hint">Done</span></div>
+<div class="step" style="flex-direction: column; align-items: stretch; gap: 12px; padding: 16px; margin: 8px 0; border: 2px solid #16161A; border-radius: 12px;">
+<div style="display: flex; gap: 14px;"><span class="dot" style="background: #F2B632;" aria-hidden="true"></span><div style="flex: 1;"><p style="margin: 0; font-weight: 700;">Midpoint review, Thursday 10 am</p><p class="hint">Upload three progress photos, then ask the hotel for their review.</p></div></div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px;">
+<div style="aspect-ratio: 4 / 3; border-radius: 10px; background: #D9622B;"></div>
+<div style="aspect-ratio: 4 / 3; border-radius: 10px; background: #9E2338;"></div>
+<button type="button" style="aspect-ratio: 4 / 3; border-radius: 10px; border: 1.5px dashed #A9A498; background: #FAF9F6; font: inherit; font-weight: 600; color: #3D3B35; cursor: pointer;">Add photo</button>
+</div>
+<sc-if value="{{open}}" hint-placeholder-val="{{true}}">
+<button type="button" onClick="{{request}}" style="align-self: flex-start; min-height: 48px; padding: 0 22px; border-radius: 999px; border: 0; background: #16161A; color: #FFFFFF; font: inherit; font-weight: 600; font-size: 16px; cursor: pointer;">Ask the hotel for their midpoint review</button>
+</sc-if>
+<sc-if value="{{requested}}" hint-placeholder-val="{{false}}">
+<p style="margin: 0; padding: 12px 14px; border-radius: 10px; background: #E2F0E8; color: #1F5A3D; font-weight: 600;">Request sent. When the hotel approves, the held $5,000 moves to you. If they want changes, they'll use one of your two included revisions.</p>
+</sc-if>
+</div>
+<div class="step" style="border-bottom: 0;"><span class="dot" style="border: 2px solid #C9C5BA;" aria-hidden="true"></span><div style="flex: 1;"><p style="margin: 0; font-weight: 600;">Final sign-off and photos</p><p class="hint">Your last $7,000, and the outcome report goes on your profile.</p></div><span class="hint">Next</span></div>
+</section>
+
+<aside style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+<section class="card" aria-labelledby="fb-h" style="padding: 20px; display: flex; flex-direction: column; gap: 10px;">
+<h2 id="fb-h" style="margin: 0; font-size: 18px;">Their last notes, by lens</h2>
+<p style="margin: 0; font-size: 15px; line-height: 1.45;"><b>SEE</b> · The gold thread pulls the eye from the door to the desk.</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.45;"><b>FEEL</b> · Warm. The left third feels crowded.</p>
+</section>
+<section class="card" aria-labelledby="rt-h" style="padding: 20px; display: flex; flex-direction: column; gap: 8px;">
+<h2 id="rt-h" style="margin: 0; font-size: 18px;">Your rights on this one</h2>
+<p class="hint" style="font-size: 15px;">You keep the copyright. The hotel may photograph the mural for its marketing. Your VARA rights are protected.</p>
+</section>
+<section class="card" aria-labelledby="help-h" style="padding: 20px; display: flex; flex-direction: column; gap: 8px;">
+<h2 id="help-h" style="margin: 0; font-size: 18px;">Stuck on something?</h2>
+<a href="Concierge.dc.html" style="font-weight: 600;">Ask the concierge</a>
+</section>
+</aside>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1500}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { requested: false };
+}
+renderVals() {
+const r = this.state.requested;
+return { open: !r, requested: r, request: () => this.setState({ requested: true }), paid: '$5,000', paidNote: 'Materials money, at signing', held: '$5,000', heldNote: 'Moves to you when the hotel approves the midpoint' };
+}
+}
+</script>
+</body>
+</html>

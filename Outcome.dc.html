@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SOV outcome report</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Schibsted+Grotesk:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#F5F4EF;color:#16161A;font-family:'Schibsted Grotesk',system-ui,sans-serif}
+a{color:#2F5BEA}a:hover{color:#1E3FB0}
+.disp{font-family:'Bricolage Grotesque',system-ui,sans-serif}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:999px;font-weight:600;font-size:16px;text-decoration:none;box-sizing:border-box}
+.btn-p{background:#16161A;color:#FFFFFF}.btn-p:hover{background:#2F5BEA;color:#FFFFFF}
+.btn-s{border:1.5px solid #16161A;color:#16161A}.btn-s:hover{background:#16161A;color:#FFFFFF}
+.nav a{color:#16161A;text-decoration:none;font-weight:500}.nav a:hover{color:#2F5BEA}.nav a.btn-p,.nav a.btn-p:hover{color:#FFFFFF}
+.card{background:#FFFFFF;border:1px solid #DEDBD2;border-radius:16px;box-sizing:border-box}
+.hint{margin:0;font-size:14px;color:#5A5850;line-height:1.45}
+.bar{height:14px;border-radius:7px}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column;">
+<header style="border-bottom: 1px solid #DEDBD2; background: #FFFFFF;">
+<div style="max-width: 1200px; margin: 0 auto; padding: 14px 24px; display: flex; flex-wrap: wrap; gap: 12px 32px; align-items: center; justify-content: space-between;">
+<a href="Main.dc.html" class="disp" style="font-size: 28px; font-weight: 800; color: #16161A; text-decoration: none; letter-spacing: -0.03em;">sov</a>
+<nav class="nav" aria-label="Account" style="display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center; font-size: 15px;">
+<a href="Brief.dc.html">Briefs</a>
+<a href="Project.dc.html">Projects</a>
+<a href="Outcome.dc.html" aria-current="page" style="color: #2F5BEA;">Reports</a>
+<span style="display: inline-flex; align-items: center; gap: 8px; color: #3D3B35;"><span aria-hidden="true" style="width: 32px; height: 32px; border-radius: 50%; background: #16161A; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700;">AH</span>The Ashby Hotel</span>
+</nav>
+</div>
+</header>
+
+<main style="max-width: 1200px; width: 100%; margin: 0 auto; padding: 32px 24px 64px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px;">
+<div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: flex-end;">
+<div style="min-width: 0;">
+<p style="margin: 0; font-size: 14px; font-weight: 600; letter-spacing: 0.14em; color: #5A5850;">OUTCOME REPORT · LOBBY MURAL</p>
+<h1 class="disp" style="margin: 4px 0 0; font-size: 44px; letter-spacing: -0.03em; line-height: 1.05;">What guests and staff noticed</h1>
+</div>
+<span style="padding: 6px 12px; border-radius: 999px; background: #FDF4DD; color: #6B4E00; font-weight: 600; font-size: 14px;">Sample data for the prototype</span>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+<section class="card" aria-labelledby="lens-h" style="flex: 999 1 560px; min-width: 0; padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+<h2 id="lens-h" style="margin: 0; font-size: 20px;">Responses by lens, 64 people in 30 days</h2>
+<p class="hint">Share of responses that mentioned each lens. One person can mention several.</p>
+<div style="display: grid; grid-template-columns: 120px minmax(0, 1fr) 48px; gap: 10px 14px; align-items: center; font-size: 15px;">
+<b>SEE</b><div style="background: #F5F4EF; border-radius: 7px;"><div class="bar" style="width: 78%; background: #F2B632;"></div></div><span>78%</span>
+<b>HEAR</b><div style="background: #F5F4EF; border-radius: 7px;"><div class="bar" style="width: 41%; background: #D9622B;"></div></div><span>41%</span>
+<b>FEEL</b><div style="background: #F5F4EF; border-radius: 7px;"><div class="bar" style="width: 66%; background: #9E2338;"></div></div><span>66%</span>
+<b>THINK</b><div style="background: #F5F4EF; border-radius: 7px;"><div class="bar" style="width: 35%; background: #5E3F94;"></div></div><span>35%</span>
+<b>EXPERIENCE</b><div style="background: #F5F4EF; border-radius: 7px;"><div class="bar" style="width: 52%; background: #2F7A55;"></div></div><span>52%</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-top: 8px;">
+<blockquote style="margin: 0; padding: 16px; border-radius: 12px; background: #F5F4EF; font-size: 15px; line-height: 1.5;">"The first thing that caught my eye was the gold thread. I followed it to the desk."<br><span class="hint">Guest</span></blockquote>
+<blockquote style="margin: 0; padding: 16px; border-radius: 12px; background: #F5F4EF; font-size: 15px; line-height: 1.5;">"People ask us about it at check-in. It gives us something to talk about."<br><span class="hint">Front desk</span></blockquote>
+</div>
+</section>
+
+<aside style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+<section class="card" aria-labelledby="meas-h" style="padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+<h2 id="meas-h" style="margin: 0; font-size: 18px;">What you chose to measure</h2>
+<div style="display: flex; justify-content: space-between; gap: 12px;"><span>Guest photos tagged at the hotel</span><b>[before → after]</b></div>
+<div style="display: flex; justify-content: space-between; gap: 12px;"><span>Staff who'd recommend the lobby</span><b>[before → after]</b></div>
+<p class="hint">We only report what was measured. No health or sales claims the evidence can't back.</p>
+</section>
+<section class="card" aria-labelledby="share-h" style="padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+<h2 id="share-h" style="margin: 0; font-size: 18px;">Share it</h2>
+<a href="#" style="font-weight: 600;">Download for your board (PDF)</a>
+<a href="#" style="font-weight: 600;">Add to Micah's profile as proof</a>
+</section>
+</aside>
+</div>
+
+<section aria-labelledby="next-h" style="display: flex; flex-direction: column; gap: 16px;">
+<h2 id="next-h" class="disp" style="margin: 0; font-size: 28px; letter-spacing: -0.02em;">Keep it going</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px;">
+<a href="Scope.dc.html" class="card" style="padding: 20px; text-decoration: none; color: #16161A; display: flex; flex-direction: column; gap: 6px;"><b style="font-size: 17px;">Rotate art into the rooms</b><span class="hint">Rent canvases by the month and swap them each season.</span></a>
+<a href="Scope.dc.html" class="card" style="padding: 20px; text-decoration: none; color: #16161A; display: flex; flex-direction: column; gap: 6px;"><b style="font-size: 17px;">License room prints</b><span class="hint">Prints of the mural for every room, licensed by count and term.</span></a>
+<a href="Scope.dc.html" class="card" style="padding: 20px; text-decoration: none; color: #16161A; display: flex; flex-direction: column; gap: 6px;"><b style="font-size: 17px;">Book a live paint night</b><span class="hint">Programming for guests and locals with the same artist.</span></a>
+<a href="Brief.dc.html" class="card" style="padding: 20px; text-decoration: none; color: #16161A; display: flex; flex-direction: column; gap: 6px;"><b style="font-size: 17px;">Start a new brief</b><span class="hint">Your past briefs and preferences carry over.</span></a>
+</div>
+</section>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1400}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SOV re-review and level up</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Schibsted+Grotesk:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#F5F4EF;color:#16161A;font-family:'Schibsted Grotesk',system-ui,sans-serif}
+a{color:#2F5BEA}a:hover{color:#1E3FB0}
+.disp{font-family:'Bricolage Grotesque',system-ui,sans-serif}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:999px;font-weight:600;font-size:16px;text-decoration:none;box-sizing:border-box}
+.btn-p{background:#16161A;color:#FFFFFF}.btn-p:hover{background:#2F5BEA;color:#FFFFFF}
+.nav a{color:#16161A;text-decoration:none;font-weight:500}.nav a:hover{color:#2F5BEA}.nav a.btn-p,.nav a.btn-p:hover{color:#FFFFFF}
+.card{background:#FFFFFF;border:1px solid #DEDBD2;border-radius:16px;box-sizing:border-box}
+.hint{margin:0;font-size:14px;color:#5A5850;line-height:1.45}
+.tag{display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;font-size:13px;font-weight:600}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column;">
+<header style="border-bottom: 1px solid #DEDBD2; background: #FFFFFF;">
+<div style="max-width: 1200px; margin: 0 auto; padding: 14px 24px; display: flex; flex-wrap: wrap; gap: 12px 32px; align-items: center; justify-content: space-between;">
+<a href="ArtistHome.dc.html" class="disp" style="font-size: 28px; font-weight: 800; color: #16161A; text-decoration: none; letter-spacing: -0.03em;">sov</a>
+<nav class="nav" aria-label="Artist" style="display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center; font-size: 15px;">
+<a href="ArtistHome.dc.html">Home</a>
+<a href="ArtistInvite.dc.html">Invitations</a>
+<a href="ArtistProject.dc.html">Projects</a>
+<a href="ArtistSetup.dc.html">My offers</a>
+<a href="ArtistData.dc.html">Privacy</a>
+<span style="display: inline-flex; align-items: center; gap: 8px; color: #3D3B35;"><span aria-hidden="true" style="width: 32px; height: 32px; border-radius: 50%; background: #D9622B; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700;">MA</span>Micah The Artyst</span>
+</nav>
+</div>
+</header>
+
+<main style="max-width: 1200px; width: 100%; margin: 0 auto; padding: 32px 24px 64px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px;">
+<div style="display: flex; flex-direction: column; gap: 8px; max-width: 800px;">
+<p style="margin: 0; font-size: 14px; font-weight: 600; letter-spacing: 0.14em; color: #5A5850;">YOUR VETTING</p>
+<h1 class="disp" style="margin: 0; font-size: 44px; letter-spacing: -0.03em; line-height: 1.05;">Your work grows. Your vetting should grow with it.</h1>
+<p class="hint" style="font-size: 17px;">Vetting isn't a one-time verdict. Ask for a new review whenever your work changes, and we'll meet you again, in person or on video.</p>
+</div>
+
+<section class="card" aria-labelledby="now-h" style="padding: 24px; display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between;">
+<div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 10px;">
+<h2 id="now-h" style="margin: 0; font-size: 20px;">Where you are now</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 6px;">
+<span class="tag" style="background: #E2F0E8; color: #1F5A3D;">Roster artist</span>
+<span class="tag" style="background: #E2F0E8; color: #1F5A3D;">Interior commissions up to 22 ft</span>
+<span class="tag" style="background: #E2F0E8; color: #1F5A3D;">Sales and rentals</span>
+<span class="tag" style="background: #E2F0E8; color: #1F5A3D;">Live painting</span>
+</div>
+<p class="hint">Not yet reviewed for: exterior murals, public art calls, licensing.</p>
+</div>
+<div style="flex: 0 1 280px; display: flex; flex-direction: column; gap: 6px;">
+<p style="margin: 0; font-weight: 700;">Yearly check-in</p>
+<p class="hint">A 10-minute update each year: recent work, insurance, anything new. No re-audition.</p>
+</div>
+</section>
+
+<section aria-labelledby="ask-h" style="display: flex; flex-direction: column; gap: 14px;">
+<h2 id="ask-h" style="margin: 0; font-size: 22px;">What would you like reviewed?</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px;">
+<sc-for list="{{types}}" as="t" hint-placeholder-count="4"><button type="button" onClick="{{t.pick}}" aria-pressed="{{t.on}}" style="{{t.style}}"><span style="display: block; font-weight: 700; font-size: 17px;">{{t.name}}</span><span style="display: block; margin-top: 6px; font-size: 14px; line-height: 1.45; color: #5A5850;">{{t.note}}</span></button></sc-for>
+</div>
+</section>
+
+<section class="card" aria-labelledby="need-h" style="padding: 24px; display: flex; flex-direction: column; gap: 12px;">
+<h2 id="need-h" style="margin: 0; font-size: 20px;">{{needTitle}}</h2>
+<sc-for list="{{needs}}" as="n" hint-placeholder-count="3"><p style="margin: 0; display: flex; gap: 10px; align-items: flex-start; line-height: 1.5;"><span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 50%; background: #2F5BEA; margin-top: 9px; flex-shrink: 0;"></span>{{n.t}}</p></sc-for>
+<p class="hint">{{timing}}</p>
+<sc-if value="{{open}}" hint-placeholder-val="{{true}}">
+<button type="button" onClick="{{request}}" style="align-self: flex-start; min-height: 48px; padding: 0 22px; border-radius: 999px; border: 0; background: #16161A; color: #FFFFFF; font: inherit; font-weight: 600; font-size: 16px; cursor: pointer;">Request this review</button>
+</sc-if>
+<sc-if value="{{sent}}" hint-placeholder-val="{{false}}">
+<p style="margin: 0; padding: 12px 14px; border-radius: 10px; background: #E2F0E8; color: #1F5A3D; font-weight: 600;">Requested. <a href="https://calendar.app.google/u6Lywn4RBCrpChKh8" target="_blank" rel="noopener">Book a video call</a>. Your current approvals stay active while we review.</p>
+</sc-if>
+</section>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1500}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { t: 'scale', sent: false };
+}
+renderVals() {
+const list = [
+{ id: 'again', name: 'Try again after a "not yet"', note: 'You worked on the notes from your first review.', title: 'What we’ll look at', needs: ['The specific notes from your last review, and what changed', 'Two or three pieces made since then', 'Your readiness checklist from the resource tier'], timing: 'Open any time your readiness checklist is complete, or 90 days after your last review.' },
+{ id: 'scale', name: 'Bigger or outdoor work', note: 'Exterior murals, large installs, work on lifts.', title: 'What we’ll look at', needs: ['One finished piece at the new scale, or a past project with photos', 'How you’d handle a lift, weather and an open site', 'Insurance that covers the work, or you add it per project through SOV'], timing: 'Usually decided within [days]. A public artist on our team does this review.' },
+{ id: 'new', name: 'A new kind of work', note: 'Add licensing, public art calls, performance or digital.', title: 'What we’ll look at', needs: ['Three examples of the new work', 'For licensing: files at print size and a clear rights history', 'For public art: one past proposal or a sample concept'], timing: 'Your other approvals stay active the whole time.' },
+{ id: 'year', name: 'Yearly check-in', note: 'Ten minutes. Keep your profile current.', title: 'What we’ll ask', needs: ['A few pieces from this year', 'Your current insurance, if you carry your own', 'Anything you want more or less of'], timing: 'We’ll remind you a month before it’s due.' }
+];
+const on = 'text-align:left;padding:18px;border-radius:14px;border:2px solid #16161A;background:#FFFFFF;font:inherit;color:#16161A;cursor:pointer;min-height:44px';
+const off = 'text-align:left;padding:18px;border-radius:14px;border:1px solid #DEDBD2;background:#FFFFFF;font:inherit;color:#16161A;cursor:pointer;min-height:44px';
+const types = list.map(t => ({ ...t, on: this.state.t === t.id, style: this.state.t === t.id ? on : off, pick: () => this.setState({ t: t.id, sent: false }) }));
+const cur = list.find(t => t.id === this.state.t) || list[0];
+return { types, needTitle: cur.title, needs: cur.needs.map(t => ({ t })), timing: cur.timing, open: !this.state.sent, sent: this.state.sent, request: () => this.setState({ sent: true }) };
+}
+}
+</script>
+</body>
+</html>

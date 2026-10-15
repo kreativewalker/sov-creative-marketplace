@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SOV scope and contract</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Schibsted+Grotesk:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#F5F4EF;color:#16161A;font-family:'Schibsted Grotesk',system-ui,sans-serif}
+a{color:#2F5BEA}a:hover{color:#1E3FB0}
+.disp{font-family:'Bricolage Grotesque',system-ui,sans-serif}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:999px;font-weight:600;font-size:16px;text-decoration:none;box-sizing:border-box}
+.btn-p{background:#16161A;color:#FFFFFF}.btn-p:hover{background:#2F5BEA;color:#FFFFFF}
+.nav a{color:#16161A;text-decoration:none;font-weight:500}.nav a:hover{color:#2F5BEA}.nav a.btn-p,.nav a.btn-p:hover{color:#FFFFFF}
+.card{background:#FFFFFF;border:1px solid #DEDBD2;border-radius:16px;box-sizing:border-box}
+.hint{margin:0;font-size:14px;color:#5A5850;line-height:1.45}
+.row{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid #ECEAE3;font-size:16px}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column;">
+<header style="border-bottom: 1px solid #DEDBD2; background: #FFFFFF;">
+<div style="max-width: 1200px; margin: 0 auto; padding: 14px 24px; display: flex; flex-wrap: wrap; gap: 12px 32px; align-items: center; justify-content: space-between;">
+<a href="Main.dc.html" class="disp" style="font-size: 28px; font-weight: 800; color: #16161A; text-decoration: none; letter-spacing: -0.03em;">sov</a>
+<nav class="nav" aria-label="Account" style="display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center; font-size: 15px;">
+<a href="Brief.dc.html" aria-current="page" style="color: #2F5BEA;">Briefs</a>
+<a href="Project.dc.html">Projects</a>
+<a href="Outcome.dc.html">Reports</a>
+<span style="display: inline-flex; align-items: center; gap: 8px; color: #3D3B35;"><span aria-hidden="true" style="width: 32px; height: 32px; border-radius: 50%; background: #16161A; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700;">AH</span>The Ashby Hotel</span>
+</nav>
+</div>
+</header>
+
+<main style="max-width: 1200px; width: 100%; margin: 0 auto; padding: 32px 24px 64px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<a href="Profile.dc.html" style="font-size: 15px; font-weight: 600; text-decoration: none;">Back to profile</a>
+<p style="margin: 0; font-size: 14px; font-weight: 600; letter-spacing: 0.14em; color: #5A5850;">SCOPE AND CONTRACT · CONCEPT APPROVED</p>
+<h1 class="disp" style="margin: 0; font-size: 44px; letter-spacing: -0.03em; line-height: 1.05;">Lobby mural with Micah The Artyst</h1>
+<p class="hint" style="font-size: 17px;">Your $20,000 is the total, with every dollar on its own line. The artist's fee is never mixed with materials or install money.</p>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+<section class="card" aria-labelledby="budget-h" style="flex: 999 1 560px; min-width: 0; padding: 24px;">
+<h2 id="budget-h" style="margin: 0 0 8px; font-size: 20px;">Where the $20,000 goes</h2>
+<div class="row"><span>Artist's creative fee <span style="color: #5A5850;">(17%)</span></span><b>$3,400</b></div>
+<div class="row"><span>Materials and fabrication</span><span>$7,000</span></div>
+<div class="row"><span>Install crew and equipment</span><span>$3,000</span></div>
+<div class="row"><span>Travel</span><span>$600</span></div>
+<div class="row"><span>Liability insurance, certificate issued at signing</span><span>$400</span></div>
+<div class="row"><span>Documentation and usage rights</span><span>$1,100</span></div>
+<div class="row"><span>Contingency, returned if unused</span><span>$1,500</span></div>
+<div class="row" style="color: #1E3FB0;"><span>SOV managed-project fee (15%), inside your budget</span><span>$3,000</span></div>
+<div class="row" style="border-bottom: 0; font-size: 20px; font-weight: 700;"><span>You pay, nothing on top</span><span class="disp">$20,000</span></div>
+<p class="hint">Your budget is the ceiling: SOV's fee comes out of it, never on top. The artist pays SOV nothing and keeps the full $3,400 fee. Running delivery yourself? Self-serve is 10%.</p>
+</section>
+
+<aside style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+<section class="card" aria-labelledby="pay-h" style="padding: 24px; display: flex; flex-direction: column; gap: 12px;">
+<h2 id="pay-h" style="margin: 0; font-size: 20px;">Payments, held in escrow</h2>
+<div style="display: flex; justify-content: space-between; gap: 12px;"><span>50% deposit at signing</span><b>$10,000</b></div>
+<p class="hint">Half goes to the artist right away for materials. Half is held.</p>
+<div style="display: flex; justify-content: space-between; gap: 12px;"><span>25% at midpoint approval</span><b>$5,000</b></div>
+<div style="display: flex; justify-content: space-between; gap: 12px;"><span>25% at final sign-off</span><b>$5,000</b></div>
+<p class="hint">Held money moves to the artist only when you approve each milestone.</p>
+</section>
+<section class="card" aria-labelledby="terms-h" style="padding: 24px; display: flex; flex-direction: column; gap: 8px;">
+<h2 id="terms-h" style="margin: 0; font-size: 20px;">Contract terms</h2>
+<ul style="margin: 0; padding-left: 20px; line-height: 1.6; font-size: 15px; color: #3D3B35;">
+<li>No work starts before the deposit</li>
+<li>Two revision rounds included, then [revision rate]</li>
+<li>Changes in scope need a signed change order</li>
+<li>You may photograph the mural for marketing; copyright stays with the artist</li>
+<li>Artist's rights under VARA are protected</li>
+<li>Materials you buy directly are noted on the scope</li>
+</ul>
+<a href="#" style="font-size: 15px; font-weight: 600;">Read the full agreement</a>
+<a href="Concierge.dc.html" style="font-size: 15px; font-weight: 600;">Ask the concierge what any term means</a>
+</section>
+</aside>
+</div>
+
+<div class="card" style="padding: 20px 24px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between;">
+<label style="display: flex; gap: 12px; align-items: center; font-weight: 600; min-height: 44px; cursor: pointer;"><input type="checkbox" onChange="{{toggle}}" style="width: 22px; height: 22px;"> I've read the scope and agreement and I'm authorized to sign</label>
+<sc-if value="{{agreed}}" hint-placeholder-val="{{false}}">
+<a class="btn btn-p" href="Project.dc.html">Sign and pay $10,000 deposit</a>
+</sc-if>
+<sc-if value="{{notAgreed}}" hint-placeholder-val="{{true}}">
+<span style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px; border-radius: 999px; background: #DEDBD2; color: #5A5850; font-weight: 600;">Sign and pay $10,000 deposit</span>
+</sc-if>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1600}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { agreed: false };
+}
+renderVals() {
+return { agreed: this.state.agreed, notAgreed: !this.state.agreed, toggle: () => this.setState({ agreed: !this.state.agreed }) };
+}
+}
+</script>
+</body>
+</html>

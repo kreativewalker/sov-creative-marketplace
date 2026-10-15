@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SOV: add your works</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Schibsted+Grotesk:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#F5F4EF;color:#16161A;font-family:'Schibsted Grotesk',system-ui,sans-serif}
+a{color:#2F5BEA}a:hover{color:#1E3FB0}
+.disp{font-family:'Bricolage Grotesque',system-ui,sans-serif}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:999px;font-weight:600;font-size:16px;text-decoration:none;box-sizing:border-box}
+.btn-p{background:#16161A;color:#FFFFFF}.btn-p:hover{background:#2F5BEA;color:#FFFFFF}
+.card{background:#FFFFFF;border:1px solid #DEDBD2;border-radius:16px;box-sizing:border-box}
+.hint{margin:0;font-size:14px;color:#5A5850;line-height:1.45}
+label{font-weight:600;font-size:15px}
+.in{width:100%;box-sizing:border-box;min-height:48px;padding:12px 14px;border:1px solid #C9C5BA;border-radius:10px;font:inherit;font-size:16px;background:#FFFFFF;color:#16161A}
+.f{flex:1 1 200px;min-width:0;display:flex;flex-direction:column;gap:8px}
+.st{padding:8px 14px;border-radius:999px;font-size:14px;font-weight:600}
+.ph{aspect-ratio:4/3;border-radius:12px;border:1.5px dashed #A9A498;background:#FAF9F6;font:inherit;font-weight:600;color:#3D3B35;cursor:pointer}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column;">
+<header style="border-bottom: 1px solid #DEDBD2;">
+<div style="max-width: 1200px; margin: 0 auto; padding: 14px 24px; display: flex; flex-wrap: wrap; gap: 12px 32px; align-items: center; justify-content: space-between;">
+<a href="ForArtists.dc.html" class="disp" style="font-size: 28px; font-weight: 800; color: #16161A; text-decoration: none; letter-spacing: -0.03em;">sov <span style="font-size: 15px; font-weight: 600; color: #5A5850; letter-spacing: 0;">for artists</span></a>
+<ol aria-label="Joining SOV" style="display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0; padding: 0;">
+<li class="st" style="background: #E2F0E8; color: #1F5A3D;">1 Apply, done</li>
+<li class="st" style="background: #E2F0E8; color: #1F5A3D;">2 Meet, approved</li>
+<li class="st" style="background: #16161A; color: #FFFFFF;" aria-current="step">3 Set up: works</li>
+</ol>
+</div>
+</header>
+
+<main style="max-width: 1200px; width: 100%; margin: 0 auto; padding: 40px 24px 64px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px;">
+<div style="display: flex; flex-direction: column; gap: 10px; max-width: 860px;">
+<p style="margin: 0; font-size: 14px; font-weight: 600; letter-spacing: 0.14em; color: #5A5850;">STEP 3 OF 3 · PART 1 · YOUR WORKS</p>
+<h1 class="disp" style="margin: 0; font-size: clamp(36px, 5vw, 52px); letter-spacing: -0.035em; line-height: 1.02;">Welcome to the roster. Let's put your work in front of the right people.</h1>
+<p style="margin: 0; font-size: 18px; line-height: 1.5; color: #3D3B35;">Add the pieces you'd sell, rent or place. Start with five; you can add more any time.</p>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+<section class="card" aria-labelledby="list-h" style="flex: 1 1 300px; min-width: 0; padding: 20px; display: flex; flex-direction: column; gap: 10px;">
+<h2 id="list-h" style="margin: 0; font-size: 18px;">Your works ({{count}})</h2>
+<sc-for list="{{works}}" as="w" hint-placeholder-count="3"><div style="display: flex; gap: 12px; align-items: center; padding: 10px; border-radius: 12px; background: #F5F4EF;"><span aria-hidden="true" style="{{w.sw}}"></span><div style="flex: 1; min-width: 0;"><p style="margin: 0; font-weight: 600;">{{w.no}} · {{w.title}}</p><p class="hint">{{w.meta}}</p></div><span style="font-size: 13px; font-weight: 700; color: {{w.statusColor}};">{{w.status}}</span></div></sc-for>
+<button type="button" onClick="{{add}}" style="min-height: 48px; border-radius: 12px; border: 1.5px dashed #16161A; background: #FFFFFF; font: inherit; font-weight: 600; cursor: pointer;">Add a work</button>
+<p class="hint">Name each photo with the work's number: 01.jpg, 01-detail.jpg, 01-room.jpg.</p>
+</section>
+
+<section class="card" aria-labelledby="ed-h" style="flex: 999 1 560px; min-width: 0; padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+<h2 id="ed-h" style="margin: 0; font-size: 20px;">01 · [Piece title]</h2>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px;">
+<button type="button" class="ph">Straight on</button>
+<button type="button" class="ph">Close detail</button>
+<button type="button" class="ph">In a room</button>
+</div>
+<p class="hint">Phone photos are fine: daylight, straight on, no frame glare. The room shot shows businesses the scale.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 14px;">
+<div class="f"><label for="t">Title</label><input id="t" class="in" value="[Piece title]"></div>
+<div class="f" style="flex: 0 1 140px;"><label for="y">Year</label><input id="y" class="in" value="2025"></div>
+<div class="f"><label for="m">Medium</label><input id="m" class="in" value="Acrylic and collage on canvas"></div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 14px;">
+<div class="f"><label for="sz">Size, height × width × depth</label><input id="sz" class="in" value="48 × 36 × 1.5 in"></div>
+<div class="f"><label for="wt">Weight</label><input id="wt" class="in" value="[lb]"><p class="hint">Weigh yourself, then yourself holding it. The difference is the weight. Too big to lift? Leave it blank; our shipper weighs it at pickup.</p></div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 14px;">
+<div class="f"><label for="pr">Sale price</label><input id="pr" class="in" value="$2,400"></div>
+<div class="f"><p style="margin: 0; font-weight: 600; font-size: 15px;">Rent, worked out for you</p><p style="margin: 0; padding: 12px 14px; border-radius: 10px; background: #F5F4EF; line-height: 1.5;">$120 a month · rent to own $72 a month</p></div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 14px;">
+<div class="f"><p style="margin: 0; font-weight: 600; font-size: 15px;">Status</p><div style="display: flex; flex-wrap: wrap; gap: 8px;"><sc-for list="{{statuses}}" as="s" hint-placeholder-count="3"><button type="button" onClick="{{s.pick}}" aria-pressed="{{s.on}}" style="{{s.style}}">{{s.label}}</button></sc-for></div></div>
+<div class="f"><label for="fr">Framing and hanging</label><input id="fr" class="in" value="Unframed, wired, ready to hang"></div>
+</div>
+<div class="f"><label for="cd">Condition and care</label><input id="cd" class="in" value="Excellent. Keep out of direct sun."></div>
+<div class="f"><label for="nt">A note in your words <span style="font-weight: 400; color: #5A5850;">(optional)</span></label><input id="nt" class="in" value=""><p class="hint">One or two lines on what this piece means to you. Businesses read this.</p></div>
+</section>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
+<a class="btn btn-p" href="ArtistSetup.dc.html">Next: my offers and prices</a>
+<p class="hint">Saved as you go.</p>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1800}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { n: 3, status: 'avail' };
+}
+renderVals() {
+const colors = ['#D9622B', '#9E2338', '#5E3F94', '#2F7A55', '#F2B632', '#2F5BEA', '#16161A'];
+const base = [
+{ title: '[Piece title]', meta: '48 × 36 in · $2,400', status: 'Available', c: '#2F7A55' },
+{ title: '[Piece title]', meta: '9 × 6 ft · $6,000', status: 'On loan', c: '#8A6200' },
+{ title: '[Piece title]', meta: '36 × 48 in · $1,800', status: 'Available', c: '#2F7A55' }
+];
+const works = [];
+for (let i = 0; i < this.state.n; i++) {
+const b = base[i] || { title: 'New work', meta: 'Add size and price', status: 'Draft', c: '#5A5850' };
+works.push({ no: String(i + 1).padStart(2, '0'), title: b.title, meta: b.meta, status: b.status, statusColor: b.c, sw: 'width:44px;height:44px;border-radius:10px;flex-shrink:0;background:' + colors[i % colors.length] });
+}
+const on = 'min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid #16161A;background:#16161A;color:#FFFFFF;font:inherit;font-size:15px;font-weight:600;cursor:pointer';
+const off = 'min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid #C9C5BA;background:#FFFFFF;color:#16161A;font:inherit;font-size:15px;font-weight:500;cursor:pointer';
+const statuses = [['avail', 'Available'], ['loan', 'On loan'], ['sold', 'Sold']].map(([id, label]) => ({ label, on: this.state.status === id, style: this.state.status === id ? on : off, pick: () => this.setState({ status: id }) }));
+return { works, count: works.length, statuses, add: () => this.setState({ n: this.state.n + 1 }) };
+}
+}
+</script>
+</body>
+</html>

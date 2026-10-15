@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SOV: your data and agreements</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Schibsted+Grotesk:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#F5F4EF;color:#16161A;font-family:'Schibsted Grotesk',system-ui,sans-serif}
+a{color:#2F5BEA}a:hover{color:#1E3FB0}
+.disp{font-family:'Bricolage Grotesque',system-ui,sans-serif}
+.nav a{color:#16161A;text-decoration:none;font-weight:500}.nav a:hover{color:#2F5BEA}.nav a.btn-p,.nav a.btn-p:hover{color:#FFFFFF}
+.card{background:#FFFFFF;border:1px solid #DEDBD2;border-radius:16px;box-sizing:border-box}
+.hint{margin:0;font-size:14px;color:#5A5850;line-height:1.45}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid #ECEAE3;vertical-align:top}
+th{font-size:13px;letter-spacing:0.06em;color:#5A5850}
+.y{color:#1F5A3D;font-weight:700}.n{color:#5A5850}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column;">
+<header style="border-bottom: 1px solid #DEDBD2; background: #FFFFFF;">
+<div style="max-width: 1200px; margin: 0 auto; padding: 14px 24px; display: flex; flex-wrap: wrap; gap: 12px 32px; align-items: center; justify-content: space-between;">
+<a href="ArtistHome.dc.html" class="disp" style="font-size: 28px; font-weight: 800; color: #16161A; text-decoration: none; letter-spacing: -0.03em;">sov</a>
+<nav class="nav" aria-label="Artist" style="display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center; font-size: 15px;">
+<a href="ArtistHome.dc.html">Home</a>
+<a href="ArtistInvite.dc.html">Invitations</a>
+<a href="ArtistProject.dc.html">Projects</a>
+<a href="ArtistSetup.dc.html">My offers</a>
+<a href="ArtistData.dc.html" aria-current="page" style="color: #2F5BEA;">Privacy</a>
+</nav>
+</div>
+</header>
+
+<main style="max-width: 1200px; width: 100%; margin: 0 auto; padding: 32px 24px 64px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px;">
+<div style="display: flex; flex-direction: column; gap: 8px; max-width: 820px;">
+<p style="margin: 0; font-size: 14px; font-weight: 600; letter-spacing: 0.14em; color: #5A5850;">YOUR DATA AND AGREEMENTS</p>
+<h1 class="disp" style="margin: 0; font-size: 44px; letter-spacing: -0.03em; line-height: 1.05;">You decide what leaves your profile.</h1>
+<p class="hint" style="font-size: 17px;">We collect only what we need to match you and run your projects. We never sell it. Here's exactly who sees what.</p>
+</div>
+
+<section class="card" aria-labelledby="w-h" style="padding: 24px; overflow-x: auto;">
+<h2 id="w-h" style="margin: 0 0 10px; font-size: 20px;">Who sees what</h2>
+<table>
+<tr><th>Your information</th><th>Public site</th><th>Businesses, before you say yes</th><th>After you both say yes</th></tr>
+<tr><td>Name you work under, disciplines, region</td><td class="y">{{pubName}}</td><td class="y">Yes</td><td class="y">Yes</td></tr>
+<tr><td>Pronouns</td><td>{{pron}}</td><td>{{pron}}</td><td>{{pron}}</td></tr>
+<tr><td>Work photos, watermarked</td><td class="y">{{pubName}}</td><td class="y">Yes</td><td class="y">Yes</td></tr>
+<tr><td>Price range</td><td class="n">No</td><td class="y">Yes</td><td class="y">Yes</td></tr>
+<tr><td>Exact prices and deal memos</td><td class="n">No</td><td class="n">No</td><td class="y">For that project</td></tr>
+<tr><td>Email and phone</td><td class="n">No</td><td class="n">No</td><td class="y">For that project</td></tr>
+<tr><td>Full-size image files</td><td class="n">No</td><td class="n">No</td><td class="y">Once a project or license is signed</td></tr>
+<tr><td>Legal name</td><td class="n">No</td><td class="n">No</td><td class="y">On signed contracts only</td></tr>
+<tr><td>Tax ID and bank details</td><td class="n">No</td><td class="n">No</td><td class="n">No. Only Stripe holds them</td></tr>
+<tr><td>Images, for AI training</td><td class="n">Outside AI companies: never</td><td colspan="2">SOV's own AI learns only from art on SOV, to match you well. Opt out in <a href="ArtistSetup.dc.html">My offers</a>.</td></tr>
+<tr><td>Optional self-ID</td><td class="n">No</td><td class="n">No</td><td class="n">No. Anonymous totals only</td></tr>
+</table>
+</section>
+
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+<section class="card" aria-labelledby="c-h" style="flex: 1 1 420px; min-width: 0; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+<h2 id="c-h" style="margin: 0; font-size: 20px;">Your choices</h2>
+<sc-for list="{{choices}}" as="c" hint-placeholder-count="4"><button type="button" onClick="{{c.pick}}" aria-pressed="{{c.on}}" style="display: flex; justify-content: space-between; gap: 16px; align-items: center; min-height: 56px; padding: 12px 14px; border-radius: 12px; border: 1px solid #DEDBD2; background: #FFFFFF; font: inherit; color: #16161A; cursor: pointer; text-align: left;"><span style="display: flex; flex-direction: column; gap: 2px;"><b>{{c.name}}</b><span style="font-size: 14px; color: #5A5850;">{{c.note}}</span></span><span aria-hidden="true" style="{{c.track}}"><span style="{{c.knob}}"></span></span></button></sc-for>
+</section>
+<section class="card" aria-labelledby="d-h" style="flex: 1 1 420px; min-width: 0; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+<h2 id="d-h" style="margin: 0; font-size: 20px;">What you've agreed to</h2>
+<div style="display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid #ECEAE3;"><span>Terms of Use</span><a href="#">Read · agreed [date]</a></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid #ECEAE3;"><span>Privacy Notice</span><a href="#">Read · agreed [date]</a></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid #ECEAE3;"><span>Artist Network Agreement</span><a href="#">Read · signed [date]</a></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; padding: 10px 0;"><span>Project agreements</span><a href="ArtistProject.dc.html">1 active</a></div>
+<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px;">
+<button type="button" style="min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1.5px solid #16161A; background: #FFFFFF; font: inherit; font-weight: 600; cursor: pointer;">Download my data</button>
+<button type="button" style="min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1.5px solid #9E2338; background: #FFFFFF; color: #9E2338; font: inherit; font-weight: 600; cursor: pointer;">Close my account</button>
+</div>
+<p class="hint">Closing deletes your data except what we must keep for signed contracts, payments and tax.</p>
+</section>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1600}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { pub: true, pron: true, selfid: false, mail: true };
+}
+renderVals() {
+const s = this.state;
+const list = [
+{ id: 'pub', name: 'Public profile', note: 'Off: only vetted businesses with a signed sourcing agreement can find you.' },
+{ id: 'pron', name: 'Show my pronouns', note: 'Shown wherever your name appears.' },
+{ id: 'selfid', name: 'Include me in fairness checks', note: 'Uses your optional self-ID form, as anonymous totals only.' },
+{ id: 'mail', name: 'Tips and news by email', note: 'Invitations and payments always come through.' }
+];
+const choices = list.map(c => ({ ...c, on: !!s[c.id],
+track: 'width:44px;height:26px;border-radius:13px;flex-shrink:0;display:inline-flex;align-items:center;padding:3px;box-sizing:border-box;background:' + (s[c.id] ? '#2F7A55' : '#C9C5BA') + ';justify-content:' + (s[c.id] ? 'flex-end' : 'flex-start'),
+knob: 'width:20px;height:20px;border-radius:50%;background:#FFFFFF;display:block',
+pick: () => this.setState({ [c.id]: !s[c.id] }) }));
+return { choices, pubName: s.pub ? 'Yes' : 'No, profile hidden', pron: s.pron ? 'Shown' : 'Hidden' };
+}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Log in to SOV</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="app.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="config.js"></script>
+<script src="common.js"></script>
+</head>
+<body>
+<div class="auth">
+  <section class="auth-art">
+    <a class="logo" href="../index.html">sov</a>
+    <div class="stack" style="gap:20px">
+      <h1 class="disp">Welcome back.</h1>
+      <p style="color:#D6D3CA;font-size:18px;max-width:30em">Pick up your application where you left off, check where you are in review, and keep your work up to date.</p>
+    </div>
+    <p class="hint" style="color:#B9B6AC">New to SOV? <a href="signup.html" style="color:#9DB2F7">Create an artist account</a></p>
+  </section>
+  <section class="auth-form">
+    <form id="f" novalidate>
+      <h2 class="disp" style="font-size:32px">Log in</h2>
+      <label class="f">Email <input id="email" type="email" autocomplete="email" required></label>
+      <label class="f">Password <input id="pw" type="password" autocomplete="current-password" required></label>
+      <p id="msg" role="alert" class="err" hidden></p>
+      <button class="btn btn-blue" id="go" type="submit">Log in</button>
+      <p class="hint"><button type="button" class="linkbtn" id="forgot">Forgot your password?</button></p>
+      <p class="hint">New here? <a href="signup.html">Create an artist account</a></p>
+    </form>
+  </section>
+</div>
+<script>
+const next = new URLSearchParams(location.search).get('next') || 'index.html';
+const safeNext = /^[a-z]+\.html(#[a-z-]*)?$/i.test(next) ? next : 'index.html';
+(async () => { const { data } = await sb.auth.getSession(); if (data.session) location.replace(safeNext); })();
+$('#f').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const msg = $('#msg'); msg.hidden = true; $('#go').disabled = true;
+  const { error } = await sb.auth.signInWithPassword({ email: $('#email').value.trim(), password: $('#pw').value });
+  $('#go').disabled = false;
+  if (error) {
+    msg.textContent = /confirm/i.test(error.message) ? 'Please confirm your email first. Check your inbox for the link we sent.' : 'That email and password don\'t match. Try again or reset your password.';
+    msg.hidden = false; return;
+  }
+  location.replace(safeNext);
+});
+$('#forgot').addEventListener('click', async () => {
+  const email = $('#email').value.trim(); const msg = $('#msg');
+  if (!email) { msg.textContent = 'Type your email above first, then tap "Forgot your password?" again.'; msg.hidden = false; return; }
+  const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: new URL('reset.html', location.href).href });
+  msg.className = error ? 'err' : 'notice ok';
+  msg.textContent = error ? error.message : 'If that email has an account, a reset link is on its way.';
+  msg.hidden = false;
+});
+</script>
+</body>
+</html>

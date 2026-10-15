@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SOV: agreement, insurance and payouts</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Schibsted+Grotesk:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#F5F4EF;color:#16161A;font-family:'Schibsted Grotesk',system-ui,sans-serif}
+a{color:#2F5BEA}a:hover{color:#1E3FB0}
+.disp{font-family:'Bricolage Grotesque',system-ui,sans-serif}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:999px;font-weight:600;font-size:16px;text-decoration:none;box-sizing:border-box}
+.btn-p{background:#16161A;color:#FFFFFF}.btn-p:hover{background:#2F5BEA;color:#FFFFFF}
+.card{background:#FFFFFF;border:1px solid #DEDBD2;border-radius:16px;box-sizing:border-box}
+.hint{margin:0;font-size:14px;color:#5A5850;line-height:1.45}
+.st{padding:8px 14px;border-radius:999px;font-size:14px;font-weight:600}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column;">
+<header style="border-bottom: 1px solid #DEDBD2;">
+<div style="max-width: 1200px; margin: 0 auto; padding: 14px 24px; display: flex; flex-wrap: wrap; gap: 12px 32px; align-items: center; justify-content: space-between;">
+<a href="ForArtists.dc.html" class="disp" style="font-size: 28px; font-weight: 800; color: #16161A; text-decoration: none; letter-spacing: -0.03em;">sov <span style="font-size: 15px; font-weight: 600; color: #5A5850; letter-spacing: 0;">for artists</span></a>
+<ol aria-label="Joining SOV" style="display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0; padding: 0;">
+<li class="st" style="background: #E2F0E8; color: #1F5A3D;">1 Apply, done</li>
+<li class="st" style="background: #E2F0E8; color: #1F5A3D;">2 Meet, approved</li>
+<li class="st" style="background: #16161A; color: #FFFFFF;" aria-current="step">3 Set up: last steps</li>
+</ol>
+</div>
+</header>
+
+<main style="max-width: 1000px; width: 100%; margin: 0 auto; padding: 40px 24px 64px; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px;">
+<div style="display: flex; flex-direction: column; gap: 10px;">
+<a href="ArtistSetup.dc.html" style="font-size: 15px; font-weight: 600; text-decoration: none;">Back to my offers</a>
+<p style="margin: 0; font-size: 14px; font-weight: 600; letter-spacing: 0.14em; color: #5A5850;">STEP 3 OF 3 · PART 3 · ABOUT 10 MINUTES</p>
+<h1 class="disp" style="margin: 0; font-size: clamp(36px, 5vw, 52px); letter-spacing: -0.035em; line-height: 1.02;">Three last things, then you're live.</h1>
+<p style="margin: 0; font-size: 18px; line-height: 1.5; color: #3D3B35;">{{done}} of 3 done.</p>
+</div>
+
+<section class="card" aria-labelledby="a-h" style="padding: 24px; display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; justify-content: space-between; gap: 12px; align-items: center;"><h2 id="a-h" style="margin: 0; font-size: 20px;">1 · Your Artist Network Agreement</h2><span style="font-size: 13px; font-weight: 700; color: {{aColor}};">{{aState}}</span></div>
+<ul style="margin: 0; padding-left: 20px; line-height: 1.65; color: #3D3B35;">
+<li>You're non-exclusive. Keep your own clients and other galleries.</li>
+<li>Businesses pay SOV. Nothing comes out of your fee.</li>
+<li>SOV may show your work to buyers. You keep every copyright.</li>
+<li>If a business we introduced hires you directly within the protection window, SOV's fee is still owed by the business, not you.</li>
+<li>Leave any time. Projects already signed finish as agreed.</li>
+</ul>
+<button type="button" onClick="{{signA}}" style="align-self: flex-start; min-height: 48px; padding: 0 22px; border-radius: 999px; border: 0; background: #16161A; color: #FFFFFF; font: inherit; font-weight: 600; font-size: 16px; cursor: pointer;">Read and sign</button>
+<p class="hint">You sign with your legal name here. It appears on contracts, never on your public profile.</p>
+</section>
+
+<section class="card" aria-labelledby="i-h" style="padding: 24px; display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; justify-content: space-between; gap: 12px; align-items: center;"><h2 id="i-h" style="margin: 0; font-size: 20px;">2 · Insurance</h2><span style="font-size: 13px; font-weight: 700; color: {{iColor}};">{{iState}}</span></div>
+<div style="display: flex; flex-wrap: wrap; gap: 10px;"><sc-for list="{{ins}}" as="o" hint-placeholder-count="2"><button type="button" onClick="{{o.pick}}" aria-pressed="{{o.on}}" style="{{o.style}}"><span style="display: block; font-weight: 700;">{{o.name}}</span><span style="display: block; margin-top: 4px; font-size: 14px; color: #5A5850; line-height: 1.4;">{{o.note}}</span></button></sc-for></div>
+<p class="hint">Have your own policy? Upload your certificate once. It's checked against your insurer automatically, not by a person, and we remind you 30 days before it runs out. No policy? We add cover to each project for you, so there's nothing to check.</p>
+</section>
+
+<section class="card" aria-labelledby="p-h" style="padding: 24px; display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; justify-content: space-between; gap: 12px; align-items: center;"><h2 id="p-h" style="margin: 0; font-size: 20px;">3 · Get paid</h2><span style="font-size: 13px; font-weight: 700; color: {{pColor}};">{{pState}}</span></div>
+<p style="margin: 0; line-height: 1.55; color: #3D3B35;">Payouts run through Stripe. Your legal name, tax ID and bank details go straight to Stripe, and SOV never stores them. Stripe also sends your tax forms each year.</p>
+<button type="button" onClick="{{payA}}" style="align-self: flex-start; min-height: 48px; padding: 0 22px; border-radius: 999px; border: 1.5px solid #16161A; background: #FFFFFF; color: #16161A; font: inherit; font-weight: 600; font-size: 16px; cursor: pointer;">Set up payouts with Stripe</button>
+</section>
+
+<section aria-labelledby="o-h" style="padding: 20px 24px; border-radius: 16px; border: 1px dashed #A9A498; display: flex; flex-direction: column; gap: 8px;">
+<h2 id="o-h" style="margin: 0; font-size: 17px;">Optional and private: help us keep sourcing fair</h2>
+<p class="hint" style="font-size: 15px;">A short, separate form about who you are, so we can check that matching treats every group fairly. It's never used to match you and never shown to businesses. Skip it any time.</p>
+<a href="#" style="font-weight: 600;">Open the optional form</a>
+</section>
+
+<sc-if value="{{ready}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center; padding: 16px; border-radius: 12px; background: #E2F0E8;"><p style="margin: 0; font-weight: 600; color: #1F5A3D;">You're live. Briefs that fit your work will start arriving.</p><a class="btn btn-p" href="ArtistHome.dc.html">Go to my dashboard</a></div>
+</sc-if>
+<sc-if value="{{notReady}}" hint-placeholder-val="{{true}}">
+<p class="hint">Finish all three to go live. Your progress is saved.</p>
+</sc-if>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1700}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { signed: false, ins: null, paid: false };
+}
+renderVals() {
+const s = this.state;
+const on = 'text-align:left;flex:1 1 260px;min-height:44px;padding:16px;border-radius:12px;border:2px solid #16161A;background:#FFFFFF;font:inherit;color:#16161A;cursor:pointer';
+const off = 'text-align:left;flex:1 1 260px;min-height:44px;padding:16px;border-radius:12px;border:1px solid #DEDBD2;background:#FFFFFF;font:inherit;color:#16161A;cursor:pointer';
+const ins = [
+{ id: 'own', name: 'I have my own policy', note: 'Upload your certificate. We check it and remind you before it expires.' },
+{ id: 'per', name: 'I’ll buy it per project', note: 'Added inside each project’s budget at checkout. Certificate in minutes.' }
+].map(o => ({ ...o, on: s.ins === o.id, style: s.ins === o.id ? on : off, pick: () => this.setState({ ins: o.id }) }));
+const st = (done) => ({ t: done ? 'Done' : 'To do', c: done ? '#1F5A3D' : '#5A5850' });
+const a = st(s.signed), i = st(!!s.ins), p = st(s.paid);
+const done = [s.signed, !!s.ins, s.paid].filter(Boolean).length;
+return { ins, done, ready: done === 3, notReady: done !== 3,
+aState: a.t, aColor: a.c, iState: i.t, iColor: i.c, pState: p.t, pColor: p.c,
+signA: () => this.setState({ signed: true }), payA: () => this.setState({ paid: true }) };
+}
+}
+</script>
+</body>
+</html>

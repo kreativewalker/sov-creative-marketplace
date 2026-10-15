@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your SOV dashboard</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="app.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="config.js"></script>
+<script src="common.js"></script>
+</head>
+<body>
+<a href="#view" class="sr">Skip to content</a>
+<header class="topbar">
+  <div class="wrap">
+    <a class="logo" href="../index.html" title="Back to the SOV website">sov</a>
+    <nav class="nav" aria-label="Your account" id="nav">
+      <a href="#home">Home</a>
+      <a href="#apply">Application</a>
+      <a href="#works">My work</a>
+      <a href="#profile">Profile</a>
+      <a href="#call">Video call</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#resources">Resources</a>
+      <a href="team.html" id="teamLink" hidden>Team review</a>
+      <span class="row" style="gap:8px"><span class="avatar" id="av" aria-hidden="true"></span><button class="linkbtn" id="out" style="color:var(--ink2);text-decoration:none;font-weight:500">Log out</button></span>
+    </nav>
+  </div>
+</header>
+<main class="dash wrap" id="view" tabindex="-1" aria-live="polite">
+  <p class="hint">Loading your dashboard...</p>
+</main>
+
+<dialog id="termsDlg" aria-labelledby="termsTitle">
+  <div class="modal-head">
+    <h2 id="termsTitle" class="disp" style="font-size:28px">Terms of Use and Privacy Notice</h2>
+    <p class="hint" style="margin-top:6px">Take your time. The agree button unlocks when you reach the bottom.</p>
+  </div>
+  <div class="modal-body" id="termsBody" tabindex="0"><p class="hint">Loading...</p></div>
+  <div class="modal-foot">
+    <span class="hint" id="termsProg">Scroll to the bottom to continue</span>
+    <div class="row">
+      <button class="btn btn-ghost btn-sm" id="termsCancel" type="button">Not now</button>
+      <button class="btn btn-blue btn-sm" id="termsAgree" type="button" disabled>I've read it and I agree</button>
+    </div>
+  </div>
+</dialog>
+<script src="dashboard.js"></script>
+</body>
+</html>

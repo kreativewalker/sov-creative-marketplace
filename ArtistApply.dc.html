@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Apply to SOV</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Schibsted+Grotesk:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#F5F4EF;color:#16161A;font-family:'Schibsted Grotesk',system-ui,sans-serif}
+a{color:#2F5BEA}a:hover{color:#1E3FB0}
+.disp{font-family:'Bricolage Grotesque',system-ui,sans-serif}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:999px;font-weight:600;font-size:16px;text-decoration:none;box-sizing:border-box}
+.btn-p{background:#16161A;color:#FFFFFF}.btn-p:hover{background:#2F5BEA;color:#FFFFFF}
+.nav a{color:#16161A;text-decoration:none;font-weight:500}.nav a:hover{color:#2F5BEA}.nav a.btn-p,.nav a.btn-p:hover{color:#FFFFFF}
+.card{background:#FFFFFF;border:1px solid #DEDBD2;border-radius:16px;box-sizing:border-box}
+.hint{margin:0;font-size:14px;color:#5A5850;line-height:1.45}
+label{font-weight:600;font-size:15px}
+.in{width:100%;box-sizing:border-box;min-height:48px;padding:12px 14px;border:1px solid #C9C5BA;border-radius:10px;font:inherit;font-size:16px;background:#FFFFFF;color:#16161A}
+.f{flex:1 1 260px;min-width:0;display:flex;flex-direction:column;gap:8px}
+.st{padding:8px 14px;border-radius:999px;font-size:14px;font-weight:600}
+.priv{display:inline-block;margin-left:6px;padding:2px 8px;border-radius:999px;background:#E3EAFD;color:#1E3FB0;font-size:12px;font-weight:700}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column;">
+<header style="border-bottom: 1px solid #DEDBD2;">
+<div style="max-width: 1200px; margin: 0 auto; padding: 14px 24px; display: flex; flex-wrap: wrap; gap: 12px 32px; align-items: center; justify-content: space-between;">
+<a href="ForArtists.dc.html" class="disp" style="font-size: 28px; font-weight: 800; color: #16161A; text-decoration: none; letter-spacing: -0.03em;">sov <span style="font-size: 15px; font-weight: 600; color: #5A5850; letter-spacing: 0;">for artists</span></a>
+<ol aria-label="Joining SOV" style="display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0; padding: 0;">
+<li class="st" style="background: #16161A; color: #FFFFFF;" aria-current="step">1 Apply</li>
+<li class="st" style="background: #ECEAE3; color: #3D3B35;">2 Meet</li>
+<li class="st" style="background: #ECEAE3; color: #3D3B35;">3 Set up</li>
+</ol>
+</div>
+</header>
+
+<main style="max-width: 1000px; width: 100%; margin: 0 auto; padding: 40px 24px 64px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px;">
+<div style="display: flex; flex-direction: column; gap: 10px;">
+<p style="margin: 0; font-size: 14px; font-weight: 600; letter-spacing: 0.14em; color: #5A5850;">STEP 1 OF 3 · ABOUT 10 MINUTES · FREE</p>
+<h1 class="disp" style="margin: 0; font-size: clamp(38px, 5vw, 56px); letter-spacing: -0.035em; line-height: 1.02;">Tell us about your work. We'll bring you the briefs.</h1>
+<p style="margin: 0; font-size: 18px; line-height: 1.5; color: #3D3B35;">Just enough to know we should meet. A working artist reads every application, and you hear back either way, with notes.</p>
+</div>
+
+<form style="display: flex; flex-direction: column; gap: 20px;" aria-label="Application">
+<fieldset class="card" style="margin: 0; padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+<legend style="padding: 0 6px; font-weight: 700; font-size: 18px;">You</legend>
+<div style="display: flex; flex-wrap: wrap; gap: 16px;">
+<div class="f"><label for="an">Name you work under</label><input id="an" class="in" value=""><p class="hint">Your legal name comes later, only when you sign and set up payouts.</p></div>
+<div class="f"><label for="pr">Pronouns <span style="font-weight: 400; color: #5A5850;">(optional)</span></label><input id="pr" class="in" value=""><p class="hint">Shown on your profile only if you choose.</p></div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 16px;">
+<div class="f"><label for="em">Email <span class="priv">PRIVATE</span></label><input id="em" class="in" value=""></div>
+<div class="f"><label for="ph">Phone <span class="priv">PRIVATE</span></label><input id="ph" class="in" value=""></div>
+</div>
+<p class="hint">Businesses never see your email or phone until you say yes to them.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 16px;">
+<div class="f"><label for="ct">City or region</label><input id="ct" class="in" value=""></div>
+<div class="f"><label for="tr">How far you'll travel for work</label><input id="tr" class="in" value="[e.g. 60 miles, anywhere in NC, worldwide]"></div>
+</div>
+</fieldset>
+
+<fieldset class="card" style="margin: 0; padding: 24px; display: flex; flex-direction: column; gap: 14px;">
+<legend style="padding: 0 6px; font-weight: 700; font-size: 18px;">Your work</legend>
+<p style="margin: 0; font-weight: 600; font-size: 15px;">Disciplines</p>
+<div style="display: flex; flex-wrap: wrap; gap: 8px;"><sc-for list="{{disc}}" as="d" hint-placeholder-count="5"><button type="button" onClick="{{d.pick}}" aria-pressed="{{d.on}}" style="{{d.style}}">{{d.label}}</button></sc-for></div>
+<div class="f"><label for="md">Mediums</label><input id="md" class="in" value="[e.g. acrylic, collage, spray, textile, video]"></div>
+<p style="margin: 4px 0 0; font-weight: 600; font-size: 15px;">Show us the work</p>
+<div style="display: flex; flex-wrap: wrap; gap: 8px;"><sc-for list="{{ways}}" as="w" hint-placeholder-count="2"><button type="button" onClick="{{w.pick}}" aria-pressed="{{w.on}}" style="{{w.style}}">{{w.label}}</button></sc-for></div>
+<sc-if value="{{byLink}}" hint-placeholder-val="{{true}}"><div class="f"><label for="pl">Portfolio link</label><input id="pl" class="in" value="https://"></div></sc-if>
+<sc-if value="{{byPhotos}}" hint-placeholder-val="{{false}}"><button type="button" style="min-height: 96px; border-radius: 12px; border: 1.5px dashed #A9A498; background: #FAF9F6; font: inherit; font-weight: 600; color: #3D3B35; cursor: pointer;">Add up to 10 photos. Phone photos are fine.</button></sc-if>
+<div style="display: flex; flex-wrap: wrap; gap: 16px;">
+<div class="f"><label for="lg">Largest piece you've finished</label><input id="lg" class="in" value="[e.g. 22 × 9 ft mural]"></div>
+<div class="f"><p style="margin: 0; font-weight: 600; font-size: 15px;">Where it lived</p><div style="display: flex; flex-wrap: wrap; gap: 8px;"><sc-for list="{{env}}" as="e" hint-placeholder-count="3"><button type="button" onClick="{{e.pick}}" aria-pressed="{{e.on}}" style="{{e.style}}">{{e.label}}</button></sc-for></div></div>
+</div>
+</fieldset>
+
+<fieldset class="card" style="margin: 0; padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+<legend style="padding: 0 6px; font-weight: 700; font-size: 18px;">Pay and references</legend>
+<div style="display: flex; flex-wrap: wrap; gap: 16px;">
+<div class="f"><label for="fl">Smallest commission you'll take</label><input id="fl" class="in" value=""></div>
+<div class="f"><label for="dr">Your day rate</label><input id="dr" class="in" value=""></div>
+</div>
+<p class="hint">We never send you a brief below these.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 16px;">
+<div class="f"><label for="r1">Reference 1: a past client, venue or collaborator</label><input id="r1" class="in" value="[Name, how you worked together, email]"></div>
+<div class="f"><label for="r2">Reference 2</label><input id="r2" class="in" value="[Name, how you worked together, email]"></div>
+</div>
+</fieldset>
+
+<div class="card" style="padding: 18px 20px; display: flex; flex-direction: column; gap: 8px;">
+<label style="display: flex; gap: 12px; align-items: flex-start; min-height: 44px; font-weight: 500;"><input type="checkbox" style="width: 20px; height: 20px; margin-top: 2px; flex-shrink: 0;"> <span>I agree to the <a href="https://docs.google.com/document/d/1iGoBaK8eDRPaXKLIPboMEjc1EcbKFbfbkOhdRBtCbIs/view" target="_blank" rel="noopener">Terms of Use</a> and have read the <a href="https://docs.google.com/document/d/1iGoBaK8eDRPaXKLIPboMEjc1EcbKFbfbkOhdRBtCbIs/view" target="_blank" rel="noopener">Privacy Notice</a>.</span></label>
+<p class="hint">In short: we use what you share here only to review and match you. Your phone, email and legal name stay private. We never sell your data. You can download or delete it any time.</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
+<a class="btn btn-p" href="ArtistVetting.dc.html">Send my application</a>
+<p class="hint">Next: a real person on our team reviews your work. If it's a good fit, we'll email you a link to book a 30-minute video call with a working artist.</p>
+</div>
+</form>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1900}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { disc: { visual: true }, way: 'link', env: { indoor: true } };
+}
+renderVals() {
+const on = 'min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid #16161A;background:#16161A;color:#FFFFFF;font:inherit;font-size:15px;font-weight:600;cursor:pointer';
+const off = 'min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid #C9C5BA;background:#FFFFFF;color:#16161A;font:inherit;font-size:15px;font-weight:500;cursor:pointer';
+const multi = (key, opts) => opts.map(([id, label]) => { const s = this.state[key]; return { label, on: !!s[id], style: s[id] ? on : off, pick: () => this.setState({ [key]: Object.assign({}, s, { [id]: !s[id] }) }) }; });
+const disc = multi('disc', [['visual', 'Visual'], ['performing', 'Performing'], ['literary', 'Literary'], ['digital', 'Digital'], ['inter', 'Interdisciplinary']]);
+const env = multi('env', [['indoor', 'Indoor'], ['outdoor', 'Outdoor'], ['public', 'Public space']]);
+const ways = [['link', 'Share a link'], ['photos', 'Upload photos']].map(([id, label]) => ({ label, on: this.state.way === id, style: this.state.way === id ? on : off, pick: () => this.setState({ way: id }) }));
+return { disc, env, ways, byLink: this.state.way === 'link', byPhotos: this.state.way === 'photos' };
+}
+}
+</script>
+</body>
+</html>

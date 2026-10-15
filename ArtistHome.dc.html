@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SOV artist dashboard</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Schibsted+Grotesk:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#F5F4EF;color:#16161A;font-family:'Schibsted Grotesk',system-ui,sans-serif}
+a{color:#2F5BEA}a:hover{color:#1E3FB0}
+.disp{font-family:'Bricolage Grotesque',system-ui,sans-serif}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:999px;font-weight:600;font-size:16px;text-decoration:none;box-sizing:border-box}
+.btn-p{background:#16161A;color:#FFFFFF}.btn-p:hover{background:#2F5BEA;color:#FFFFFF}
+.nav a{color:#16161A;text-decoration:none;font-weight:500}.nav a:hover{color:#2F5BEA}.nav a.btn-p,.nav a.btn-p:hover{color:#FFFFFF}
+.card{background:#FFFFFF;border:1px solid #DEDBD2;border-radius:16px;box-sizing:border-box}
+.hint{margin:0;font-size:14px;color:#5A5850;line-height:1.45}
+.tag{display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;font-size:13px;font-weight:600}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column;">
+<header style="border-bottom: 1px solid #DEDBD2; background: #FFFFFF;">
+<div style="max-width: 1200px; margin: 0 auto; padding: 14px 24px; display: flex; flex-wrap: wrap; gap: 12px 32px; align-items: center; justify-content: space-between;">
+<a href="Main.dc.html" class="disp" style="font-size: 28px; font-weight: 800; color: #16161A; text-decoration: none; letter-spacing: -0.03em;">sov</a>
+<nav class="nav" aria-label="Artist" style="display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center; font-size: 15px;">
+<a href="ArtistHome.dc.html" aria-current="page" style="color: #2F5BEA;">Home</a>
+<a href="ArtistInvite.dc.html">Invitations</a>
+<a href="ArtistProject.dc.html">Projects</a>
+<a href="ArtistSetup.dc.html">My offers</a>
+<a href="ArtistData.dc.html">Privacy</a>
+<span style="display: inline-flex; align-items: center; gap: 8px; color: #3D3B35;"><span aria-hidden="true" style="width: 32px; height: 32px; border-radius: 50%; background: #D9622B; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700;">MA</span>Micah The Artyst</span>
+</nav>
+</div>
+</header>
+
+<main style="max-width: 1200px; width: 100%; margin: 0 auto; padding: 32px 24px 64px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px;">
+<div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: flex-end;">
+<div style="min-width: 0;">
+<h1 class="disp" style="margin: 0; font-size: 44px; letter-spacing: -0.03em; line-height: 1.05;">Good morning, Micah</h1>
+<p class="hint" style="font-size: 16px; margin-top: 6px;">{{headline}}</p>
+</div>
+<span style="padding: 6px 12px; border-radius: 999px; background: #FDF4DD; color: #6B4E00; font-weight: 600; font-size: 14px;">Sample data for the prototype</span>
+</div>
+
+<section class="card" aria-labelledby="fin-h" style="padding: 20px 24px; display: flex; flex-direction: column; gap: 10px; border-color: #F2B632; border-width: 2px;">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; align-items: baseline;"><h2 id="fin-h" style="margin: 0; font-size: 20px;">Finish setting up: 4 of 7 done</h2><span class="hint">Finished profiles get matched first.</span></div>
+<div aria-hidden="true" style="height: 8px; border-radius: 4px; background: #ECEAE3; overflow: hidden;"><div style="width: 57%; height: 100%; background: #2F7A55;"></div></div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 6px 20px; font-size: 15px;">
+<span style="min-height: 32px; display: flex; align-items: center; gap: 8px;"><b style="color: #2F7A55;">✓</b> Application and references</span>
+<span style="min-height: 32px; display: flex; align-items: center; gap: 8px;"><b style="color: #2F7A55;">✓</b> Video call with a curator</span>
+<span style="min-height: 32px; display: flex; align-items: center; gap: 8px;"><b style="color: #2F7A55;">✓</b> Artist statement and bio</span>
+<span style="min-height: 32px; display: flex; align-items: center; gap: 8px;"><b style="color: #2F7A55;">✓</b> Artist Network Agreement signed</span>
+<a href="ArtistProfileBuild.dc.html" style="min-height: 32px; display: flex; align-items: center; gap: 8px;"><b style="color: #9E6A00;">○</b> Upload your CV</a>
+<a href="ArtistWorks.dc.html" style="min-height: 32px; display: flex; align-items: center; gap: 8px;"><b style="color: #9E6A00;">○</b> Add 2 more works (3 of 5), with weights</a>
+<a href="ArtistAgreement.dc.html" style="min-height: 32px; display: flex; align-items: center; gap: 8px;"><b style="color: #9E6A00;">○</b> Insurance choice and Stripe payouts</a>
+</div>
+</section>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px;">
+<div class="card" style="padding: 20px;"><p class="hint">Held for you in escrow</p><p class="disp" style="margin: 4px 0 0; font-size: 32px; font-weight: 800;">$5,000</p><p class="hint">Released when the hotel approves the midpoint</p></div>
+<div class="card" style="padding: 20px;"><p class="hint">Paid to you this year</p><p class="disp" style="margin: 4px 0 0; font-size: 32px; font-weight: 800;">$5,000</p><p class="hint">Materials advance from the lobby mural</p></div>
+<div class="card" style="padding: 20px;"><p class="hint">Pieces out on rental</p><p class="disp" style="margin: 4px 0 0; font-size: 32px; font-weight: 800;">3</p><p class="hint">$360 a month, insured while placed</p></div>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+<section aria-labelledby="inv-h" style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 14px;">
+<h2 id="inv-h" class="disp" style="margin: 0; font-size: 26px; letter-spacing: -0.02em;">Invitations for you</h2>
+<sc-for list="{{invites}}" as="i" hint-placeholder-count="2">
+<article class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; align-items: flex-start;">
+<div style="min-width: 0;"><h3 style="margin: 0; font-size: 19px;">{{i.title}}</h3><p class="hint" style="margin-top: 4px;">{{i.meta}}</p></div>
+<span class="tag" style="background: #E3EAFD; color: #1E3FB0;">{{i.kind}}</span>
+</div>
+<p style="margin: 0; font-size: 15px; line-height: 1.5; color: #3D3B35;">{{i.why}}</p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
+<sc-if value="{{i.open}}" hint-placeholder-val="{{true}}">
+<button type="button" onClick="{{i.accept}}" style="min-height: 44px; padding: 0 18px; border-radius: 999px; border: 0; background: #16161A; color: #FFFFFF; font: inherit; font-weight: 600; font-size: 15px; cursor: pointer;">{{i.cta}}</button>
+<a href="{{i.link}}" style="font-weight: 600; font-size: 15px; min-height: 44px; display: inline-flex; align-items: center;">Read the deal memo</a>
+<button type="button" onClick="{{i.decline}}" style="min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1.5px solid #C9C5BA; background: #FFFFFF; color: #16161A; font: inherit; font-weight: 600; font-size: 15px; cursor: pointer;">Pass</button>
+</sc-if>
+<sc-if value="{{i.done}}" hint-placeholder-val="{{false}}">
+<p style="margin: 0; font-weight: 600; color: #1F5A3D;">{{i.doneText}}</p>
+</sc-if>
+</div>
+</article>
+</sc-for>
+
+<h2 class="disp" style="margin: 12px 0 0; font-size: 26px; letter-spacing: -0.02em;">Active project</h2>
+<a href="ArtistProject.dc.html" class="card" style="padding: 20px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: center; text-decoration: none; color: #16161A;">
+<div><b style="font-size: 18px;">Lobby mural, The Ashby Hotel</b><p class="hint" style="margin-top: 4px;">Midpoint review Thursday at 10 · insurance certificate on file</p></div>
+<span style="font-weight: 600; color: #2F5BEA;">Open project room</span>
+</a>
+</section>
+
+<aside style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+<section class="card" aria-labelledby="ps-h" style="padding: 20px; display: flex; flex-direction: column; gap: 10px;">
+<h2 id="ps-h" style="margin: 0; font-size: 18px;">Profile strength</h2>
+<div style="height: 10px; border-radius: 5px; background: #F5F4EF;"><div style="width: 80%; height: 10px; border-radius: 5px; background: #2F7A55;"></div></div>
+<p class="hint" style="font-size: 15px;">Add rent and rent-to-own prices to your 12 unlisted pieces so hotels can place them now.</p>
+<a href="ArtistSetup.dc.html" style="font-weight: 600;">Finish my offers</a>
+<a href="ArtistReview.dc.html" style="font-weight: 600;">Request a review for bigger work</a>
+</section>
+<section class="card" aria-labelledby="ai-h" style="padding: 20px; display: flex; flex-direction: column; gap: 10px;">
+<h2 id="ai-h" style="margin: 0; font-size: 18px;">Ask SOV</h2>
+<p class="hint" style="font-size: 15px;">Your assistant can price a piece, draft a concept note, or explain a contract term.</p>
+<label for="ask" style="font-weight: 600; font-size: 14px;">Question</label>
+<input id="ask" style="min-height: 44px; padding: 10px 12px; border: 1px solid #C9C5BA; border-radius: 10px; font: inherit;" value="What should I charge to rent a 9 × 6 ft canvas?">
+</section>
+<section class="card" aria-labelledby="co-h" style="padding: 20px; display: flex; flex-direction: column; gap: 8px;">
+<h2 id="co-h" style="margin: 0; font-size: 18px;">Cohort this week</h2>
+<p class="hint" style="font-size: 15px;">Pricing site-specific work: separating your fee from production costs.</p>
+</section>
+</aside>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1500}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { status: {} };
+}
+renderVals() {
+const st = this.state.status;
+const list = [
+{ id: 'clinic', title: 'Waiting room series, regional health clinic', meta: 'Greensboro · budget $12,000 · paid concept round', kind: 'Paid concept', link: 'ArtistInvite.dc.html', cta: 'Accept, $400 concept fee',
+why: 'Matched on calm, layered color work and your low-odor materials. The clinic wants local landscapes that are not literal.', yes: 'Accepted. Concept due in [days]. The $400 is paid on delivery.' },
+{ id: 'office', title: 'Rotating canvases, furniture showroom', meta: 'High Point · 6 large works · 12 month rental', kind: 'Placement', link: 'ArtistInvite.dc.html', cta: 'Offer 6 pieces',
+why: 'They want oversized canvases they can rotate each market season. Your 9 × 6 ft work fits their walls.', yes: 'Sent. The showroom will pick from your available pieces.' }
+];
+const invites = list.map(i => {
+const s = st[i.id];
+return { ...i, open: !s, done: !!s, doneText: s === 'yes' ? i.yes : 'Passed. We will not show you briefs like this as often.',
+accept: () => this.setState({ status: Object.assign({}, st, { [i.id]: 'yes' }) }),
+decline: () => this.setState({ status: Object.assign({}, st, { [i.id]: 'no' }) }) };
+});
+const open = invites.filter(i => i.open).length;
+return { invites, headline: open ? open + ' new invitations matched to your work. You never pitch for free here.' : 'You are all caught up.' };
+}
+}
+</script>
+</body>
+</html>

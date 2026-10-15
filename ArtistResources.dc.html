@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SOV resource tier</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Schibsted+Grotesk:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#F5F4EF;color:#16161A;font-family:'Schibsted Grotesk',system-ui,sans-serif}
+a{color:#2F5BEA}a:hover{color:#1E3FB0}
+.disp{font-family:'Bricolage Grotesque',system-ui,sans-serif}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:999px;font-weight:600;font-size:16px;text-decoration:none;box-sizing:border-box}
+.btn-p{background:#16161A;color:#FFFFFF}.btn-p:hover{background:#2F5BEA;color:#FFFFFF}
+.nav a{color:#16161A;text-decoration:none;font-weight:500}.nav a:hover{color:#2F5BEA}.nav a.btn-p,.nav a.btn-p:hover{color:#FFFFFF}
+.card{background:#FFFFFF;border:1px solid #DEDBD2;border-radius:16px;box-sizing:border-box}
+.hint{margin:0;font-size:14px;color:#5A5850;line-height:1.45}
+.tool{display:flex;flex-direction:column;gap:6px;padding:20px;border-radius:16px;background:#FFFFFF;border:1px solid #DEDBD2;text-decoration:none;color:#16161A}
+.tool:hover{border-color:#2F5BEA}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column;">
+<header style="border-bottom: 1px solid #DEDBD2; background: #FFFFFF;">
+<div style="max-width: 1200px; margin: 0 auto; padding: 14px 24px; display: flex; flex-wrap: wrap; gap: 12px 32px; align-items: center; justify-content: space-between;">
+<a href="ArtistResources.dc.html" class="disp" style="font-size: 28px; font-weight: 800; color: #16161A; text-decoration: none; letter-spacing: -0.03em;">sov <span style="font-size: 15px; font-weight: 600; color: #5A5850; letter-spacing: 0;">resource tier</span></a>
+<nav class="nav" aria-label="Resource tier" style="display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center; font-size: 15px;">
+<a href="#path">My path</a>
+<a href="#tools">Tools</a>
+<a href="#month">This month</a>
+<a href="Concierge.dc.html">Concierge</a>
+<span style="display: inline-flex; align-items: center; gap: 8px; color: #3D3B35;"><span aria-hidden="true" style="width: 32px; height: 32px; border-radius: 50%; background: #5E3F94; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700;">JR</span>[Artist name]</span>
+</nav>
+</div>
+</header>
+
+<main style="max-width: 1200px; width: 100%; margin: 0 auto; padding: 32px 24px 64px; box-sizing: border-box; display: flex; flex-direction: column; gap: 28px;">
+<div style="display: flex; flex-direction: column; gap: 8px; max-width: 820px;">
+<p style="margin: 0; font-size: 14px; font-weight: 600; letter-spacing: 0.14em; color: #5A5850;">RESOURCE TIER · $12 A MONTH · CANCEL ANY TIME</p>
+<h1 class="disp" style="margin: 0; font-size: 44px; letter-spacing: -0.03em; line-height: 1.05;">Your work is close. Here's your path to the roster.</h1>
+<p class="hint" style="font-size: 17px;">Built from the notes in your review. Go at your own pace. When every box is checked, your re-review opens.</p>
+</div>
+
+<section id="path" class="card" aria-labelledby="path-h" style="padding: 24px; display: flex; flex-direction: column; gap: 14px;">
+<div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: center;">
+<h2 id="path-h" style="margin: 0; font-size: 20px;">My readiness checklist</h2>
+<p style="margin: 0; font-weight: 700;">{{done}} of {{total}} done</p>
+</div>
+<div style="height: 12px; border-radius: 6px; background: #F5F4EF;" aria-hidden="true"><div style="{{barStyle}}"></div></div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 8px;">
+<sc-for list="{{items}}" as="i" hint-placeholder-count="7"><button type="button" onClick="{{i.toggle}}" aria-pressed="{{i.on}}" style="{{i.style}}"><span aria-hidden="true" style="{{i.box}}">{{i.mark}}</span><span style="display: flex; flex-direction: column; gap: 2px;"><b>{{i.name}}</b><span style="font-size: 14px; color: #5A5850; line-height: 1.4;">{{i.how}}</span></span></button></sc-for>
+</div>
+<sc-if value="{{ready}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center; padding: 14px; border-radius: 12px; background: #E2F0E8;"><p style="margin: 0; font-weight: 600; color: #1F5A3D;">You're ready. Your re-review is open.</p><a class="btn btn-p" href="ArtistReview.dc.html">Request my re-review</a></div>
+</sc-if>
+</section>
+
+<section id="tools" aria-labelledby="tools-h" style="display: flex; flex-direction: column; gap: 14px;">
+<h2 id="tools-h" class="disp" style="margin: 0; font-size: 28px; letter-spacing: -0.02em;">Tools, ready when you are</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px;">
+<a class="tool" href="ArtistSetup.dc.html"><b>Price my work</b><span class="hint">Sale, rent and rent-to-own prices from one number.</span></a>
+<a class="tool" href="#"><b>Contract templates</b><span class="hint">Commission, sale, rental and license, in plain English.</span></a>
+<a class="tool" href="#"><b>Insurance quotes</b><span class="hint">Per-project or yearly cover from our partner, certificate in minutes.</span></a>
+<a class="tool" href="#"><b>Photograph your work</b><span class="hint">Phone-only guide: light, angles, and how to show scale.</span></a>
+<a class="tool" href="#"><b>Measure and weigh</b><span class="hint">Sizes and weights shippers need, even for big pieces.</span></a>
+<a class="tool" href="Concierge.dc.html"><b>Ask the concierge</b><span class="hint">Any question, any hour. A person steps in when needed.</span></a>
+</div>
+<div class="card" style="padding: 20px 24px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center;">
+<p style="margin: 0; font-weight: 700; flex: 0 0 auto;">No scale big enough?</p>
+<p style="margin: 0; color: #3D3B35; line-height: 1.5; flex: 1 1 520px;">Weigh yourself, then weigh yourself holding the piece. The difference is its weight. Too big to lift? Log the size and materials; our shipping partner weighs it at pickup.</p>
+</div>
+</section>
+
+<section id="month" aria-labelledby="month-h" style="display: flex; flex-direction: column; gap: 14px;">
+<h2 id="month-h" class="disp" style="margin: 0; font-size: 28px; letter-spacing: -0.02em;">This month</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px;">
+<div class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 8px;"><span style="font-size: 13px; font-weight: 700; color: #5A5850; letter-spacing: 0.08em;">GROUP CRITIQUE · VIDEO</span><b style="font-size: 18px;">Bring one piece. Leave with five lenses of feedback.</b><span class="hint">[Date], 7 pm. Run on Mirrors. Hosted by SOV's community lead.</span><a href="#" style="font-weight: 600;">Save my spot</a></div>
+<div class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 8px;"><span style="font-size: 13px; font-weight: 700; color: #5A5850; letter-spacing: 0.08em;">SHORT LESSON · 12 MIN</span><b style="font-size: 18px;">Pricing a commission: your fee versus everything else</b><span class="hint">Watch any time. One worksheet.</span><a href="#" style="font-weight: 600;">Watch</a></div>
+<div class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 8px;"><span style="font-size: 13px; font-weight: 700; color: #5A5850; letter-spacing: 0.08em;">YOUR COHORT</span><b style="font-size: 18px;">12 artists working toward the roster with you</b><span class="hint">Share progress, swap studio tips, keep each other going.</span><a href="#" style="font-weight: 600;">Open the cohort</a></div>
+</div>
+</section>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1900}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { done: { photos: true, prices: true, floor: true } };
+}
+renderVals() {
+const list = [
+{ id: 'photos', name: '10 finished pieces photographed', how: 'Your phone is fine. Use the photo guide.' },
+{ id: 'prices', name: 'A price on every piece', how: 'The pricing tool does the rental math.' },
+{ id: 'floor', name: 'Your day rate and price floor', how: 'So we never send you work below it.' },
+{ id: 'sizes', name: 'Size and weight for every piece', how: 'Use the measure and weigh guide.' },
+{ id: 'refs', name: 'Two references', how: 'A past client, venue or collaborator.' },
+{ id: 'contract', name: 'Read the commission template', how: 'Ten minutes. Ask the concierge anything.' },
+{ id: 'ins', name: 'An insurance plan', how: 'Your own policy, or a quote to buy per project.' }
+];
+const d = this.state.done;
+const items = list.map(i => ({ ...i, on: !!d[i.id], mark: d[i.id] ? '✓' : '',
+style: 'display:flex;gap:12px;align-items:flex-start;text-align:left;padding:14px;border-radius:12px;border:1px solid ' + (d[i.id] ? '#2F7A55' : '#DEDBD2') + ';background:' + (d[i.id] ? '#F1F8F4' : '#FFFFFF') + ';font:inherit;color:#16161A;cursor:pointer;min-height:44px',
+box: 'width:24px;height:24px;border-radius:6px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;font-weight:800;color:#FFFFFF;background:' + (d[i.id] ? '#2F7A55' : '#FFFFFF') + ';border:1.5px solid ' + (d[i.id] ? '#2F7A55' : '#A9A498'),
+toggle: () => this.setState({ done: Object.assign({}, d, { [i.id]: !d[i.id] }) }) }));
+const done = items.filter(i => i.on).length;
+const pct = Math.round(done / list.length * 100);
+return { items, done, total: list.length, ready: done === list.length, barStyle: 'height:12px;border-radius:6px;background:#2F7A55;width:' + pct + '%' };
+}
+}
+</script>
+</body>
+</html>

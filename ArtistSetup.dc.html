@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SOV offers and prices</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Schibsted+Grotesk:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#F5F4EF;color:#16161A;font-family:'Schibsted Grotesk',system-ui,sans-serif}
+a{color:#2F5BEA}a:hover{color:#1E3FB0}
+.disp{font-family:'Bricolage Grotesque',system-ui,sans-serif}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:999px;font-weight:600;font-size:16px;text-decoration:none;box-sizing:border-box}
+.btn-p{background:#16161A;color:#FFFFFF}.btn-p:hover{background:#2F5BEA;color:#FFFFFF}
+.nav a{color:#16161A;text-decoration:none;font-weight:500}.nav a:hover{color:#2F5BEA}.nav a.btn-p,.nav a.btn-p:hover{color:#FFFFFF}
+.card{background:#FFFFFF;border:1px solid #DEDBD2;border-radius:16px;box-sizing:border-box}
+.hint{margin:0;font-size:14px;color:#5A5850;line-height:1.45}
+label{font-weight:500;font-size:15px}
+.in{width:100%;box-sizing:border-box;min-height:48px;padding:12px 14px;border:1px solid #C9C5BA;border-radius:10px;font:inherit;font-size:16px;background:#FFFFFF;color:#16161A}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column;">
+<header style="border-bottom: 1px solid #DEDBD2; background: #FFFFFF;">
+<div style="max-width: 1200px; margin: 0 auto; padding: 14px 24px; display: flex; flex-wrap: wrap; gap: 12px 32px; align-items: center; justify-content: space-between;">
+<a href="ArtistHome.dc.html" class="disp" style="font-size: 28px; font-weight: 800; color: #16161A; text-decoration: none; letter-spacing: -0.03em;">sov</a>
+<nav class="nav" aria-label="Artist" style="display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center; font-size: 15px;">
+<a href="ArtistHome.dc.html">Home</a>
+<a href="ArtistInvite.dc.html">Invitations</a>
+<a href="ArtistProject.dc.html">Projects</a>
+<a href="ArtistSetup.dc.html" aria-current="page" style="color: #2F5BEA;">My offers</a>
+<a href="ArtistData.dc.html">Privacy</a>
+<span style="display: inline-flex; align-items: center; gap: 8px; color: #3D3B35;"><span aria-hidden="true" style="width: 32px; height: 32px; border-radius: 50%; background: #D9622B; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700;">MA</span>Micah The Artyst</span>
+</nav>
+</div>
+</header>
+
+<main style="max-width: 1200px; width: 100%; margin: 0 auto; padding: 40px 24px 64px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px;">
+<div style="display: flex; flex-direction: column; gap: 8px; max-width: 760px;">
+<p style="margin: 0; font-size: 14px; font-weight: 600; letter-spacing: 0.14em; color: #5A5850;">MY OFFERS AND PRICES</p>
+<h1 class="disp" style="margin: 0; font-size: 44px; letter-spacing: -0.03em; line-height: 1.05;">Decide how businesses can work with you.</h1>
+<p class="hint" style="font-size: 17px;">Turn on what you offer. You can change any of it, any time. Businesses only see what's on.</p>
+</div>
+
+<section class="card" aria-labelledby="off-h" style="padding: 24px; display: flex; flex-direction: column; gap: 14px;">
+<h2 id="off-h" style="margin: 0; font-size: 20px;">What you offer</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px;">
+<sc-for list="{{offers}}" as="o" hint-placeholder-count="6"><button type="button" onClick="{{o.pick}}" aria-pressed="{{o.on}}" style="{{o.style}}"><span style="display: flex; justify-content: space-between; gap: 8px;"><b>{{o.name}}</b><span style="font-size: 13px; font-weight: 700;">{{o.state}}</span></span><span style="display: block; margin-top: 6px; font-size: 14px; line-height: 1.45; color: #5A5850;">{{o.note}}</span></button></sc-for>
+</div>
+</section>
+
+<section class="card" aria-labelledby="calc-h" style="padding: 24px; display: flex; flex-direction: column; gap: 14px;">
+<h2 id="calc-h" style="margin: 0; font-size: 20px;">Rental prices, worked out for you</h2>
+<p class="hint">Pick a piece's sale price. Rent is 5% of it a month; rent to own is 3% a month, and every payment counts toward owning it.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 8px;">
+<sc-for list="{{values}}" as="v" hint-placeholder-count="4"><button type="button" onClick="{{v.pick}}" aria-pressed="{{v.on}}" style="{{v.style}}">{{v.label}}</button></sc-for>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+<div style="padding: 16px; border-radius: 12px; background: #F5F4EF;"><p class="hint">Sale price</p><p class="disp" style="margin: 4px 0 0; font-size: 28px; font-weight: 800;">{{sale}}</p></div>
+<div style="padding: 16px; border-radius: 12px; background: #F5F4EF;"><p class="hint">Rent, per month</p><p class="disp" style="margin: 4px 0 0; font-size: 28px; font-weight: 800;">{{rent}}</p></div>
+<div style="padding: 16px; border-radius: 12px; background: #F5F4EF;"><p class="hint">Rent to own, per month</p><p class="disp" style="margin: 4px 0 0; font-size: 28px; font-weight: 800;">{{own}}</p></div>
+</div>
+</section>
+
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+<section class="card" aria-labelledby="fl-h" style="flex: 1 1 360px; min-width: 0; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+<h2 id="fl-h" style="margin: 0; font-size: 20px;">Your floor</h2>
+<label for="day">Day rate for live work</label><input id="day" class="in" value="[your day rate]">
+<label for="min">Smallest commission you'll take</label><input id="min" class="in" value="[your minimum]">
+<p class="hint">We never send you a brief below your floor.</p>
+</section>
+<section class="card" aria-labelledby="hr-h" style="flex: 1 1 360px; min-width: 0; padding: 24px; display: flex; flex-direction: column; gap: 8px;">
+<h2 id="hr-h" style="margin: 0; font-size: 20px;">Your house rules</h2>
+<label style="display: flex; gap: 10px; align-items: center; min-height: 44px;"><input type="checkbox" checked style="width: 20px; height: 20px;"> Buyers meet me before an original sells</label>
+<label style="display: flex; gap: 10px; align-items: center; min-height: 44px;"><input type="checkbox" checked style="width: 20px; height: 20px;"> I can decline the sale of an original</label>
+<button type="button" onClick="{{aiPick}}" aria-pressed="{{aiOn}}" style="display: flex; justify-content: space-between; gap: 12px; align-items: center; min-height: 48px; padding: 10px 12px; border-radius: 10px; border: 1px solid #DEDBD2; background: #FFFFFF; font: inherit; color: #16161A; cursor: pointer; text-align: left;"><span style="font-weight: 500; font-size: 15px;">No AI training on images of my work</span><span aria-hidden="true" style="{{aiTrack}}"><span style="width: 20px; height: 20px; border-radius: 50%; background: #FFFFFF; display: block;"></span></span></button>
+<sc-if value="{{aiAsk}}" hint-placeholder-val="{{false}}">
+<div role="dialog" aria-labelledby="ai-h" style="padding: 16px; border-radius: 12px; background: #E3EAFD; display: flex; flex-direction: column; gap: 10px;">
+<p id="ai-h" style="margin: 0; font-weight: 700; color: #16161A;">Before you turn this on</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.5; color: #1D2A55;">SOV's AI only learns from art inside SOV, never from the open web. Outside AI companies never train on your work, whatever you choose here. We use what it learns to match you to briefs that fit your style, and to help you keep your artistry consistent from piece to piece.</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.5; color: #1D2A55;">If you turn this on, your images are left out of that learning. You can still be matched using your profile, statement and the tags you choose, but matches may be less precise.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 10px;"><button type="button" onClick="{{aiYes}}" style="min-height: 44px; padding: 0 18px; border-radius: 999px; border: 0; background: #16161A; color: #FFFFFF; font: inherit; font-weight: 600; cursor: pointer;">Turn on No AI training</button><button type="button" onClick="{{aiNo}}" style="min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1.5px solid #16161A; background: transparent; font: inherit; font-weight: 600; cursor: pointer;">Keep it off</button></div>
+</div>
+</sc-if>
+<sc-if value="{{aiOn}}" hint-placeholder-val="{{false}}"><p class="hint" style="color: #1F5A3D;">On. Your images are left out of SOV's AI learning. Turn it off any time.</p></sc-if>
+<p class="hint">Your phone and email stay hidden. Businesses see your work, region, availability and price range until you say yes.</p>
+</section>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
+<a class="btn btn-p" href="ArtistAgreement.dc.html">Next: agreement, insurance and payouts</a>
+<p class="hint">{{summary}}</p>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1700}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { on: { commission: true, buy: true, rent: true, own: true, license: false, live: true }, value: 2400, ai: false, aiAsk: false };
+}
+renderVals() {
+const list = [
+{ id: 'commission', name: 'Commissions', note: 'Murals and site-specific work. Your fee is separate from materials and install.' },
+{ id: 'buy', name: 'Sell originals', note: 'Your price. Copyright stays with you.' },
+{ id: 'rent', name: 'Rent work out', note: 'Monthly, insured while it hangs.' },
+{ id: 'own', name: 'Rent to own', note: 'Payments count toward the price.' },
+{ id: 'license', name: 'License images', note: 'Prints, menus, merch. Use, place and term spelled out.' },
+{ id: 'live', name: 'Live work', note: 'Live painting, workshops, paint nights.' }
+];
+const sel = this.state.on;
+const onS = 'text-align:left;padding:16px;border-radius:12px;border:2px solid #16161A;background:#FFFFFF;font:inherit;color:#16161A;cursor:pointer;min-height:44px';
+const offS = 'text-align:left;padding:16px;border-radius:12px;border:1px dashed #C9C5BA;background:#FAF9F6;font:inherit;color:#5A5850;cursor:pointer;min-height:44px';
+const offers = list.map(o => ({ ...o, on: !!sel[o.id], state: sel[o.id] ? 'On' : 'Off', style: sel[o.id] ? onS : offS,
+pick: () => this.setState({ on: Object.assign({}, sel, { [o.id]: !sel[o.id] }) }) }));
+const money = n => '$' + Math.round(n).toLocaleString('en-US');
+const vals = [1200, 2400, 6000, 12000];
+const chipOn = 'min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid #16161A;background:#16161A;color:#FFFFFF;font:inherit;font-size:15px;font-weight:600;cursor:pointer';
+const chipOff = 'min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid #C9C5BA;background:#FFFFFF;color:#16161A;font:inherit;font-size:15px;font-weight:500;cursor:pointer';
+const values = vals.map(v => ({ label: money(v), on: this.state.value === v, style: this.state.value === v ? chipOn : chipOff, pick: () => this.setState({ value: v }) }));
+const v = this.state.value;
+const count = offers.filter(o => o.on).length;
+const ai = this.state.ai;
+const aiTrack = 'width:44px;height:26px;border-radius:13px;flex-shrink:0;display:inline-flex;align-items:center;padding:3px;box-sizing:border-box;background:' + (ai ? '#2F7A55' : '#C9C5BA') + ';justify-content:' + (ai ? 'flex-end' : 'flex-start');
+return { aiOn: ai, aiAsk: this.state.aiAsk, aiTrack, aiPick: () => this.setState(ai ? { ai: false } : { aiAsk: true }), aiYes: () => this.setState({ ai: true, aiAsk: false }), aiNo: () => this.setState({ aiAsk: false }), offers, values, sale: money(v), rent: money(v * 0.05), own: money(v * 0.03), summary: count + ' of 6 offers on. Businesses will see these on your profile.' };
+}
+}
+</script>
+</body>
+</html>

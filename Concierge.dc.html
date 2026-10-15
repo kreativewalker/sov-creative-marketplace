@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SOV concierge</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Schibsted+Grotesk:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#F5F4EF;color:#16161A;font-family:'Schibsted Grotesk',system-ui,sans-serif}
+a{color:#2F5BEA}a:hover{color:#1E3FB0}
+.disp{font-family:'Bricolage Grotesque',system-ui,sans-serif}
+.nav a{color:#16161A;text-decoration:none;font-weight:500}.nav a:hover{color:#2F5BEA}.nav a.btn-p,.nav a.btn-p:hover{color:#FFFFFF}
+.card{background:#FFFFFF;border:1px solid #DEDBD2;border-radius:16px;box-sizing:border-box}
+.hint{margin:0;font-size:14px;color:#5A5850;line-height:1.45}
+.src{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;background:#F5F4EF;border:1px solid #DEDBD2;font-size:13px;font-weight:600;color:#3D3B35}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column;">
+<header style="border-bottom: 1px solid #DEDBD2; background: #FFFFFF;">
+<div style="max-width: 1200px; margin: 0 auto; padding: 14px 24px; display: flex; flex-wrap: wrap; gap: 12px 32px; align-items: center; justify-content: space-between;">
+<a href="Main.dc.html" class="disp" style="font-size: 28px; font-weight: 800; color: #16161A; text-decoration: none; letter-spacing: -0.03em;">sov</a>
+<nav class="nav" aria-label="Concierge" style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 15px;">
+<span style="color: #5A5850; margin-right: 6px;">Viewing as</span>
+<sc-for list="{{modes}}" as="m" hint-placeholder-count="2"><button type="button" onClick="{{m.pick}}" aria-pressed="{{m.on}}" style="{{m.style}}">{{m.label}}</button></sc-for>
+</nav>
+</div>
+</header>
+
+<main style="max-width: 1200px; width: 100%; margin: 0 auto; padding: 32px 24px 64px; box-sizing: border-box; display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+<section style="flex: 999 1 600px; min-width: 0; display: flex; flex-direction: column; gap: 16px;" aria-labelledby="cc-h">
+<div style="display: flex; gap: 14px; align-items: center;">
+<span aria-hidden="true" style="width: 48px; height: 48px; border-radius: 14px; background: #2F5BEA; display: inline-flex; align-items: center; justify-content: center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 10h8M8 13h5"/></svg></span>
+<div><h1 id="cc-h" class="disp" style="margin: 0; font-size: 36px; letter-spacing: -0.02em; line-height: 1.05;">SOV concierge</h1><p class="hint" style="font-size: 15px;">{{subtitle}}</p></div>
+</div>
+
+<div class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 16px; min-height: 420px;">
+<div style="align-self: flex-start; max-width: 85%; padding: 14px 16px; border-radius: 16px 16px 16px 4px; background: #F5F4EF; font-size: 16px; line-height: 1.5;">{{greeting}}</div>
+<sc-if value="{{hasQ}}" hint-placeholder-val="{{true}}">
+<div style="align-self: flex-end; max-width: 80%; padding: 14px 16px; border-radius: 16px 16px 4px 16px; background: #16161A; color: #FFFFFF; font-size: 16px; line-height: 1.5;">{{q}}</div>
+<div style="align-self: flex-start; max-width: 90%; padding: 16px; border-radius: 16px 16px 16px 4px; background: #FFFFFF; border: 1px solid #DEDBD2; display: flex; flex-direction: column; gap: 10px;">
+<sc-for list="{{lines}}" as="l" hint-placeholder-count="3"><p style="margin: 0; font-size: 16px; line-height: 1.55;">{{l.t}}</p></sc-for>
+<div style="display: flex; flex-wrap: wrap; gap: 6px;">
+<sc-for list="{{sources}}" as="s" hint-placeholder-count="2"><span class="src">{{s.t}}</span></sc-for>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 10px;">
+<a href="{{actionHref}}" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 999px; background: #E3EAFD; color: #1E3FB0; font-weight: 600; text-decoration: none;">{{action}}</a>
+<button type="button" style="min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1.5px solid #C9C5BA; background: #FFFFFF; font: inherit; font-weight: 600; cursor: pointer;">Talk to a person</button>
+</div>
+</div>
+</sc-if>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<p style="margin: 0; font-weight: 600; font-size: 15px;">Try asking</p>
+<div style="display: flex; flex-wrap: wrap; gap: 8px;">
+<sc-for list="{{chips}}" as="c" hint-placeholder-count="4"><button type="button" onClick="{{c.pick}}" aria-pressed="{{c.on}}" style="{{c.style}}">{{c.q}}</button></sc-for>
+</div>
+</div>
+<div style="display: flex; gap: 10px;">
+<label for="ask" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);">Your question</label>
+<input id="ask" placeholder="Ask anything about your project" style="flex: 1; min-height: 48px; padding: 12px 14px; border: 1px solid #C9C5BA; border-radius: 12px; font: inherit; font-size: 16px; background: #FFFFFF;">
+<button type="button" aria-label="Send" style="width: 48px; height: 48px; border-radius: 12px; border: 0; background: #16161A; color: #FFFFFF; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+</div>
+</section>
+
+<aside style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+<section class="card" aria-labelledby="knows-h" style="padding: 22px; display: flex; flex-direction: column; gap: 10px;">
+<h2 id="knows-h" style="margin: 0; font-size: 18px;">What it draws on</h2>
+<p style="margin: 0; font-size: 15px; line-height: 1.5;"><b>Your project:</b> your brief, scope, deal memo, milestones and messages.</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.5;"><b>SOV's playbook:</b> our contracts, fee rules, pricing guides and the research behind them.</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.5;"><b>The roster:</b> artists' public profiles and offers, never private contact details.</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.5;"><b>The web:</b> public art programs, grants and codes, always with a link and a date.</p>
+</section>
+<section class="card" aria-labelledby="wont-h" style="padding: 22px; display: flex; flex-direction: column; gap: 10px; background: #16161A; color: #F5F4EF; border-color: #16161A;">
+<h2 id="wont-h" style="margin: 0; font-size: 18px;">What it won't do</h2>
+<ul style="margin: 0; padding-left: 20px; color: #D6D3CA; line-height: 1.6; font-size: 15px;">
+<li>Give legal advice. It explains your documents and brings in a person.</li>
+<li>Share anyone's contact details or private files.</li>
+<li>Move money or change a contract on its own.</li>
+<li>Guess. If it isn't sure, it says so and asks a curator.</li>
+</ul>
+</section>
+</aside>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1500}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { mode: 'biz', q: 0 };
+}
+renderVals() {
+const data = {
+biz: {
+label: 'Business', subtitle: 'Helping The Ashby Hotel with its lobby mural',
+greeting: 'Hi, I can see your brief, your scope with Micah and your midpoint review on Thursday. What can I help with?',
+qs: [
+{ q: 'What should I budget for a lobby mural?', lines: ['Hotel art is commonly planned at about 1 to 3 percent of construction cost, so start from your renovation budget if you have one.', 'For your 22 by 9 foot wall, your $20,000 budget is in range, and it’s the total: our fee sits inside it. About 17 percent goes to the artist’s fee; most of the rest is materials, install and insurance.', 'If you want a lower first cost, a rotating set of rented canvases could start this month while the mural is planned.'], sources: ['Your brief', 'SOV pricing guide', 'SOV research: buyer budgets'], action: 'Open my scope', href: 'Scope.dc.html' },
+{ q: 'Can we use photos of the mural on our website?', lines: ['Yes. Your signed scope lets you photograph the mural for marketing.', 'The copyright stays with Micah, so printing it on merchandise or room prints needs a separate license. I can start that request for you.'], sources: ['Your signed scope, rights section'], action: 'Request a license', href: 'Profile.dc.html' },
+{ q: 'Our GM doesn’t like the left side. What now?', lines: ['Say what she noticed in the midpoint review, using the lenses. "The left third feels crowded" is something Micah can act on.', 'Two revisions are included. Holding back approval doesn’t cost you anything: the held money stays held until you approve.', 'If you want something bigger, like a new section, that’s a change order with its own price.'], sources: ['Your contract', 'Project room'], action: 'Open the midpoint review', href: 'Project.dc.html' },
+{ q: 'Is there grant money that could help pay?', lines: ['Raleigh and Charlotte set aside 1 percent of eligible public construction for art, but that’s for city projects, not private hotels.', 'For a private business, local arts councils and downtown programs sometimes fund work that faces the street. I checked public sources; confirm deadlines on each page before applying.'], sources: ['Web: city public art programs (dated)', 'SOV research: public budgets'], action: 'Ask a curator to look', href: 'Matches.dc.html' }
+] },
+art: {
+label: 'Artist', subtitle: 'Helping Micah The Artyst with invitations and projects',
+greeting: 'Hi Micah. You have two invitations and a midpoint review Thursday. What do you want to work through?',
+qs: [
+{ q: 'What should I charge to rent a 9 by 6 foot canvas?', lines: ['SOV’s guide is 5 percent of the sale price a month to rent, and 3 percent a month to rent to own.', 'If that canvas sells for $6,000, rent is $300 a month and rent to own is $180 a month, with every payment counting toward the price.'], sources: ['Your offers', 'SOV pricing guide'], action: 'Set my prices', href: 'ArtistSetup.dc.html' },
+{ q: 'Do I have to give the clinic my copyright?', lines: ['No. Paying for a work or a mural never transfers copyright on its own; that takes a signed writing.', 'The clinic is asking to show the work and use photos on its website and annual report. Nothing else. If anything in a document feels vague, I’ll flag it to a person before you sign.'], sources: ['Your deal memo', 'SOV contract guide'], action: 'Read the deal memo', href: 'ArtistInvite.dc.html' },
+{ q: 'The clinic wants a fourth wall. Do I just do it?', lines: ['Not yet. A fourth wall is new scope, so it needs a change order first: what changes, the new price and the new timeline.', 'Once both sides sign it, the extra money is held before you start, just like the rest.'], sources: ['Your deal memo', 'SOV contract guide'], action: 'Start a change order', href: 'ArtistProject.dc.html' },
+{ q: 'How do I get ready for my video call?', lines: ['Have three to five finished pieces ready to show on camera, including your largest. Be ready to talk through one project from first call to install.', 'Bring your price floor and any insurance you carry. It’s a conversation between artists, not an exam.'], sources: ['SOV vetting guide'], action: 'See my application', href: 'ArtistVetting.dc.html' }
+] }
+};
+const d = data[this.state.mode];
+const pill = (on) => on
+? 'min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid #16161A;background:#16161A;color:#FFFFFF;font:inherit;font-size:15px;font-weight:600;cursor:pointer'
+: 'min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid #C9C5BA;background:#FFFFFF;color:#16161A;font:inherit;font-size:15px;font-weight:500;cursor:pointer';
+const modes = [['biz', 'Business'], ['art', 'Artist']].map(([id, label]) => ({ label, on: this.state.mode === id, style: pill(this.state.mode === id), pick: () => this.setState({ mode: id, q: 0 }) }));
+const chips = d.qs.map((x, i) => ({ q: x.q, on: this.state.q === i, style: pill(this.state.q === i), pick: () => this.setState({ q: i }) }));
+const cur = d.qs[this.state.q] || d.qs[0];
+return { modes, chips, subtitle: d.subtitle, greeting: d.greeting, hasQ: true, q: cur.q,
+lines: cur.lines.map(t => ({ t })), sources: cur.sources.map(t => ({ t: 'From: ' + t })), action: cur.action, actionHref: cur.href };
+}
+}
+</script>
+</body>
+</html>

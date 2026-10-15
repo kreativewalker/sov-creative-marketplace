@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SOV: before we meet</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Schibsted+Grotesk:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#F5F4EF;color:#16161A;font-family:'Schibsted Grotesk',system-ui,sans-serif}
+a{color:#2F5BEA}a:hover{color:#1E3FB0}
+.disp{font-family:'Bricolage Grotesque',system-ui,sans-serif}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:999px;font-weight:600;font-size:16px;text-decoration:none;box-sizing:border-box}
+.btn-p{background:#16161A;color:#FFFFFF}.btn-p:hover{background:#2F5BEA;color:#FFFFFF}
+.card{background:#FFFFFF;border:1px solid #DEDBD2;border-radius:16px;box-sizing:border-box}
+.hint{margin:0;font-size:14px;color:#5A5850;line-height:1.45}
+label{font-weight:600;font-size:15px}
+.in{width:100%;box-sizing:border-box;min-height:48px;padding:12px 14px;border:1px solid #C9C5BA;border-radius:10px;font:inherit;font-size:16px;background:#FFFFFF;color:#16161A}
+.f{flex:1 1 260px;min-width:0;display:flex;flex-direction:column;gap:8px}
+.st{padding:8px 14px;border-radius:999px;font-size:14px;font-weight:600}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column;">
+<header style="border-bottom: 1px solid #DEDBD2;">
+<div style="max-width: 1200px; margin: 0 auto; padding: 14px 24px; display: flex; flex-wrap: wrap; gap: 12px 32px; align-items: center; justify-content: space-between;">
+<a href="ForArtists.dc.html" class="disp" style="font-size: 28px; font-weight: 800; color: #16161A; text-decoration: none; letter-spacing: -0.03em;">sov <span style="font-size: 15px; font-weight: 600; color: #5A5850; letter-spacing: 0;">for artists</span></a>
+<ol aria-label="Joining SOV" style="display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0; padding: 0;">
+<li class="st" style="background: #E2F0E8; color: #1F5A3D;">1 Apply, done</li>
+<li class="st" style="background: #16161A; color: #FFFFFF;" aria-current="step">2 Meet</li>
+<li class="st" style="background: #ECEAE3; color: #3D3B35;">3 Set up</li>
+</ol>
+</div>
+</header>
+
+<main style="max-width: 1000px; width: 100%; margin: 0 auto; padding: 40px 24px 64px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px;">
+<div style="display: flex; flex-direction: column; gap: 10px;">
+<a href="ArtistVetting.dc.html" style="font-size: 15px; font-weight: 600; text-decoration: none;">Back to my application</a>
+<p style="margin: 0; font-size: 14px; font-weight: 600; letter-spacing: 0.14em; color: #5A5850;">STEP 2 OF 3 · BEFORE WE MEET · ABOUT 20 MINUTES</p>
+<h1 class="disp" style="margin: 0; font-size: clamp(36px, 5vw, 52px); letter-spacing: -0.035em; line-height: 1.02;">Help us see the whole of your practice.</h1>
+<p style="margin: 0; font-size: 18px; line-height: 1.5; color: #3D3B35;">This is what lets us match you well, so the right briefs find you and the wrong ones don't. Answer in your own words. Half-finished is fine; we'll fill gaps on the call.</p>
+</div>
+
+<fieldset class="card" style="margin: 0; padding: 24px; display: flex; flex-direction: column; gap: 14px;">
+<legend style="padding: 0 6px; font-weight: 700; font-size: 18px;">Your statement</legend>
+<p class="hint">Don't write a finished statement. Answer these, and we'll help shape it.</p>
+<div class="f"><label for="s1">The one line: what is your work about?</label><input id="s1" class="in" value=""></div>
+<div class="f"><label for="s2">What is happening on the surface?</label><input id="s2" class="in" value=""></div>
+<div class="f"><label for="s3">What is the work asking of the people who see it?</label><input id="s3" class="in" value=""></div>
+<div class="f"><label for="s4">How does it get made?</label><input id="s4" class="in" value=""></div>
+<div class="f"><label for="s5">Who or what is it in conversation with?</label><input id="s5" class="in" value=""></div>
+<div class="f"><label for="s6">Where is it going next?</label><input id="s6" class="in" value=""></div>
+</fieldset>
+
+<fieldset class="card" style="margin: 0; padding: 24px; display: flex; flex-direction: column; gap: 14px;">
+<legend style="padding: 0 6px; font-weight: 700; font-size: 18px;">Bio and CV</legend>
+<div class="f"><label for="bio">Short bio, in the third person</label><textarea id="bio" class="in" rows="3">[Name] is a [discipline] artist based in [city]...</textarea><p class="hint">About 100 words. This is what businesses read first.</p></div>
+<button type="button" style="min-height: 72px; border-radius: 12px; border: 1.5px dashed #A9A498; background: #FAF9F6; font: inherit; font-weight: 600; color: #3D3B35; cursor: pointer;">Upload your CV: exhibitions, commissions, public work, residencies</button>
+</fieldset>
+
+<fieldset class="card" style="margin: 0; padding: 24px; display: flex; flex-direction: column; gap: 14px;">
+<legend style="padding: 0 6px; font-weight: 700; font-size: 18px;">What you can take on</legend>
+<p style="margin: 0; font-weight: 600; font-size: 15px;">Skills <span style="font-weight: 400; color: #5A5850;">({{skillCount}} picked)</span></p>
+<div style="display: flex; flex-wrap: wrap; gap: 8px;"><sc-for list="{{skills}}" as="s" hint-placeholder-count="8"><button type="button" onClick="{{s.pick}}" aria-pressed="{{s.on}}" style="{{s.style}}">{{s.label}}</button></sc-for></div>
+<p style="margin: 6px 0 0; font-weight: 600; font-size: 15px;">Sectors you've worked in</p>
+<div style="display: flex; flex-wrap: wrap; gap: 8px;"><sc-for list="{{sectors}}" as="s" hint-placeholder-count="7"><button type="button" onClick="{{s.pick}}" aria-pressed="{{s.on}}" style="{{s.style}}">{{s.label}}</button></sc-for></div>
+<div style="display: flex; flex-wrap: wrap; gap: 16px;">
+<div class="f"><label for="tl">Themes you love to work with</label><input id="tl" class="in" value="[e.g. local history, community, nature]"></div>
+<div class="f"><label for="tn">Themes you won't take on</label><input id="tn" class="in" value=""><p class="hint">We'll never send you a brief that asks for these.</p></div>
+</div>
+<div class="f"><label for="cr">Your crew or collaborators</label><input id="cr" class="in" value="[e.g. two assistants for walls over 20 ft]"></div>
+<p style="margin: 6px 0 0; font-weight: 600; font-size: 15px;">When you're usually free for big work</p>
+<div style="display: flex; flex-wrap: wrap; gap: 8px;"><sc-for list="{{seasons}}" as="s" hint-placeholder-count="4"><button type="button" onClick="{{s.pick}}" aria-pressed="{{s.on}}" style="{{s.style}}">{{s.label}}</button></sc-for></div>
+</fieldset>
+
+<div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
+<a class="btn btn-p" href="ArtistVetting.dc.html">Save for our call</a>
+<p class="hint">Saved as you go. The curator reads it before you meet.</p>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2100}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { skills: { exterior: true, lifts: true, community: true, live: true }, sectors: { hospitality: true, community: true }, seasons: { spring: true, fall: true } };
+}
+renderVals() {
+const on = 'min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid #16161A;background:#16161A;color:#FFFFFF;font:inherit;font-size:15px;font-weight:600;cursor:pointer';
+const off = 'min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid #C9C5BA;background:#FFFFFF;color:#16161A;font:inherit;font-size:15px;font-weight:500;cursor:pointer';
+const multi = (key, opts) => opts.map(([id, label]) => { const s = this.state[key]; return { label, on: !!s[id], style: s[id] ? on : off, pick: () => this.setState({ [key]: Object.assign({}, s, { [id]: !s[id] }) }) }; });
+const skills = multi('skills', [['exterior', 'Exterior walls'], ['lifts', 'Lifts and scaffolds'], ['community', 'Community engagement'], ['fab', 'Fabrication'], ['live', 'Live painting'], ['digital', 'Digital and projection'], ['teach', 'Teaching and workshops'], ['public', 'Public art proposals']]);
+const sectors = multi('sectors', [['hospitality', 'Hotels and restaurants'], ['realestate', 'Real estate'], ['health', 'Healthcare'], ['office', 'Offices'], ['tech', 'Tech'], ['city', 'Cities and campuses'], ['community', 'Nonprofits']]);
+const seasons = multi('seasons', [['winter', 'Winter'], ['spring', 'Spring'], ['summer', 'Summer'], ['fall', 'Fall']]);
+return { skills, sectors, seasons, skillCount: skills.filter(s => s.on).length };
+}
+}
+</script>
+</body>
+</html>

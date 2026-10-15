@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Join SOV as an artist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="app.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="config.js"></script>
+<script src="common.js"></script>
+</head>
+<body>
+<div class="auth">
+  <section class="auth-art">
+    <a class="logo" href="../index.html">sov</a>
+    <div class="stack" style="gap:28px">
+      <h1 class="disp">Your work belongs in real spaces.</h1>
+      <p style="color:#D6D3CA;font-size:18px;max-width:30em">SOV connects working artists with hotels, developers and healthcare spaces across North Carolina. Joining is free.</p>
+      <ol>
+        <li><span class="dot">1</span><span><b>Make your account.</b> Just an email and a password.</span></li>
+        <li><span class="dot">2</span><span><b>Apply at your own pace.</b> Your answers save as you go.</span></li>
+        <li><span class="dot">3</span><span><b>A real person reviews.</b> If it's a fit, we invite you to a 30-minute video call.</span></li>
+      </ol>
+    </div>
+    <p class="hint" style="color:#B9B6AC">Already have an account? <a href="login.html" style="color:#9DB2F7">Log in</a></p>
+  </section>
+  <section class="auth-form">
+    <form id="f" novalidate>
+      <div class="stack" style="gap:6px">
+        <h2 class="disp" style="font-size:32px">Create your artist account</h2>
+        <p class="hint">Takes about a minute.</p>
+      </div>
+      <label class="f">Name you work under
+        <input id="name" type="text" autocomplete="nickname" required placeholder="Artist or studio name">
+      </label>
+      <label class="f">Email
+        <input id="email" type="email" autocomplete="email" required>
+      </label>
+      <label class="f">Password
+        <input id="pw" type="password" autocomplete="new-password" minlength="8" required aria-describedby="pwh">
+        <span class="hint" id="pwh">At least 8 characters.</span>
+      </label>
+      <label class="row" style="gap:8px;font-size:14px"><input id="show" type="checkbox"> Show password</label>
+      <p id="msg" role="alert" class="err" hidden></p>
+      <button class="btn btn-blue" id="go" type="submit">Create my account</button>
+      <p class="hint">By creating an account you agree to our <a href="terms.html" target="_blank" rel="noopener">Terms of Use and Privacy Notice</a>. You'll review them again before you send your application.</p>
+    </form>
+    <div id="sent" class="stack" hidden style="max-width:420px">
+      <h2 class="disp" style="font-size:32px">Check your email</h2>
+      <p>We sent a link to <b id="sentTo"></b>. Open it to confirm your account, and you'll land right in your dashboard.</p>
+      <p class="hint">Don't see it? Check spam or promotions, or <a href="signup.html">try again</a>.</p>
+    </div>
+  </section>
+</div>
+<script>
+(async () => {
+  const { data } = await sb.auth.getSession();
+  if (data.session) location.replace('index.html');
+})();
+$('#show').addEventListener('change', e => { $('#pw').type = e.target.checked ? 'text' : 'password'; });
+$('#f').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const name = $('#name').value.trim(), email = $('#email').value.trim(), pw = $('#pw').value;
+  const msg = $('#msg'); msg.hidden = true;
+  if (!name || !email || pw.length < 8) { msg.textContent = 'Please add your name, a valid email and a password of at least 8 characters.'; msg.hidden = false; return; }
+  $('#go').disabled = true; $('#go').textContent = 'Creating your account...';
+  const redirect = new URL('index.html#apply', location.href).href;
+  const { data, error } = await sb.auth.signUp({ email, password: pw, options: { emailRedirectTo: redirect, data: { display_name: name, utm: savedUtm() } } });
+  $('#go').disabled = false; $('#go').textContent = 'Create my account';
+  if (error) { msg.textContent = error.message.includes('registered') ? 'That email already has an account. Try logging in instead.' : error.message; msg.hidden = false; return; }
+  if (data.session) { location.replace('index.html#apply'); return; }
+  $('#sentTo').textContent = email; $('#f').hidden = true; $('#sent').hidden = false;
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SOV guided brief</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Schibsted+Grotesk:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#F5F4EF;color:#16161A;font-family:'Schibsted Grotesk',system-ui,sans-serif}
+a{color:#2F5BEA}a:hover{color:#1E3FB0}
+.disp{font-family:'Bricolage Grotesque',system-ui,sans-serif}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:999px;font-weight:600;font-size:16px;text-decoration:none;box-sizing:border-box}
+.btn-p{background:#16161A;color:#FFFFFF}.btn-p:hover{background:#2F5BEA;color:#FFFFFF}
+.btn-s{border:1.5px solid #16161A;color:#16161A}.btn-s:hover{background:#16161A;color:#FFFFFF}
+.nav a{color:#16161A;text-decoration:none;font-weight:500}.nav a:hover{color:#2F5BEA}.nav a.btn-p,.nav a.btn-p:hover{color:#FFFFFF}
+.card{background:#FFFFFF;border:1px solid #DEDBD2;border-radius:16px;box-sizing:border-box}
+label{font-weight:600;font-size:15px}
+.in{width:100%;box-sizing:border-box;min-height:48px;padding:12px 14px;border:1px solid #C9C5BA;border-radius:10px;font:inherit;font-size:16px;background:#FFFFFF;color:#16161A}
+.hint{margin:0;font-size:14px;color:#5A5850;line-height:1.45}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column;">
+<header style="border-bottom: 1px solid #DEDBD2; background: #FFFFFF;">
+<div style="max-width: 1200px; margin: 0 auto; padding: 14px 24px; display: flex; flex-wrap: wrap; gap: 12px 32px; align-items: center; justify-content: space-between;">
+<a href="Main.dc.html" class="disp" style="font-size: 28px; font-weight: 800; color: #16161A; text-decoration: none; letter-spacing: -0.03em;">sov</a>
+<nav class="nav" aria-label="Account" style="display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center; font-size: 15px;">
+<a href="Brief.dc.html" aria-current="page" style="color: #2F5BEA;">Briefs</a>
+<a href="Project.dc.html">Projects</a>
+<a href="Outcome.dc.html">Reports</a>
+<span style="display: inline-flex; align-items: center; gap: 8px; color: #3D3B35;"><span aria-hidden="true" style="width: 32px; height: 32px; border-radius: 50%; background: #16161A; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700;">AH</span>The Ashby Hotel</span>
+</nav>
+</div>
+</header>
+
+<main style="max-width: 1200px; width: 100%; margin: 0 auto; padding: 40px 24px 64px; box-sizing: border-box; display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start;">
+<form style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 24px;" aria-labelledby="brief-h">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<p style="margin: 0; font-size: 14px; font-weight: 600; letter-spacing: 0.14em; color: #5A5850;">NEW BRIEF · ABOUT 5 MINUTES</p>
+<h1 id="brief-h" class="disp" style="margin: 0; font-size: 44px; letter-spacing: -0.03em; line-height: 1.05;">What should the art do for your space?</h1>
+<p class="hint" style="font-size: 17px;">Six short answers. The more specific you are, the better your matches. Nothing is booked until you sign.</p>
+</div>
+
+<fieldset class="card" style="margin: 0; padding: 24px; display: flex; flex-direction: column; gap: 14px;">
+<legend style="padding: 0 6px; font-weight: 700; font-size: 18px;">1. The outcome you want</legend>
+<p class="hint">Pick all that apply.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 8px;">
+<sc-for list="{{outcomes}}" as="o" hint-placeholder-count="7"><button type="button" onClick="{{o.pick}}" aria-pressed="{{o.on}}" style="{{o.style}}">{{o.label}}</button></sc-for>
+</div>
+</fieldset>
+
+<fieldset class="card" style="margin: 0; padding: 24px; display: flex; flex-direction: column; gap: 14px;">
+<legend style="padding: 0 6px; font-weight: 700; font-size: 18px;">2. Who will experience it</legend>
+<label for="aud">Audience</label>
+<textarea id="aud" class="in" rows="2">Hotel guests, many visiting Winston-Salem for the first time, and locals who come for the bar.</textarea>
+</fieldset>
+
+<fieldset class="card" style="margin: 0; padding: 24px; display: flex; flex-wrap: wrap; gap: 16px;">
+<legend style="padding: 0 6px; font-weight: 700; font-size: 18px;">3. The site</legend>
+<div style="flex: 1 1 260px; min-width: 0; display: flex; flex-direction: column; gap: 8px;"><label for="site">Address</label><input id="site" class="in" value="[Street address], Winston-Salem, NC"></div>
+<div style="flex: 1 1 200px; min-width: 0; display: flex; flex-direction: column; gap: 8px;"><label for="wall">Wall or space size</label><input id="wall" class="in" value="22 ft × 9 ft, interior lobby wall"></div>
+</fieldset>
+
+<fieldset class="card" style="margin: 0; padding: 24px; display: flex; flex-direction: column; gap: 14px;">
+<legend style="padding: 0 6px; font-weight: 700; font-size: 18px;">4. Theme</legend>
+<label for="theme">What should it be about?</label>
+<textarea id="theme" class="in" rows="3">The city's tobacco and textile history turning into its arts and innovation story today. Warm, not literal.</textarea>
+<p class="hint">If the theme draws on a community's history or identity, we budget for the artist's research and community time.</p>
+</fieldset>
+
+<fieldset class="card" style="margin: 0; padding: 24px; display: flex; flex-direction: column; gap: 14px;">
+<legend style="padding: 0 6px; font-weight: 700; font-size: 18px;">5. Limits we should know</legend>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px;">
+<label style="display: flex; gap: 10px; align-items: center; font-weight: 500; min-height: 44px;"><input type="checkbox" checked style="width: 20px; height: 20px;"> Must be finished before a set date</label>
+<label style="display: flex; gap: 10px; align-items: center; font-weight: 500; min-height: 44px;"><input type="checkbox" checked style="width: 20px; height: 20px;"> Work happens while the lobby is open</label>
+<label style="display: flex; gap: 10px; align-items: center; font-weight: 500; min-height: 44px;"><input type="checkbox" style="width: 20px; height: 20px;"> Outdoor or weather exposure</label>
+<label style="display: flex; gap: 10px; align-items: center; font-weight: 500; min-height: 44px;"><input type="checkbox" checked style="width: 20px; height: 20px;"> Low-odor materials required</label>
+</div>
+</fieldset>
+
+<fieldset class="card" style="margin: 0; padding: 24px; display: flex; flex-direction: column; gap: 14px;">
+<legend style="padding: 0 6px; font-weight: 700; font-size: 18px;">6. Budget</legend>
+<div style="display: flex; flex-wrap: wrap; gap: 16px;">
+<div style="flex: 1 1 200px; min-width: 0; display: flex; flex-direction: column; gap: 8px;"><label for="budget">Total budget</label><input id="budget" class="in" value="$20,000"></div>
+<div style="flex: 1 1 200px; min-width: 0; display: flex; flex-direction: column; gap: 8px;"><label for="date">Needed by</label><input id="date" class="in" value="[Opening date]"></div>
+</div>
+<p style="margin: 4px 0 0; font-weight: 600; font-size: 15px;">Where does the budget come from?</p>
+<div style="display: flex; flex-wrap: wrap; gap: 8px;">
+<sc-for list="{{sources}}" as="s" hint-placeholder-count="5"><button type="button" onClick="{{s.pick}}" aria-pressed="{{s.on}}" style="{{s.style}}">{{s.label}}</button></sc-for>
+</div>
+<p class="hint">This helps us time the project and pick the right offer. A renovation budget suits a commission; a marketing budget suits a launch activation.</p>
+</fieldset>
+
+<div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
+<a class="btn btn-p" href="Matches.dc.html">See my matches</a>
+<a class="btn btn-s" href="Main.dc.html">Save and finish later</a>
+</div>
+</form>
+
+<aside style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+<div class="card" style="padding: 24px; display: flex; flex-direction: column; gap: 12px;">
+<p style="margin: 0; font-weight: 700; font-size: 18px;">Your brief so far</p>
+<p class="hint" style="font-size: 15px;"><b style="color: #16161A;">{{outcomeCount}}</b> outcomes picked</p>
+<p class="hint" style="font-size: 15px;">Budget from <b style="color: #16161A;">{{sourceLabel}}</b></p>
+<p class="hint" style="font-size: 15px;">Likely offer: <b style="color: #16161A;">site-specific commission</b></p>
+</div>
+<div class="card" style="padding: 24px; display: flex; flex-direction: column; gap: 10px; background: #16161A; color: #F5F4EF; border-color: #16161A;">
+<p style="margin: 0; font-weight: 700; font-size: 18px;">What happens next</p>
+<p style="margin: 0; color: #D6D3CA; line-height: 1.5;">We draft a shortlist of 3 to 5 vetted artists and a curator checks it. You choose who gets a paid concept round. Nothing is booked until you sign a scope.</p>
+</div>
+<a href="Concierge.dc.html" class="card" style="padding: 20px 24px; text-decoration: none; color: #16161A; display: flex; flex-direction: column; gap: 4px;"><b>Not sure how to answer?</b><span style="font-size: 14px; color: #5A5850;">Ask the concierge. It knows your brief and how projects like yours usually go.</span></a>
+</aside>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1500}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { picked: { guests: true, identity: true, social: true }, source: 'renovation' };
+}
+renderVals() {
+const on = 'min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid #16161A;background:#16161A;color:#FFFFFF;font:inherit;font-size:15px;font-weight:600;cursor:pointer';
+const off = 'min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid #C9C5BA;background:#FFFFFF;color:#16161A;font:inherit;font-size:15px;font-weight:500;cursor:pointer';
+const outs = [
+['guests', 'Better guest experience'], ['identity', 'Local identity, a sense of place'], ['social', 'Photos and social sharing'],
+['staff', 'Staff belonging'], ['brand', 'Brand story'], ['traffic', 'Foot traffic'], ['community', 'Community goodwill']
+];
+const picked = this.state.picked;
+const outcomes = outs.map(([id, label]) => ({ label, on: !!picked[id], style: picked[id] ? on : off,
+pick: () => this.setState({ picked: Object.assign({}, picked, { [id]: !picked[id] }) }) }));
+const srcs = [['renovation', 'Renovation or construction'], ['ffe', 'Furniture and fixtures'], ['marketing', 'Marketing'], ['hr', 'HR or culture'], ['grant', 'Grant or sponsor']];
+const sources = srcs.map(([id, label]) => ({ label, on: this.state.source === id, style: this.state.source === id ? on : off,
+pick: () => this.setState({ source: id }) }));
+const sourceLabel = (srcs.find(s => s[0] === this.state.source) || ['', ''])[1].toLowerCase();
+return { outcomes, sources, outcomeCount: outcomes.filter(o => o.on).length, sourceLabel };
+}
+}
+</script>
+</body>
+</html>

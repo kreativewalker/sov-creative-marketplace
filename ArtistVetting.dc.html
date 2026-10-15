@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SOV application status</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Schibsted+Grotesk:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#F5F4EF;color:#16161A;font-family:'Schibsted Grotesk',system-ui,sans-serif}
+a{color:#2F5BEA}a:hover{color:#1E3FB0}
+.disp{font-family:'Bricolage Grotesque',system-ui,sans-serif}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:999px;font-weight:600;font-size:16px;text-decoration:none;box-sizing:border-box}
+.btn-p{background:#16161A;color:#FFFFFF}.btn-p:hover{background:#2F5BEA;color:#FFFFFF}
+.nav a{color:#16161A;text-decoration:none;font-weight:500}.nav a:hover{color:#2F5BEA}.nav a.btn-p,.nav a.btn-p:hover{color:#FFFFFF}
+.card{background:#FFFFFF;border:1px solid #DEDBD2;border-radius:16px;box-sizing:border-box}
+.hint{margin:0;font-size:14px;color:#5A5850;line-height:1.45}
+.step{display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px solid #ECEAE3}
+.dot{width:26px;height:26px;border-radius:50%;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column;">
+<header style="border-bottom: 1px solid #DEDBD2; background: #FFFFFF;">
+<div style="max-width: 1200px; margin: 0 auto; padding: 14px 24px; display: flex; flex-wrap: wrap; gap: 12px 32px; align-items: center; justify-content: space-between;">
+<a href="ForArtists.dc.html" class="disp" style="font-size: 28px; font-weight: 800; color: #16161A; text-decoration: none; letter-spacing: -0.03em;">sov</a>
+<nav class="nav" aria-label="Artist" style="display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center; font-size: 15px;">
+<a href="ArtistVetting.dc.html" aria-current="page" style="color: #2F5BEA;">Application</a>
+<a href="ArtistSetup.dc.html">My offers</a>
+<a href="ArtistData.dc.html">Privacy</a>
+<span style="display: inline-flex; align-items: center; gap: 8px; color: #3D3B35;"><span aria-hidden="true" style="width: 32px; height: 32px; border-radius: 50%; background: #D9622B; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700;">MA</span>Micah The Artyst</span>
+</nav>
+</div>
+</header>
+
+<main style="max-width: 1200px; width: 100%; margin: 0 auto; padding: 40px 24px 64px; box-sizing: border-box; display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start;">
+<section style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 20px;" aria-labelledby="st-h">
+<p style="margin: 0; font-size: 14px; font-weight: 600; letter-spacing: 0.14em; color: #5A5850;">YOUR APPLICATION</p>
+<h1 id="st-h" class="disp" style="margin: 0; font-size: 44px; letter-spacing: -0.03em; line-height: 1.05;">Thank you. A working artist is looking at your work now.</h1>
+<div class="card" style="padding: 8px 24px;">
+<div class="step"><span class="dot" style="background: #2F7A55; color: #FFFFFF;" aria-hidden="true">1</span><div style="flex: 1;"><p style="margin: 0; font-weight: 700;">Application received</p><p class="hint">Portfolio, references and price floor are in.</p></div><span class="hint">Done</span></div>
+<div class="step"><span class="dot" style="background: #2F7A55; color: #FFFFFF;" aria-hidden="true">2</span><div style="flex: 1;"><p style="margin: 0; font-weight: 700;">Curator review</p><p class="hint">Your work fits the roster. Next, we meet you on a video call.</p></div><span class="hint">Done</span></div>
+<div class="step" style="flex-direction: column; align-items: stretch; gap: 14px;">
+<div style="display: flex; gap: 14px; align-items: flex-start;"><span class="dot" style="background: #F2B632;" aria-hidden="true">3</span><div style="flex: 1;"><p style="margin: 0; font-weight: 700;">Book your video call</p><p class="hint">Once your work is reviewed and it's a good fit, we email you this link. About 30 minutes on Google Meet with a working artist. Show us a few pieces and tell us how you work. It's a conversation between artists, not a test.</p></div></div>
+<div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
+<a class="btn btn-p" href="https://calendar.app.google/u6Lywn4RBCrpChKh8" target="_blank" rel="noopener" onClick="{{book}}">Pick a time for my call</a>
+<span class="hint">Opens our Google booking page in a new tab.</span>
+</div>
+<p style="margin: 0; padding: 12px 14px; border-radius: 10px; background: #E3EAFD; color: #1E3FB0; font-weight: 600;">{{confirm}}</p>
+</div>
+<div class="step" style="border-bottom: 0;"><span class="dot" style="border: 2px solid #C9C5BA;" aria-hidden="true">4</span><div style="flex: 1;"><p style="margin: 0; font-weight: 700;">Decision and notes</p><p class="hint">Yes, or not yet with specific notes and a free path back through the <a href="ArtistResources.dc.html">resource tier</a>. Never a silent no.</p></div><a href="ArtistWorks.dc.html" style="font-size: 14px; font-weight: 600;">Preview: approved</a></div>
+</div>
+</section>
+
+<aside style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+<div class="card" style="padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+<p style="margin: 0; font-weight: 700; font-size: 18px;">What the curator looks for</p>
+<ul style="margin: 0; padding-left: 20px; line-height: 1.6; color: #3D3B35; font-size: 15px;">
+<li>Work that is finished and your own</li>
+<li>The largest scale you've delivered</li>
+<li>How you work with clients and crews</li>
+<li>Whether you can carry insurance per project</li>
+</ul>
+<p class="hint">We don't judge on followers, schools, style or the size of your studio. Plenty of great work is made in garages.</p>
+</div>
+<div class="card" style="padding: 24px; display: flex; flex-direction: column; gap: 10px; background: #16161A; color: #F5F4EF; border-color: #16161A;">
+<p style="margin: 0; font-weight: 700; font-size: 18px;">While you wait</p>
+<p style="margin: 0; color: #D6D3CA; line-height: 1.5;">Tell us about your statement, skills and the themes you love, so the curator comes to the call already knowing your work.</p>
+<a class="btn" href="ArtistProfileBuild.dc.html" style="background: #F5F4EF; color: #16161A;">Build my profile for the call</a>
+</div>
+</aside>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1300}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { booked: false };
+}
+renderVals() {
+return { confirm: this.state.booked ? 'Booked. Your Google Meet link is in your email and calendar invite.' : 'Before the call: have 3 to 5 pieces ready to show, including your largest.', book: () => this.setState({ booked: true }) };
+}
+}
+</script>
+</body>
+</html>
