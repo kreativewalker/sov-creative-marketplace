@@ -97,7 +97,7 @@ main{counter-reset:sec}
 .stage>.bg{position:absolute;inset:0;z-index:-2}
 .stage>.bg img{width:100%;height:100%;object-fit:cover;animation:drift 30s var(--ease) infinite alternate}
 @keyframes drift{from{transform:scale(1.04) translate3d(0,0,0)}to{transform:scale(1.14) translate3d(-1.5%,-1%,0)}}
-.stage::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(20,20,19,.35) 0%,rgba(20,20,19,0) 28%,rgba(20,20,19,.2) 52%,rgba(20,20,19,.84) 100%)}
+.stage::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(20,20,19,.35) 0%,rgba(20,20,19,.05) 24%,rgba(20,20,19,.5) 52%,rgba(20,20,19,.9) 100%),linear-gradient(90deg,rgba(20,20,19,.45),rgba(20,20,19,0) 60%)}
 .stage .wrap{width:100%;padding-bottom:clamp(48px,7vw,96px);padding-top:140px}
 .stage .eyebrow{color:#E8E3D6}
 .stage h1{max-width:12ch;margin:22px 0 26px;color:#fff}
