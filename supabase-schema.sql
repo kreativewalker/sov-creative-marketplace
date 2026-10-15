@@ -180,3 +180,8 @@ alter table public.works add column note text check (note is null or length(note
 alter table public.artists add column creative_field text;
 alter table public.artists add column reel_url text;
 alter table public.artists add column performance_setup text;
+
+-- Cities and public agencies, and room to grow beyond North Carolina.
+alter table public.briefs add column procurement_path text check (procurement_path is null or length(procurement_path) <= 120);
+alter table public.briefs add column country text check (country is null or length(country) <= 80);
+alter table public.artists add column country text check (country is null or length(country) <= 80);

@@ -45,7 +45,7 @@
             <div class="row">${Object.keys(BST).map(k => `<button class="btn btn-sm ${b.status === k ? '' : 'btn-ghost'}" data-bst="${k}">${BST[k][0]}</button>`).join('')}</div>
             <div><a class="btn btn-blue btn-sm" href="mailto:${esc(b.email)}?subject=${encodeURIComponent('Your SOV brief: ' + b.org_name)}&body=${encodeURIComponent('Hi ' + (b.contact_name || '').split(' ')[0] + ',\n\nThank you for sending us your brief. ')}">Reply by email</a></div></div>
           <section class="card pad"><table class="t">
-            ${row('Sent', new Date(b.created_at).toLocaleString())}${row('Type of space', b.sector)}${row('The space', b.space_type)}${row('Where', b.city_state)}${row('Size', b.site_size)}
+            ${row('Sent', new Date(b.created_at).toLocaleString())}${row('Type of space', b.sector)}${row('The space', b.space_type)}${row('Where', [b.city_state, b.country].filter(Boolean).join(', '))}${row('How they hire', b.procurement_path)}${row('Size', b.site_size)}
             ${row('What it should do', b.outcomes)}${row('Creative work wanted', b.creative_types)}${row('Who experiences it', b.audience)}${row('Theme or story', b.theme)}
             ${row('Limits', b.constraints)}${row('Budget', b.budget_range)}${row('Budget comes from', b.budget_source)}${row('Needed by', b.needed_by)}
             ${row('Heard about SOV', b.heard_from)}${row('More on that', b.heard_detail)}${row('Notes', b.notes)}${row('Tracking', b.utm ? Object.entries(b.utm).map(([k, v]) => k + '=' + v).join(', ') : '')}
@@ -117,7 +117,7 @@
       </div>
       <div class="gallery big">${worksOf(a.id).filter(w => w.image_path || w.link_url).map(w => `<figure>${w.image_path ? `<a href="${esc(urls[w.image_path] || '#')}" target="_blank" rel="noopener"><img src="${esc(urls[w.image_path] || '')}" alt="${esc(w.title || 'Work sample')}"></a>` : ''}${w.link_url ? `<a class="linktile" href="${esc(w.link_url)}" target="_blank" rel="noopener"><span aria-hidden="true">${w.kind === 'audio' ? '♪' : w.kind === 'video' ? '▶' : '↗'}</span>Open ${esc(w.kind || 'link')}</a>` : ''}<figcaption><b>${esc(w.title || 'Untitled')}</b><br><span class="hint">${esc([w.medium, w.size, w.year].filter(Boolean).join(' · '))}</span></figcaption></figure>`).join('') || '<p class="hint">No samples yet.</p>'}</div>
       <section class="card pad"><table class="t">
-        ${row('City and state', a.city_state)}${row('ZIP', a.zip)}${row('Travel range', a.travel_range)}${row('18 or older', a.is_adult ? 'Yes' : 'Not confirmed')}
+        ${row('City', [a.city_state, a.country].filter(Boolean).join(', '))}${row('ZIP', a.zip)}${row('Travel range', a.travel_range)}${row('18 or older', a.is_adult ? 'Yes' : 'Not confirmed')}
         ${row('Main field', a.creative_field)}${row('Kinds of work', a.disciplines)}${row('Video or audio sample', a.reel_url)}${row('Performance needs', a.performance_setup)}${row('Other discipline', a.disciplines_other)}${row('Services', a.services)}
         ${row('Portfolio', a.portfolio_url)}${row('Social', a.social_url)}${row('Largest piece', a.largest_piece)}${row('Where work has lived', a.where_shown_types)}${row('About where it has lived', a.where_shown)}${row('Can install', a.can_install)}
         ${row('Smallest project', a.min_project)}${row('Day rate', a.day_rate ? '$' + a.day_rate : '')}${row('Notice needed', a.notice)}${row('Insurance', a.insurance)}

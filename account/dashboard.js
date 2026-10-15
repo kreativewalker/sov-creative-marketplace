@@ -10,7 +10,7 @@
   let isStaff = false;
 
   const OPT = {
-    travel: ['My city only', 'Within 50 miles', 'Anywhere in North Carolina', 'Southeast', 'Anywhere in the US'],
+    travel: ['My city only', 'Within 50 miles', 'Anywhere in my state', 'Anywhere in my region', 'Anywhere in my country', 'Anywhere in the world'],
     field: ['Visual art (painting, drawing, prints)', 'Murals and public art', 'Sculpture and installation', 'Craft (ceramics, textiles, wood, glass)', 'Design (graphic, interior, environmental)', 'Photography and film', 'Music and sound', 'Dance, theater and live performance', 'Digital art, light and projection', 'Writing and spoken word'],
     disciplines: ['Painting', 'Drawing or illustration', 'Murals', 'Live painting', 'Printmaking', 'Sculpture', 'Installation', 'Ceramics', 'Textile or fiber', 'Wood or furniture', 'Glass or metal', 'Graphic design', 'Interior or environmental design', 'Signage or wayfinding', 'Photography', 'Video or film', 'Animation or motion', 'Digital or new media', 'Light or projection', 'Live music', 'DJ', 'Sound design or composition', 'Dance', 'Theater or performance art', 'Poetry or spoken word', 'Other'],
     services: ['Original work for sale', 'Commissions', 'Murals and large-scale installs', 'Live painting at events', 'Live performance at events', 'Photo and video content', 'Design services', 'Work for rent or rotation', 'Prints and editions', 'Licensing my work', 'Workshops and teaching'],
@@ -131,7 +131,7 @@
         </section>
       </div>
       <section class="card pad row" style="justify-content:space-between">
-        <div class="stack" style="gap:4px"><h3>Invitations and projects</h3><p class="hint">Once you're active, invitations from hotels, developers, healthcare spaces and event hosts show up here.</p></div>
+        <div class="stack" style="gap:4px"><h3>Invitations and projects</h3><p class="hint">Once you're active, invitations from hotels, developers, healthcare spaces, cities and event hosts show up here.</p></div>
         <span class="tag">Unlocks when you're active</span>
       </section>
     </div>`;
@@ -159,7 +159,7 @@
     { id: 'name', sec: 'About you', type: 'fields', title: 'What name do you work under?', hint: 'Your artist, stage or studio name.', fields: [['display_name', 'Name you work under', 'text', true, 'nickname', 'Artist, stage or studio name']] },
     { id: 'legal', sec: 'About you', type: 'fields', title: "What's your legal first and last name?", hint: 'Only used on contracts. Never shown publicly.', fields: [['legal_name', 'Legal name', 'text', true, 'name']] },
     { id: 'contact', sec: 'About you', type: 'fields', title: 'Where can we reach you?', fields: [['phone', 'Phone', 'tel', true, 'tel'], ['pronouns', 'Pronouns (optional)', 'text', false]] },
-    { id: 'place', sec: 'About you', type: 'fields', title: 'Where are you based?', fields: [['city_state', 'City and state', 'text', true, 'address-level2', 'Raleigh, NC'], ['zip', 'ZIP code', 'text', true, 'postal-code']] },
+    { id: 'place', sec: 'About you', type: 'fields', title: 'Where are you based?', fields: [['city_state', 'City and state or region', 'text', true, 'address-level2', 'Raleigh, NC'], ['country', 'Country', 'text', false, 'country-name', 'United States'], ['zip', 'ZIP or postal code', 'text', true, 'postal-code']] },
     { id: 'travel', sec: 'About you', type: 'one', key: 'travel_range', title: 'How far will you travel for a project?', list: OPT.travel },
     { id: 'age', sec: 'About you', type: 'age', title: 'Are you 18 or older?', hint: 'SOV works only with adults.' },
     { id: 'field', sec: 'Your practice', type: 'one', key: 'creative_field', title: "What's your main creative field?", hint: 'Pick the closest one. You can add more on the next screen.', list: OPT.field },
@@ -264,7 +264,7 @@
     if (q.type === 'refq') return `<fieldset class="q-list"><label class="choice"><input type="radio" name="refq" value="yes" ${wantRef === true ? 'checked' : ''}><span>Yes, add a reference</span></label><label class="choice"><input type="radio" name="refq" value="no" ${wantRef === false ? 'checked' : ''}><span>No, skip this</span></label></fieldset>`;
     if (q.type === 'heard2') {
       const h = A.heard_from || '';
-      if (h.startsWith('AI search')) return `<div class="stack">${fieldHtml(['heard_ai_tool', 'Which AI tool?', 'select', false, '', '', OPT.ai], false)}${fieldHtml(['heard_ai_prompt', 'What did you ask it?', 'text', false, '', 'For example: art opportunities for muralists in North Carolina'])}</div>`;
+      if (h.startsWith('AI search')) return `<div class="stack">${fieldHtml(['heard_ai_tool', 'Which AI tool?', 'select', false, '', '', OPT.ai], false)}${fieldHtml(['heard_ai_prompt', 'What did you ask it?', 'text', false, '', 'For example: paid opportunities for muralists near me'])}</div>`;
       if (h === 'An event or workshop') return fieldHtml(['heard_event', 'Which event or workshop?', 'text', false], true);
       return fieldHtml(['heard_referrer', 'Who referred you?', 'text', false], true);
     }
@@ -331,7 +331,7 @@
       <div class="row" style="justify-content:space-between"><h1 class="disp">Your application</h1><span class="tag ${STATUS[A.status].tone}">${STATUS[A.status].label}</span></div>
       <p class="notice ok">Sent on ${A.submitted_at ? new Date(A.submitted_at).toLocaleDateString() : ''}. Need to change something? Write to us at <a href="mailto:${esc(C.contactEmail)}">${esc(C.contactEmail)}</a>. You can keep adding work and updating your profile any time.</p>
       <section class="card pad"><table class="t">
-        ${row('Name you work under', A.display_name)}${row('City and state', A.city_state)}${row('Travel range', A.travel_range)}
+        ${row('Name you work under', A.display_name)}${row('City', [A.city_state, A.country].filter(Boolean).join(', '))}${row('Travel range', A.travel_range)}
         ${row('Main field', A.creative_field)}${row('Kinds of work', A.disciplines)}${row('Video or audio sample', A.reel_url)}${row('Services', A.services)}${row('Portfolio', A.portfolio_url)}
         ${row('Largest piece', A.largest_piece)}${row('Where your work has lived', A.where_shown_types)}${row('Can install', A.can_install)}${row('Smallest project', A.min_project)}
         ${row('Notice needed', A.notice)}${row('Insurance', A.insurance)}${row('How you heard about SOV', A.heard_from)}

@@ -10,20 +10,22 @@
   function utm() { try { return JSON.parse(sessionStorage.getItem('sov_utm') || '{}'); } catch (e) { return {}; } }
 
   var OPT = {
-    sector: ['Hotel or hospitality', 'Development or placemaking', 'Healthcare', 'Office or workplace', 'Restaurant or retail', 'An event or launch', 'Something else'],
+    sector: ['Hotel or hospitality', 'Development or placemaking', 'Healthcare', 'City, county or public agency', 'Office or workplace', 'Restaurant or retail', 'An event or launch', 'Something else'],
+    procure: ['We can hire directly', 'We need to post an RFQ or RFP', 'It is grant funded', 'Not sure yet'],
     outcomes: ['Better guest or patient experience', 'Local identity, a sense of place', 'Photos and social sharing', 'Staff belonging and wellbeing', 'Tell our brand story', 'Bring in foot traffic', 'Community goodwill', 'Calm and comfort'],
     creative: ['Mural or wall art', 'Original artwork for our walls', 'Sculpture or installation', 'Art on loan that rotates', 'Live music or performance', 'Live painting at an event', 'Photo or video content', 'Design: signage, wayfinding or graphics', 'Workshops or community programs', 'Not sure yet, help me choose'],
-    constraints: ['Must be finished by a set date', 'Work happens while we are open', 'Outdoors or exposed to weather', 'Low-odor materials needed', 'Must be cleanable (infection control)', 'Needs permits or landlord approval', 'Venue or union rules'],
+    constraints: ['Must be finished by a set date', 'Work happens while we are open', 'Outdoors or exposed to weather', 'Low-odor materials needed', 'Must be cleanable (infection control)', 'Needs permits or landlord approval', 'Arts commission or design review approval', 'Community input or public meetings', 'Venue or union rules'],
     budget: ['Under $5,000', '$5,000 to $15,000', '$15,000 to $50,000', '$50,000 to $150,000', 'More than $150,000', 'Not sure yet'],
-    source: ['Renovation or construction', 'Furniture and fixtures', 'Marketing', 'HR or culture', 'Grant or sponsor', 'Not sure'],
+    source: ['Renovation or construction', 'Furniture and fixtures', 'Marketing', 'HR or culture', 'Percent for art or public art fund', 'Grant or sponsor', 'Not sure'],
     when: ['In the next 3 months', '3 to 6 months', '6 to 12 months', 'More than a year out', 'No set date'],
     heard: ['Google or web search', 'AI search (ChatGPT, Claude, Perplexity, Gemini)', 'Instagram', 'LinkedIn', 'A referral', 'An event', 'An artist or creative', 'Other']
   };
   var Q = [
     { id: 'sector', sec: 'Your space', type: 'one', key: 'sector', title: 'What kind of space is this for?', list: OPT.sector },
+    { id: 'procure', sec: 'Your space', type: 'one', key: 'procurement_path', title: 'How does your agency usually hire for this?', hint: "No wrong answer. If you need a formal call for artists, we can help write it and run it, and creatives apply through SOV.", list: OPT.procure, optional: true },
     { id: 'outcomes', sec: 'Your space', type: 'many', key: 'outcomes', title: 'What should the work do for your space?', hint: 'Pick all that apply. This shapes who we match you with.', list: OPT.outcomes },
     { id: 'creative', sec: 'Your space', type: 'many', key: 'creative_types', title: 'What kind of creative work are you picturing?', hint: "Pick all that fit. It's fine to say you're not sure.", list: OPT.creative },
-    { id: 'site', sec: 'The details', type: 'fields', title: 'Tell us about the space', fields: [['space_type', 'Which space?', 'text', true, 'Main lobby wall, about 18 ft wide'], ['city_state', 'City and state', 'text', true, 'Winston-Salem, NC'], ['site_size', 'Size or capacity (optional)', 'text', false, '18 ft x 12 ft, or 150 guests']] },
+    { id: 'site', sec: 'The details', type: 'fields', title: 'Tell us about the space', fields: [['space_type', 'Which space?', 'text', true, 'Main lobby wall, about 18 ft wide'], ['city_state', 'City and state or region', 'text', true, 'Winston-Salem, NC'], ['country', 'Country (optional)', 'text', false, 'United States', 'country-name'], ['site_size', 'Size or capacity (optional)', 'text', false, '18 ft x 12 ft, or 150 guests']] },
     { id: 'story', sec: 'The details', type: 'fields', title: 'Who will experience it, and what story should it tell?', hint: "Optional, but the more you share, the better your matches.", skippable: true, fields: [['audience', 'Who will see or experience it?', 'area', false, 'Hotel guests, many visiting for the first time, and locals who come for the bar.'], ['theme', 'Any theme or story?', 'area', false, "The city's textile history turning into its arts story today. Warm, not literal."]] },
     { id: 'limits', sec: 'The details', type: 'many', key: 'constraints', title: 'Anything we should plan around?', hint: 'Optional. Pick any that apply.', list: OPT.constraints, optional: true },
     { id: 'budget', sec: 'Budget and timing', type: 'one', key: 'budget_range', title: "What's your budget range?", hint: 'All in, including our fee. Many projects set aside about 0.5 to 1 percent of construction cost for art.', list: OPT.budget },
@@ -37,6 +39,7 @@
   function has(k) { var x = A[k]; return !(x == null || x === '' || (Array.isArray(x) && !x.length)); }
   function visible() {
     return Q.filter(function (q) {
+      if (q.id === 'procure') return /public agency/.test(A.sector || '');
       if (q.id === 'heard2') return /AI search|referral|event|artist/i.test(A.heard_from || '');
       return true;
     });
@@ -147,7 +150,7 @@
     if (missing().length) return render();
     btn.disabled = true; btn.textContent = 'Sending...';
     var rec = { status: 'new', utm: Object.keys(utm()).length ? utm() : null, consent_contact: true };
-    ['org_name', 'contact_name', 'email', 'phone', 'role', 'sector', 'space_type', 'city_state', 'audience', 'site_size', 'theme', 'budget_range', 'budget_source', 'needed_by', 'heard_from', 'heard_detail', 'notes'].forEach(function (k) { rec[k] = A[k] ? String(A[k]).slice(0, 2000) : null; });
+    ['org_name', 'contact_name', 'email', 'phone', 'role', 'sector', 'space_type', 'city_state', 'audience', 'site_size', 'theme', 'budget_range', 'budget_source', 'needed_by', 'procurement_path', 'country', 'heard_from', 'heard_detail', 'notes'].forEach(function (k) { rec[k] = A[k] ? String(A[k]).slice(0, 2000) : null; });
     rec.outcomes = A.outcomes || []; rec.creative_types = A.creative_types || []; rec.constraints = A.constraints || [];
     try {
       var sb = window.supabase.createClient(C.supabaseUrl, C.supabaseKey, { auth: { persistSession: false } });
