@@ -141,3 +141,12 @@ table.t tr:hover td{background:#FBFAF7}
 .linktile:hover{background:var(--blue);color:#fff}
 
 .auth-art.photo{background:linear-gradient(180deg,rgba(22,22,26,.55) 0%,rgba(22,22,26,.9) 70%),var(--bg) center/cover no-repeat,var(--ink)}
+
+/* v2: match the public site's editorial look */
+:root{--ink:#141413;--paper:#F3F0E9;--line:#DCD6C8;--soft:#E6E1D5}
+.disp,h1,.logo{font-family:'Instrument Serif',Georgia,serif!important;font-weight:400!important;letter-spacing:-0.01em}
+h1.disp,.q-title{font-size:clamp(36px,4.4vw,56px)!important;line-height:1.02}
+.logo{font-size:32px!important}
+.btn{font-weight:500;letter-spacing:.01em}
+.btn-blue{background:var(--ink)}.btn-blue:hover{background:#2C2B28}
+.card{border-radius:6px}
