@@ -135,3 +135,9 @@ table.t tr:hover td{background:#FBFAF7}
 @keyframes qin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.q-anim{animation:none}.q-bar span{transition:none}}
 .q-list.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr))}
+
+.linktile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;aspect-ratio:1;border-radius:12px;background:var(--ink);color:#fff;text-decoration:none;font-weight:600}
+.linktile span{font-size:34px;line-height:1}
+.linktile:hover{background:var(--blue);color:#fff}
+
+.auth-art.photo{background:linear-gradient(180deg,rgba(22,22,26,.55) 0%,rgba(22,22,26,.9) 70%),var(--bg) center/cover no-repeat,var(--ink)}

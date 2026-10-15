@@ -148,3 +148,35 @@ create policy "artworks update own" on storage.objects for update to authenticat
   using (bucket_id = 'artworks' and (storage.foldername(name))[1] = (select auth.uid())::text);
 create policy "artworks delete own" on storage.objects for delete to authenticated
   using (bucket_id = 'artworks' and (storage.foldername(name))[1] = (select auth.uid())::text);
+
+-- Business briefs from the public website: anyone can send one, only the team can read them.
+create table public.briefs (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  status text not null default 'new' check (status in ('new','contacted','scoping','proposal','won','lost','archived')),
+  org_name text not null check (length(org_name) between 1 and 200),
+  contact_name text not null check (length(contact_name) between 1 and 200),
+  email text not null check (email ~* '^[^@\s]+@[^@\s]+\.[^@\s]+$' and length(email) <= 254),
+  phone text check (length(phone) <= 40), role text check (length(role) <= 120),
+  sector text check (length(sector) <= 80), space_type text check (length(space_type) <= 200), city_state text check (length(city_state) <= 120),
+  outcomes text[] not null default '{}', creative_types text[] not null default '{}',
+  audience text check (length(audience) <= 2000), site_size text check (length(site_size) <= 400), theme text check (length(theme) <= 4000),
+  constraints text[] not null default '{}',
+  budget_range text check (length(budget_range) <= 80), budget_source text check (length(budget_source) <= 80), needed_by text check (length(needed_by) <= 80),
+  heard_from text check (length(heard_from) <= 80), heard_detail text check (length(heard_detail) <= 400), notes text check (length(notes) <= 4000),
+  utm jsonb, consent_contact boolean not null default true
+);
+alter table public.briefs enable row level security;
+create policy "anyone can send a brief" on public.briefs for insert to anon, authenticated
+  with check (status = 'new' and cardinality(outcomes) <= 20 and cardinality(creative_types) <= 20 and cardinality(constraints) <= 20);
+create policy "staff read briefs" on public.briefs for select to authenticated using ((select public.is_staff()));
+create policy "staff update briefs" on public.briefs for update to authenticated using ((select public.is_staff())) with check ((select public.is_staff()));
+grant insert on public.briefs to anon, authenticated;
+
+-- Every kind of creative: work samples can be links (video, audio, page), plus a main field and performance needs.
+alter table public.works add column link_url text check (link_url is null or length(link_url) <= 600);
+alter table public.works add column kind text not null default 'image' check (kind in ('image','video','audio','link'));
+alter table public.works add column note text check (note is null or length(note) <= 1000);
+alter table public.artists add column creative_field text;
+alter table public.artists add column reel_url text;
+alter table public.artists add column performance_setup text;

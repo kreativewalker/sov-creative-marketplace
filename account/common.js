@@ -35,7 +35,10 @@
     const q = new URLSearchParams(location.search);
     const keep = {};
     ['utm_source', 'utm_medium', 'utm_campaign', 'ref'].forEach(k => { if (q.get(k)) keep[k] = q.get(k); });
-    if (Object.keys(keep).length) sessionStorage.setItem('sov_utm', JSON.stringify(keep));
+    // An outside source (Instagram, a referral) beats our own website buttons, so it isn't overwritten.
+    const had = JSON.parse(sessionStorage.getItem('sov_utm') || '{}');
+    const ours = keep.utm_source === 'sov-website';
+    if (Object.keys(keep).length && !(ours && had.utm_source && had.utm_source !== 'sov-website')) sessionStorage.setItem('sov_utm', JSON.stringify(keep));
   } catch (e) { /* storage blocked: fine */ }
   window.savedUtm = () => { try { return JSON.parse(sessionStorage.getItem('sov_utm') || '{}'); } catch (e) { return {}; } };
 

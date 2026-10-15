@@ -11,15 +11,16 @@
 
   const OPT = {
     travel: ['My city only', 'Within 50 miles', 'Anywhere in North Carolina', 'Southeast', 'Anywhere in the US'],
-    disciplines: ['Painting', 'Murals', 'Live painting', 'Sculpture', 'Photography', 'Printmaking', 'Textile or fiber', 'Ceramics', 'Digital or new media', 'Installation', 'Other'],
-    services: ['Original artwork for sale', 'Commissions', 'Murals and large-scale installs', 'Live painting at events', 'Art for rent or rotation', 'Prints and editions', 'Workshops'],
+    field: ['Visual art (painting, drawing, prints)', 'Murals and public art', 'Sculpture and installation', 'Craft (ceramics, textiles, wood, glass)', 'Design (graphic, interior, environmental)', 'Photography and film', 'Music and sound', 'Dance, theater and live performance', 'Digital art, light and projection', 'Writing and spoken word'],
+    disciplines: ['Painting', 'Drawing or illustration', 'Murals', 'Live painting', 'Printmaking', 'Sculpture', 'Installation', 'Ceramics', 'Textile or fiber', 'Wood or furniture', 'Glass or metal', 'Graphic design', 'Interior or environmental design', 'Signage or wayfinding', 'Photography', 'Video or film', 'Animation or motion', 'Digital or new media', 'Light or projection', 'Live music', 'DJ', 'Sound design or composition', 'Dance', 'Theater or performance art', 'Poetry or spoken word', 'Other'],
+    services: ['Original work for sale', 'Commissions', 'Murals and large-scale installs', 'Live painting at events', 'Live performance at events', 'Photo and video content', 'Design services', 'Work for rent or rotation', 'Prints and editions', 'Licensing my work', 'Workshops and teaching'],
     largest: ['Under 3 feet', '3 to 6 feet', '6 to 12 feet', 'Wall-size or larger'],
     install: ['Yes, on my own', 'Yes, with help', "No, I'd need an installer"],
     minProject: ['Under $500', '$500 to $1,500', '$1,500 to $5,000', '$5,000 or more'],
     notice: ['Under 2 weeks', '2 to 4 weeks', '1 to 3 months', '3 months or more'],
     insurance: ['Yes', 'No, but I could get it for a project', 'No'],
     refRel: ['Past client', 'Collaborator', 'Gallery or curator', 'Teacher or mentor', 'Other'],
-    heard: ['Instagram', 'Another artist', 'Micah or the SOV team', 'An event or workshop', 'Google or web search', 'AI search (ChatGPT, Claude, Perplexity, Gemini)', 'TikTok', 'LinkedIn', 'Facebook', 'Newsletter or email', 'Other'],
+    heard: ['Instagram', 'Another artist or creative', 'Micah or the SOV team', 'An event or workshop', 'Google or web search', 'AI search (ChatGPT, Claude, Perplexity, Gemini)', 'TikTok', 'LinkedIn', 'Facebook', 'Newsletter or email', 'Other'],
     ai: ['ChatGPT', 'Claude', 'Perplexity', 'Gemini or Google AI answers', 'Microsoft Copilot', 'Something else'],
     profile: ['Yes, show my profile', 'Not yet, ask me again later'],
     news: ['Yes, keep me posted', 'No thanks']
@@ -94,7 +95,7 @@
     let next;
     if (A.status === 'draft') next = `<h2>Finish your application</h2><p>Your answers save as you go. ${pieces < 3 ? `You've added ${pieces} of 3 pieces so far.` : 'Your three pieces are in.'}</p><div><a class="btn btn-blue" href="#apply">Continue my application</a></div>`;
     else if (A.status === 'submitted' || A.status === 'in_review') next = `<h2>We're looking at your work</h2><p>A real person on our team reads every application. If it's a good fit, we'll email you and a button to book your video call will appear here.</p><div class="row"><a class="btn btn-ghost" href="#profile">Add your bio while you wait</a></div>`;
-    else if (A.status === 'call_invited') next = `<h2>You're invited to a video call</h2><p>About 30 minutes on Google Meet with a working artist from our team. Have 3 to 5 pieces ready to talk about, including your largest.</p><div><a class="btn btn-blue" href="${esc(C.bookingUrl)}" target="_blank" rel="noopener">Pick a time for my call</a></div>`;
+    else if (A.status === 'call_invited') next = `<h2>You're invited to a video call</h2><p>About 30 minutes on Google Meet with a working creative from our team. Have 3 to 5 samples ready to talk about, including the one you're proudest of.</p><div><a class="btn btn-blue" href="${esc(C.bookingUrl)}" target="_blank" rel="noopener">Pick a time for my call</a></div>`;
     else if (A.status === 'call_booked') next = `<h2>Your call is booked</h2><p>Your Google Meet link is in your email and calendar invite. We're looking forward to it.</p>`;
     else if (A.status === 'approved') next = `<h2>Welcome to SOV</h2><p>We'll send your Artist Network Agreement by email to sign. Once it's signed, you're active and we start matching you with projects.</p>`;
     else if (A.status === 'active') next = `<h2>You're active in the network</h2><p>Keep your work and availability current so we can match you well.</p><div class="row"><a class="btn btn-blue" href="#works">Update my work</a></div>`;
@@ -106,7 +107,7 @@
       ['Send your application', submitted(), '#apply'],
       ['Add a short bio', !!A.bio, '#profile'],
       ['Add an artist statement', !!A.statement, '#profile'],
-      ['Video call with a working artist', ['approved', 'active'].includes(A.status), '#call'],
+      ['Video call with a working creative', ['approved', 'active'].includes(A.status), '#call'],
       ['Sign the Artist Network Agreement', A.status === 'active', '']
     ];
     const done = checklist.filter(c => c[1]).length;
@@ -130,32 +131,43 @@
         </section>
       </div>
       <section class="card pad row" style="justify-content:space-between">
-        <div class="stack" style="gap:4px"><h3>Invitations and projects</h3><p class="hint">Once you're active, project invitations from hotels, developers and healthcare spaces show up here.</p></div>
+        <div class="stack" style="gap:4px"><h3>Invitations and projects</h3><p class="hint">Once you're active, invitations from hotels, developers, healthcare spaces and event hosts show up here.</p></div>
         <span class="tag">Unlocks when you're active</span>
       </section>
     </div>`;
   };
 
   // ---- application: one question at a time ----
-  OPT.where = ['Galleries or art shows', 'Businesses or offices', 'Hotels or hospitality', 'Healthcare spaces', 'Restaurants, cafes or retail', 'Public art or murals', 'Events or festivals', 'Private collections or homes', 'Online only so far', 'Not shown yet'];
+  OPT.where = ['Galleries or art shows', 'Businesses or offices', 'Hotels or hospitality', 'Healthcare spaces', 'Restaurants, cafes or retail', 'Public art or murals', 'Events or festivals', 'Stages, venues or concerts', 'Brands or campaigns', 'Private collections or homes', 'Online only so far', 'Not shown yet'];
   const has = (k) => { const x = A[k]; return !(x == null || x === '' || (Array.isArray(x) && !x.length)); };
   const workAt = (n) => works.find(x => x.position === n);
-  const pieceDone = (n) => { const w = workAt(n); return !!(w && w.image_path && w.title && w.medium && w.size); };
+  // Fields that perform live, or work mostly in video and sound, get questions and labels that fit them.
+  const fieldOf = () => A.creative_field || '';
+  const isLive = () => /^(Music|Dance|Writing)/.test(fieldOf());
+  const isMedia = () => /^(Photography|Digital)/.test(fieldOf());
+  const LBL = () => isLive() ? { medium: 'What is it?', mediumPh: 'Live set at a hotel opening', size: 'Length or setting', sizePh: '45 minutes, indoor', needSize: false }
+    : isMedia() ? { medium: 'What is it?', mediumPh: 'Brand film for a restaurant opening', size: 'Format or length', sizePh: 'Photo series of 12, or 2 min video', needSize: false }
+    : { medium: 'Medium', mediumPh: 'Acrylic and spray paint on canvas', size: 'Size', sizePh: '48 x 36 in', needSize: true };
+  const pieceDone = (n) => { const w = workAt(n); return !!(w && (w.image_path || w.link_url) && w.title && w.medium && (w.size || !LBL().needSize)); };
+  const linkKind = (u) => /youtu\.?be|vimeo|tiktok|instagram\.com\/reel/i.test(u) ? 'video' : /soundcloud|spotify|bandcamp|apple\.com\/music|audiomack/i.test(u) ? 'audio' : 'link';
   let extraPieces = null, noMorePieces = false, wantRef = null, qid = null;
 
-  const piece = (n) => ({ id: 'p' + n, sec: 'Your work', type: 'piece', n, title: n <= 3 ? `Show us piece ${n} of 3` : `Piece ${n}`, hint: n === 1 ? "Three pieces you're proud of. One photo each, with a few details. A clear, straight-on photo works best." : (n > 3 ? 'Optional.' : ''), req: n <= 3, done: () => pieceDone(n) });
-  const moreQ = (k) => ({ id: 'more' + k, sec: 'Your work', type: 'more', k, title: k === 3 ? 'Want to show us another piece?' : 'Add one more?', hint: k === 3 ? 'Optional. You can add up to three more.' : `Optional. You can add up to ${6 - k} more.` });
+  const piece = (n) => ({ id: 'p' + n, sec: 'Your work', type: 'piece', n, title: n <= 3 ? `Show us work sample ${n} of 3` : `Work sample ${n}`, hint: n === 1 ? "Three samples you're proud of. Add a photo, or paste a link to a video, song or page, with a few details." : (n > 3 ? 'Optional.' : ''), req: n <= 3, done: () => pieceDone(n) });
+  const moreQ = (k) => ({ id: 'more' + k, sec: 'Your work', type: 'more', k, title: k === 3 ? 'Want to show us another sample?' : 'Add one more?', hint: k === 3 ? 'Optional. You can add up to three more.' : `Optional. You can add up to ${6 - k} more.` });
 
   const Q = [
-    { id: 'name', sec: 'About you', type: 'fields', title: 'What name do you work under?', hint: 'Your artist or studio name.', fields: [['display_name', 'Name you work under', 'text', true, 'nickname', 'Artist or studio name']] },
+    { id: 'name', sec: 'About you', type: 'fields', title: 'What name do you work under?', hint: 'Your artist, stage or studio name.', fields: [['display_name', 'Name you work under', 'text', true, 'nickname', 'Artist, stage or studio name']] },
     { id: 'legal', sec: 'About you', type: 'fields', title: "What's your legal first and last name?", hint: 'Only used on contracts. Never shown publicly.', fields: [['legal_name', 'Legal name', 'text', true, 'name']] },
     { id: 'contact', sec: 'About you', type: 'fields', title: 'Where can we reach you?', fields: [['phone', 'Phone', 'tel', true, 'tel'], ['pronouns', 'Pronouns (optional)', 'text', false]] },
     { id: 'place', sec: 'About you', type: 'fields', title: 'Where are you based?', fields: [['city_state', 'City and state', 'text', true, 'address-level2', 'Raleigh, NC'], ['zip', 'ZIP code', 'text', true, 'postal-code']] },
     { id: 'travel', sec: 'About you', type: 'one', key: 'travel_range', title: 'How far will you travel for a project?', list: OPT.travel },
     { id: 'age', sec: 'About you', type: 'age', title: 'Are you 18 or older?', hint: 'SOV works only with adults.' },
-    { id: 'disc', sec: 'Your practice', type: 'many', key: 'disciplines', title: 'What kind of work do you make?', hint: 'Choose all that fit.', list: OPT.disciplines, other: 'disciplines_other' },
+    { id: 'field', sec: 'Your practice', type: 'one', key: 'creative_field', title: "What's your main creative field?", hint: 'Pick the closest one. You can add more on the next screen.', list: OPT.field },
+    { id: 'disc', sec: 'Your practice', type: 'many', key: 'disciplines', title: 'What kinds of work do you do?', hint: 'Choose all that fit.', list: OPT.disciplines, other: 'disciplines_other' },
     { id: 'serv', sec: 'Your practice', type: 'many', key: 'services', title: 'What can you offer clients?', hint: 'Choose all that fit.', list: OPT.services },
     { id: 'links', sec: 'Your practice', type: 'fields', title: 'Where can we see more of your work?', fields: [['portfolio_url', 'Portfolio or website link', 'url', true, 'url', 'https://'], ['social_url', 'Instagram or other social link (optional)', 'url', false, '', 'https://']] },
+    { id: 'reel', sec: 'Your practice', type: 'fields', title: 'Share a video or audio sample', hint: 'A performance clip, reel, playlist or song. YouTube, Vimeo, SoundCloud, Spotify or similar.', fields: [['reel_url', 'Link to your sample', 'url', true, 'url', 'https://']] },
+    { id: 'perf', sec: 'Your practice', type: 'fields', title: 'What do you need to perform?', hint: 'Optional. Helps us match you with the right rooms and events.', skippable: true, fields: [['performance_setup', 'Space, power, sound, set length, group size', 'area', false, '', 'For example: 3-piece band, 10 x 12 ft, two outlets, 2 sets of 45 minutes']] },
     { id: 'largest', sec: 'Your practice', type: 'one', key: 'largest_piece', title: "What's the largest piece you've completed?", list: OPT.largest },
     { id: 'where', sec: 'Your practice', type: 'many', key: 'where_shown_types', title: 'Where has your work lived?', hint: 'Choose all that fit.', list: OPT.where, detail: 'where_shown', detailLabel: 'Anything you want us to know? (optional)', detailPh: 'For example: a solo show at a local gallery in 2024' },
     { id: 'install', sec: 'Your practice', type: 'one', key: 'can_install', title: 'Can you install your own work?', list: OPT.install },
@@ -163,7 +175,7 @@
     { id: 'min', sec: 'Pricing and timing', type: 'one', key: 'min_project', title: "What's the smallest project you'll take on?", hint: 'Only you and our team see your pricing.', list: OPT.minProject },
     { id: 'rate', sec: 'Pricing and timing', type: 'fields', title: "What's your day rate for live work or installs?", hint: 'Optional. In dollars. Skip it if you price differently.', fields: [['day_rate', 'Day rate in dollars', 'number', false, '', '600']], skippable: true },
     { id: 'notice', sec: 'Pricing and timing', type: 'one', key: 'notice', title: 'How much notice do you usually need?', list: OPT.notice },
-    { id: 'ins', sec: 'Pricing and timing', type: 'one', key: 'insurance', title: 'Do you carry general liability insurance?', hint: "It's fine if you don't. Many artists get it per project.", list: OPT.insurance },
+    { id: 'ins', sec: 'Pricing and timing', type: 'one', key: 'insurance', title: 'Do you carry general liability insurance?', hint: "It's fine if you don't. Many creatives get it per project.", list: OPT.insurance },
     { id: 'heard', sec: 'Last few', type: 'one', key: 'heard_from', title: 'How did you hear about SOV?', list: OPT.heard },
     { id: 'heard2', sec: 'Last few', type: 'heard2', title: 'Tell us a little more', hint: 'Optional, but it helps us.', skippable: true },
     { id: 'refq', sec: 'Last few', type: 'refq', title: 'Would you like to add a reference?', hint: 'Optional. We only reach out after we talk with you.' },
@@ -180,8 +192,10 @@
     return Q.filter(q => {
       if (q.type === 'piece' && q.n > 3) return q.n <= 3 + extraPieces || !!workAt(q.n);
       if (q.type === 'more') return !noMorePieces && q.k === 3 + extraPieces && q.k < 6 && !workAt(q.k + 1);
-      if (q.id === 'heard2') return h.startsWith('AI search') || h === 'Another artist' || h === 'Micah or the SOV team' || h === 'An event or workshop';
+      if (q.id === 'heard2') return h.startsWith('AI search') || h === 'Another artist' || h === 'Another artist or creative' || h === 'Micah or the SOV team' || h === 'An event or workshop';
       if (q.id === 'ref') return wantRef === true;
+      if (q.id === 'reel' || q.id === 'perf') return isLive();
+      if (q.id === 'largest' || q.id === 'install') return !isLive();
       return true;
     });
   }
@@ -216,17 +230,19 @@
   function pieceHtml(n) {
     const w = workAt(n) || {};
     const src = w.image_path ? urls[w.image_path] : '';
+    const L = LBL();
     return `<div class="piece" data-piece="${n}">
       <label class="drop" title="Upload a photo of piece ${n}">
-        ${src ? `<img src="${esc(src)}" alt="Piece ${n}: ${esc(w.title || '')}">` : `<span><b style="display:block;color:var(--ink);font-size:17px">Tap to add a photo</b>JPG, PNG or WEBP, up to 10MB</span>`}
-        <input type="file" accept="image/jpeg,image/png,image/webp,image/heic" class="sr" data-photo="${n}" aria-label="Photo for piece ${n}">
+        ${src ? `<img src="${esc(src)}" alt="Sample ${n}: ${esc(w.title || '')}">` : `<span><b style="display:block;color:var(--ink);font-size:17px">Tap to add a photo</b>JPG, PNG or WEBP, up to 10MB</span>`}
+        <input type="file" accept="image/jpeg,image/png,image/webp,image/heic" class="sr" data-photo="${n}" aria-label="Photo for sample ${n}">
       </label>
       <div class="stack" style="gap:12px">
+        <label class="f"><span>${src ? 'Link to video, audio or page' : 'No photo? Paste a link instead'} <span class="hint">(${src ? 'optional' : 'video, song or page'})</span></span><input data-w="link_url" type="url" value="${esc(w.link_url || '')}" placeholder="https://"></label>
         <label class="f">Title<input data-w="title" value="${esc(w.title || '')}" placeholder="Untitled is fine"></label>
-        <label class="f">Medium<input data-w="medium" value="${esc(w.medium || '')}" placeholder="Acrylic and spray paint on canvas"></label>
-        <div class="grid2" style="grid-template-columns:1fr 1fr"><label class="f">Size<input data-w="size" value="${esc(w.size || '')}" placeholder="48 x 36 in"></label>
+        <label class="f">${L.medium}<input data-w="medium" value="${esc(w.medium || '')}" placeholder="${esc(L.mediumPh)}"></label>
+        <div class="grid2" style="grid-template-columns:1fr 1fr"><label class="f"><span>${L.size}${L.needSize ? '' : ' <span class="hint">(optional)</span>'}</span><input data-w="size" value="${esc(w.size || '')}" placeholder="${esc(L.sizePh)}"></label>
         <label class="f"><span>Year <span class="hint">(optional)</span></span><input data-w="year" value="${esc(w.year || '')}" placeholder="2025" inputmode="numeric"></label></div>
-        <p class="hint" data-status="${n}" role="status">${w.image_path ? 'Photo saved.' : ''}</p>
+        <p class="hint" data-status="${n}" role="status">${w.image_path ? 'Photo saved.' : (w.link_url ? 'Link saved.' : '')}</p>
       </div></div>`;
   }
 
@@ -234,7 +250,7 @@
     if (q.type === 'fields') return `<div class="stack">${q.fields.map((f, i) => fieldHtml(f, i === 0)).join('')}</div>`;
     if (q.type === 'one') return (q.promise ? `<h2 style="font-size:21px;line-height:1.3">Thank you for sharing your work with us. Here's what we promise you.</h2>
         <div class="promise">
-          <div><b>Your work stays yours.</b>You keep every right to your art. We only look at it to get to know you.</div>
+          <div><b>Your work stays yours.</b>You keep every right to your work. We only look at it to get to know you.</div>
           <div><b>Your information stays private.</b>We never sell it. We only share it with a business when you say yes to a project.</div>
           <div><b>A real person reads every application.</b>No automatic rejections.</div>
           <div><b>You can change your mind.</b>Ask us any time and we'll remove your application.</div>
@@ -274,7 +290,7 @@
     if (q.type === 'fields') return q.fields.map(f => j(A[f[0]])).filter(Boolean).join(' · ') || 'Skipped';
     if (q.type === 'one' || q.type === 'many') return j(A[q.key]) || (q.optional ? 'No answer' : 'Not answered');
     if (q.type === 'age') return A.is_adult ? 'Yes' : 'Not answered';
-    if (q.type === 'piece') { const w = workAt(q.n); return w ? [w.image_path ? 'Photo' : 'No photo', w.title, w.medium, w.size].filter(Boolean).join(' · ') : (q.req ? 'Not added' : 'Skipped'); }
+    if (q.type === 'piece') { const w = workAt(q.n); return w ? [w.image_path ? 'Photo' : (w.link_url ? 'Link' : 'No photo or link'), w.title, w.medium, w.size].filter(Boolean).join(' · ') : (q.req ? 'Not added' : 'Skipped'); }
     if (q.type === 'refq') return wantRef ? 'Yes' : 'No';
     if (q.type === 'heard2') return [A.heard_ai_tool, A.heard_ai_prompt, A.heard_referrer, A.heard_event].filter(Boolean).join(' · ') || 'Skipped';
     return '';
@@ -316,7 +332,7 @@
       <p class="notice ok">Sent on ${A.submitted_at ? new Date(A.submitted_at).toLocaleDateString() : ''}. Need to change something? Write to us at <a href="mailto:${esc(C.contactEmail)}">${esc(C.contactEmail)}</a>. You can keep adding work and updating your profile any time.</p>
       <section class="card pad"><table class="t">
         ${row('Name you work under', A.display_name)}${row('City and state', A.city_state)}${row('Travel range', A.travel_range)}
-        ${row('Disciplines', A.disciplines)}${row('Services', A.services)}${row('Portfolio', A.portfolio_url)}
+        ${row('Main field', A.creative_field)}${row('Kinds of work', A.disciplines)}${row('Video or audio sample', A.reel_url)}${row('Services', A.services)}${row('Portfolio', A.portfolio_url)}
         ${row('Largest piece', A.largest_piece)}${row('Where your work has lived', A.where_shown_types)}${row('Can install', A.can_install)}${row('Smallest project', A.min_project)}
         ${row('Notice needed', A.notice)}${row('Insurance', A.insurance)}${row('How you heard about SOV', A.heard_from)}
       </table></section>
@@ -341,8 +357,10 @@
     if (q.type === 'piece' && q.req) {
       const card = $('[data-piece]', form); const w = workAt(q.n);
       const vals = Object.fromEntries($$('[data-w]', card).map(i => [i.dataset.w, i.value.trim()]));
-      if (!w || !w.image_path) return 'Add a photo of this piece first.';
-      if (!vals.title || !vals.medium || !vals.size) return 'Add a title, medium and size. "Untitled" is fine.';
+      const L = LBL();
+      if (vals.link_url && !/^https?:\/\/\S+\.\S+/.test(vals.link_url)) return 'Please use a full link that starts with https://';
+      if (!(w && w.image_path) && !vals.link_url) return 'Add a photo, or paste a link to this sample.';
+      if (!vals.title || !vals.medium || (L.needSize && !vals.size)) return L.needSize ? 'Add a title, medium and size. "Untitled" is fine.' : `Add a title and "${L.medium.toLowerCase()}". "Untitled" is fine.`;
     }
     return '';
   }
@@ -362,9 +380,11 @@
     for (const card of $$('[data-piece]')) {
       const n = Number(card.dataset.piece);
       const vals = {}; $$('[data-w]', card).forEach(i => vals[i.dataset.w] = i.value.trim() || null);
+      if (vals.link_url && !/^https?:\/\/\S+\.\S+/.test(vals.link_url)) vals.link_url = null;
       const w = works.find(x => x.position === n);
+      if (!(w && w.image_path)) vals.kind = vals.link_url ? linkKind(vals.link_url) : 'image';
       if (w) {
-        if (['title', 'medium', 'size', 'year'].some(k => (w[k] || null) !== vals[k])) {
+        if (['title', 'medium', 'size', 'year', 'link_url', 'kind'].some(k => k in vals && (w[k] || null) !== vals[k])) {
           const { data, error } = await sb.from('works').update(vals).eq('id', w.id).select().single();
           if (!error) Object.assign(w, data);
         }
@@ -388,7 +408,7 @@
     if (up.error) { status.textContent = 'Upload failed. Please try again.'; console.error(up.error); return; }
     let w = works.find(x => x.position === n);
     const old = w && w.image_path;
-    if (w) { const r = await sb.from('works').update({ image_path: path }).eq('id', w.id).select().single(); if (!r.error) Object.assign(w, r.data); }
+    if (w) { const r = await sb.from('works').update({ image_path: path, kind: 'image' }).eq('id', w.id).select().single(); if (!r.error) Object.assign(w, r.data); }
     else { const r = await sb.from('works').insert({ artist_id: user.id, position: n, image_path: path }).select().single(); if (!r.error) works.push(r.data); }
     if (old) await sb.storage.from('artworks').remove([old]);
     await signPhotos([path]);
@@ -433,13 +453,13 @@
   views.works = () => {
     const appPieces = works.filter(w => w.position);
     const more = works.filter(w => !w.position);
-    const fig = (w) => `<figure><img src="${esc(urls[w.image_path] || '')}" alt="${esc(w.title || 'Artwork')}" loading="lazy"><figcaption><b>${esc(w.title || 'Untitled')}</b><br><span class="hint">${esc([w.medium, w.size, w.year].filter(Boolean).join(' · '))}</span>${!w.position ? `<br><button class="linkbtn" data-del="${w.id}">Remove</button>` : ''}</figcaption></figure>`;
+    const fig = (w) => `<figure>${w.image_path ? `<img src="${esc(urls[w.image_path] || '')}" alt="${esc(w.title || 'Work sample')}" loading="lazy">` : `<a class="linktile" href="${esc(w.link_url || '#')}" target="_blank" rel="noopener"><span aria-hidden="true">${w.kind === 'audio' ? '♪' : w.kind === 'video' ? '▶' : '↗'}</span>Open ${w.kind === 'audio' ? 'audio' : w.kind === 'video' ? 'video' : 'link'}</a>`}<figcaption><b>${esc(w.title || 'Untitled')}</b><br><span class="hint">${esc([w.medium, w.size, w.year].filter(Boolean).join(' · '))}</span>${!w.position ? `<br><button class="linkbtn" data-del="${w.id}">Remove</button>` : ''}</figcaption></figure>`;
     return `<div class="stack" style="gap:20px">
       <h1 class="disp">My work</h1>
-      <p class="hint" style="font-size:16px">Your photos are private. Only you and our review team can see them until you're approved and say yes to a public profile.</p>
-      ${appPieces.length ? `<h2>From your application</h2><div class="gallery">${appPieces.filter(w => w.image_path).map(fig).join('')}</div>` : `<p class="notice">Add your first pieces in <a href="#apply">your application</a>.</p>`}
+      <p class="hint" style="font-size:16px">Your samples are private. Only you and our review team can see them until you're approved and say yes to a public profile.</p>
+      ${appPieces.length ? `<h2>From your application</h2><div class="gallery">${appPieces.filter(w => w.image_path || w.link_url).map(fig).join('')}</div>` : `<p class="notice">Add your first pieces in <a href="#apply">your application</a>.</p>`}
       ${submitted() ? `<h2>More work</h2>${more.length ? `<div class="gallery">${more.map(fig).join('')}</div>` : '<p class="hint">Nothing here yet.</p>'}
-      <form class="card pad stack" id="addWork" novalidate><h3>Add a piece</h3>
+      <form class="card pad stack" id="addWork" novalidate><h3>Add a photo of more work</h3>
         <div class="grid2"><label class="f">Photo<input type="file" id="nwFile" accept="image/jpeg,image/png,image/webp,image/heic" required></label><label class="f">Title<input id="nwTitle"></label></div>
         <div class="grid2"><label class="f">Medium<input id="nwMedium"></label><label class="f">Size<input id="nwSize" placeholder="48 x 36 in"></label></div>
         <label class="f" style="max-width:200px">Year<input id="nwYear"></label>
@@ -462,8 +482,8 @@
   views.call = () => {
     const s = A.status;
     let body;
-    if (s === 'call_invited') body = `<p>You're invited to a 30-minute video call on Google Meet with a working artist from our team. It's a conversation between artists, not a test.</p>
-      <ul><li>Have 3 to 5 pieces ready to talk about, including your largest.</li><li>Be ready to walk through one project from first conversation to finished piece.</li><li>Bring your questions for us, too.</li></ul>
+    if (s === 'call_invited') body = `<p>You're invited to a 30-minute video call on Google Meet with a working creative from our team. It's a conversation between creatives, not a test.</p>
+      <ul><li>Have 3 to 5 samples ready to talk about, including the one you're proudest of.</li><li>Be ready to walk through one project from first conversation to finished work.</li><li>Bring your questions for us, too.</li></ul>
       <div class="row"><a class="btn btn-blue" href="${esc(C.bookingUrl)}" target="_blank" rel="noopener">Pick a time for my call</a><button class="btn btn-ghost" id="booked" type="button">I've booked it</button></div>`;
     else if (s === 'call_booked') body = `<p class="notice ok">Your call is booked. The Google Meet link is in your email and calendar invite.</p><p class="hint">Need to move it? Use the link in your calendar invite, or write to us at ${esc(C.contactEmail)}.</p>`;
     else if (['approved', 'active'].includes(s)) body = `<p class="notice ok">Your video call is done. Thank you for your time.</p>`;
