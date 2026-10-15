@@ -363,3 +363,9 @@ a.pcard:hover .ph img{transform:scale(1.04)}
 .timeline li{display:grid;grid-template-columns:48px 1fr;gap:16px;padding:18px 0;border-top:1px solid var(--line)}
 .timeline li:last-child{border-bottom:1px solid var(--line)}
 .timeline li .n{font-family:var(--serif);font-style:italic;font-size:30px;line-height:1;color:var(--ink);background:none!important;width:auto;height:auto}
+
+/* fixes: light buttons on dark sections keep dark text; calmer footer wordmark */
+.dark a.btn-light,.band a.btn-light,.stage a.btn:not(.btn-ghost){color:var(--ink)}
+.dark a.btn-light:hover,.band a.btn-light:hover{color:var(--ink)}
+.dark a.btn-line-light:hover,.band a.btn-line-light:hover{color:var(--ink)}
+.wordmark{font-size:clamp(64px,9vw,128px);margin-top:64px;line-height:.85}
