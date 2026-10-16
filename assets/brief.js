@@ -50,7 +50,7 @@
     return true;
   }
   function missing() { return visible().filter(function (q) { return q.type !== 'send' && !q.skippable && !answered(q); }); }
-  var qid = null, sent = false;
+  var qid = null, sent = false, signedIn = false;
   var start = visible().find(function (q) { return q.type !== 'send' && !q.optional && !q.skippable && !answered(q); });
   qid = (start || visible()[0]).id;
   if (!Object.keys(A).length) qid = 'intro';
@@ -153,7 +153,12 @@
     ['org_name', 'contact_name', 'email', 'phone', 'role', 'sector', 'space_type', 'city_state', 'audience', 'site_size', 'theme', 'budget_range', 'budget_source', 'needed_by', 'procurement_path', 'country', 'heard_from', 'heard_detail', 'notes'].forEach(function (k) { rec[k] = A[k] ? String(A[k]).slice(0, 2000) : null; });
     rec.outcomes = A.outcomes || []; rec.creative_types = A.creative_types || []; rec.constraints = A.constraints || [];
     try {
-      var sb = window.supabase.createClient(C.supabaseUrl, C.supabaseKey, { auth: { persistSession: false } });
+      var sb = window.supabase.createClient(C.supabaseUrl, C.supabaseKey);
+      var ses = (await sb.auth.getSession()).data.session;
+      if (ses) {
+        var mem = await sb.from('org_members').select('org_id').eq('user_id', ses.user.id).limit(1);
+        if (mem.data && mem.data.length) { rec.org_id = mem.data[0].org_id; rec.created_by = ses.user.id; signedIn = true; }
+      }
       var r = await sb.from('briefs').insert(rec);
       if (r.error) throw r.error;
       sent = true; A.sent_name = A.contact_name; try { localStorage.removeItem(KEY); } catch (e) { }
@@ -173,7 +178,8 @@
       + '<li><span class="n">2</span><span><b>A short call, if it helps</b><br><span class="muted">About 20 minutes to walk the space and the goals.</span></span></li>'
       + '<li><span class="n">3</span><span><b>Your shortlist</b><br><span class="muted">3 to 5 vetted creatives, why each fits, and budget options.</span></span></li>'
       + '<li><span class="n">4</span><span><b>You choose</b><br><span class="muted">Nothing is booked until you sign a scope.</span></span></li></ol>'
-      + '<div class="row"><a class="btn" href="index.html">Back to home</a><a class="btn btn-ghost" href="how-it-works.html">See how it works</a></div></div>';
+      + (signedIn ? '<div class="row"><a class="btn" href="account/business.html#projects">Go to my projects</a></div></div>'
+        : '<div class="card stack" style="gap:12px;background:var(--card)"><h3 style="font-family:var(--serif);font-weight:400;font-size:28px">Follow this project in one place</h3><p class="muted">Create a free business account with the same email and this brief will be waiting: the shortlist, line-by-line budget, approvals and documents, plus room for your team.</p><div class="row"><a class="btn" href="account/signup.html?type=business">Create my business account</a><a class="btn btn-ghost" href="index.html">Back to home</a></div></div></div>');
   }
   render();
 })();

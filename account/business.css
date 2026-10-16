@@ -1,0 +1,75 @@
+/* Business home base: editorial, calm, money and decisions easy to scan. */
+.bz{background:#F3F0E9}
+.bz .topbar{background:rgba(243,240,233,.92);backdrop-filter:blur(12px)}
+.bz main.dash{padding-top:40px;padding-bottom:96px}
+.bz h1.disp{font-size:clamp(40px,5vw,64px)!important;line-height:1}
+.bz h2{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:clamp(28px,3vw,36px);letter-spacing:-0.01em}
+.bz h3{font-size:17px}
+.eyb{font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.hair{border-top:1px solid var(--line)}
+.bz .card{background:#FBFAF6;border:1px solid var(--line);border-radius:6px}
+.grid-main{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:32px;align-items:start}
+@media (max-width:960px){.grid-main{grid-template-columns:minmax(0,1fr)}}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+@media (max-width:760px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.kpi{padding:22px 20px 22px 0}
+.kpi+.kpi{padding-left:20px;border-left:1px solid var(--line)}
+@media (max-width:760px){.kpi:nth-child(3){border-left:0;padding-left:0}}
+.kpi b{display:block;font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:42px;line-height:1;margin-bottom:6px}
+.kpi span{font-size:13px;color:var(--muted)}
+.stagebar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.stagebar span{height:4px;border-radius:2px;background:var(--line)}
+.stagebar span.done{background:var(--ink)}
+.stagebar span.now{background:var(--hear,#D9622B)}
+.stagelabels{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;font-size:11px;color:var(--muted);margin-top:8px}
+.stagelabels span.now{color:var(--ink);font-weight:600}
+@media (max-width:640px){.stagelabels{display:none}}
+.proj{display:block;text-decoration:none;color:inherit;padding:26px 0;border-top:1px solid var(--line)}
+.proj:last-child{border-bottom:1px solid var(--line)}
+.proj:hover h3{text-decoration:underline;text-underline-offset:4px}
+.proj .top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 20px;align-items:baseline;margin-bottom:16px}
+.proj h3{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:28px;line-height:1.1}
+.todo{display:flex;gap:14px;align-items:flex-start;padding:16px 0;border-top:1px solid var(--line)}
+.todo .dotc{width:10px;height:10px;border-radius:50%;background:var(--hear,#D9622B);margin-top:7px;flex:0 0 10px}
+.tabs{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+.tabs a{padding:14px 0;margin-right:28px;text-decoration:none;color:var(--muted);font-weight:500;font-size:15px;border-bottom:1px solid transparent;margin-bottom:-1px}
+.tabs a[aria-current=page]{color:var(--ink);border-bottom-color:var(--ink)}
+.timeline2{list-style:none;margin:0;padding:0}
+.timeline2 li{display:grid;grid-template-columns:28px 1fr;gap:16px;padding:18px 0;border-top:1px solid var(--line)}
+.timeline2 .mk{width:14px;height:14px;border-radius:50%;border:1px solid #9C978B;margin-top:6px}
+.timeline2 li.done .mk{background:var(--ink);border-color:var(--ink)}
+.timeline2 li.now .mk{background:#D9622B;border-color:#D9622B;box-shadow:0 0 0 5px rgba(217,98,43,.18)}
+.timeline2 li.later{color:var(--muted)}
+.mcard{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px;padding:32px 0;border-top:1px solid var(--line)}
+@media (max-width:860px){.mcard{grid-template-columns:minmax(0,1fr)}}
+.mcard .imgs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.mcard .imgs img,.mcard .imgs a.lt{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:4px;background:var(--soft)}
+.mcard .imgs a.lt{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;background:#141413;color:#fff;text-decoration:none;font-size:13px}
+.mcard .imgs a.lt span{font-size:26px}
+.mcard h3{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:32px;line-height:1.05}
+.why{border-left:2px solid #E9B23A;padding-left:14px;color:var(--ink2)}
+table.money{width:100%;border-collapse:collapse;font-size:15px}
+table.money td,table.money th{padding:12px 0;border-top:1px solid var(--line);text-align:left;vertical-align:top}
+table.money td.n,table.money th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+table.money tr.sov td{font-weight:600}
+table.money tr.total td{border-top:1px solid var(--ink);font-family:'Instrument Serif',Georgia,serif;font-size:24px}
+.ms{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center;padding:18px 0;border-top:1px solid var(--line)}
+.pill{display:inline-flex;align-items:center;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:5px 10px;border-radius:999px;background:#E6E1D5;color:#36342F}
+.pill.ready{background:#F4E4D8;color:#7A3410}.pill.approved{background:#E2EDE5;color:#1F5A3D}.pill.paid{background:#141413;color:#fff}
+.lens{display:flex;flex-wrap:wrap;gap:8px}
+.lens label{position:relative}
+.lens input{position:absolute;opacity:0}
+.lens span{display:inline-flex;min-height:38px;align-items:center;padding:0 16px;border-radius:999px;font-weight:600;font-size:13px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;opacity:.55}
+.lens input:checked+span{opacity:1;box-shadow:0 0 0 2px #141413}
+.fb{padding:18px 0;border-top:1px solid var(--line)}
+.fb .tagx{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:4px 9px;border-radius:999px;margin-right:8px}
+.docs a{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:16px 0;border-top:1px solid var(--line);text-decoration:none;color:inherit}
+.docs a:hover b{text-decoration:underline}
+.empty{padding:48px 0;text-align:left}
+.formgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px 20px}
+
+.bz h1.disp em,.bz h1 em{font-style:italic}
+.bz .gallery figure{border-radius:6px;background:#FBFAF6}
+@media print{.topbar,#printBtn,.tabs{display:none!important}.bz{background:#fff}.kpi b{font-size:32px}}
+
+.bz .nav a.btn{padding:0 18px;border-bottom:0;min-height:38px;display:inline-flex;align-items:center}

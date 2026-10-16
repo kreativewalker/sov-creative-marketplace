@@ -28,6 +28,14 @@
     return data.session.user;
   };
 
+  // Business accounts belong to an organization; creatives have an artist row.
+  window.isBusiness = async () => {
+    try { await sb.rpc('accept_invites'); } catch (e) { /* fine */ }
+    const { data } = await sb.from('org_members').select('org_id').limit(1);
+    return !!(data && data.length);
+  };
+  window.homeFor = async (user) => (user?.user_metadata?.account_type === 'business' || await isBusiness()) ? 'business.html' : 'index.html';
+
   window.signOut = async () => { await sb.auth.signOut(); location.href = '../index.html'; };
 
   // Keep the UTM / referral tags from the page that sent them, so sign-up can record them.

@@ -49,10 +49,11 @@
             ${row('What it should do', b.outcomes)}${row('Creative work wanted', b.creative_types)}${row('Who experiences it', b.audience)}${row('Theme or story', b.theme)}
             ${row('Limits', b.constraints)}${row('Budget', b.budget_range)}${row('Budget comes from', b.budget_source)}${row('Needed by', b.needed_by)}
             ${row('Heard about SOV', b.heard_from)}${row('More on that', b.heard_detail)}${row('Notes', b.notes)}${row('Tracking', b.utm ? Object.entries(b.utm).map(([k, v]) => k + '=' + v).join(', ') : '')}
-          </table></section></div>` : '<p class="hint">Choose a brief to see it.</p>'}</section>
+          </table></section><div id="room"></div></div>` : '<p class="hint">Choose a brief to see it.</p>'}</section>
       </div></div>`;
     wireTabs();
     $$('[data-b]').forEach(x => x.onclick = () => { bsel = x.dataset.b; render(); });
+    if (b && window.renderRoom) window.renderRoom(b, $('#room'), () => { toast('Saved'); render(); });
     $$('[data-bst]').forEach(x => x.onclick = async () => {
       const r = await sb.from('briefs').update({ status: x.dataset.bst }).eq('id', b.id).select().single();
       if (r.error) { toast('Could not update'); return; } Object.assign(b, r.data); toast('Updated'); render();

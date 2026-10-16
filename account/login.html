@@ -16,7 +16,7 @@
     <a class="logo" href="../index.html">sov</a>
     <div class="stack" style="gap:20px">
       <h1 class="disp">Welcome back.</h1>
-      <p style="color:#D6D3CA;font-size:18px;max-width:30em">Pick up your application where you left off, check where you are in review, and keep your work up to date.</p>
+      <p style="color:#D6D3CA;font-size:18px;max-width:30em">Creatives: pick up your application and keep your work current. Businesses and cities: follow your projects, approve milestones and see every cost.</p>
     </div>
     <p class="hint" style="color:#B9B6AC">New to SOV? <a href="signup.html" style="color:#9DB2F7">Create an account</a></p>
   </section>
@@ -33,19 +33,20 @@
   </section>
 </div>
 <script>
-const next = new URLSearchParams(location.search).get('next') || 'index.html';
-const safeNext = /^[a-z]+\.html(#[a-z-]*)?$/i.test(next) ? next : 'index.html';
-(async () => { const { data } = await sb.auth.getSession(); if (data.session) location.replace(safeNext); })();
+const next = new URLSearchParams(location.search).get('next');
+const safeNext = next && /^[a-z]+\.html(#[a-z0-9/-]*)?$/i.test(next) ? next : null;
+const go = async (user) => location.replace(safeNext || await homeFor(user));
+(async () => { const { data } = await sb.auth.getSession(); if (data.session) go(data.session.user); })();
 $('#f').addEventListener('submit', async (e) => {
   e.preventDefault();
   const msg = $('#msg'); msg.hidden = true; $('#go').disabled = true;
-  const { error } = await sb.auth.signInWithPassword({ email: $('#email').value.trim(), password: $('#pw').value });
+  const { data: d, error } = await sb.auth.signInWithPassword({ email: $('#email').value.trim(), password: $('#pw').value });
   $('#go').disabled = false;
   if (error) {
     msg.textContent = /confirm/i.test(error.message) ? 'Please confirm your email first. Check your inbox for the link we sent.' : 'That email and password don\'t match. Try again or reset your password.';
     msg.hidden = false; return;
   }
-  location.replace(safeNext);
+  go(d.user);
 });
 $('#forgot').addEventListener('click', async () => {
   const email = $('#email').value.trim(); const msg = $('#msg');

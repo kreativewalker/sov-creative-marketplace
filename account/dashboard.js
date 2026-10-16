@@ -35,6 +35,7 @@
     ]);
     if (a.error) throw a.error;
     A = a.data;
+    if (!A && (user.user_metadata?.account_type === 'business' || await isBusiness())) { location.replace('business.html'); return new Promise(() => {}); }
     if (!A) { // the sign-up trigger normally creates this row; create it if missing
       const ins = await sb.from('artists').insert({ id: user.id, email: user.email, display_name: user.user_metadata?.display_name || null, utm: user.user_metadata?.utm || null }).select().single();
       if (ins.error) throw ins.error; A = ins.data;
