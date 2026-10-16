@@ -14,8 +14,7 @@
 .seg{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:999px;padding:4px;gap:4px;background:#fff}
 .seg button{min-height:42px;border:0;border-radius:999px;background:none;font:500 14px 'Schibsted Grotesk',system-ui,sans-serif;cursor:pointer;color:var(--ink2)}
 .seg button[aria-pressed=true]{background:var(--ink);color:#fff}
-[data-for]{display:none}
-body[data-type=creative] [data-for=creative],body[data-type=business] [data-for=business]{display:revert}
+body:not([data-type=business]) [data-for=business],body[data-type=business] [data-for=creative]{display:none!important}
 </style>
 </head>
 <body data-type="creative">
