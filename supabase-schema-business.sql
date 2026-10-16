@@ -296,3 +296,5 @@ create index feedback_author_idx on public.feedback(author);
 create index briefs_created_by_idx on public.briefs(created_by);
 create index collection_brief_idx on public.collection_items(brief_id);
 alter table public.briefs add column if not exists approvals text[] not null default '{}', add column if not exists approvals_detail text, add column if not exists building_age text;
+alter table public.briefs add column if not exists engagement_mode text, add column if not exists byo_creative text, add column if not exists byo_contact text, add column if not exists feeling text, add column if not exists approver text, add column if not exists usage_rights text[] not null default '{}';
+alter table public.artists add column if not exists licensing text[] not null default '{}', add column if not exists ai_process text, add column if not exists languages text;

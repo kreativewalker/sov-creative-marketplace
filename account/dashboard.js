@@ -19,6 +19,8 @@
     minProject: ['Under $500', '$500 to $1,500', '$1,500 to $5,000', '$5,000 or more'],
     notice: ['Under 2 weeks', '2 to 4 weeks', '1 to 3 months', '3 months or more'],
     insurance: ['Yes', 'No, but I could get it for a project', 'No'],
+    licensing: ["Photos of my work in a client's marketing", 'Ads or paid campaigns', 'Prints or reproductions', 'Merchandise or products', 'Recordings or streams of a performance', 'Ask me each time'],
+    aiProcess: ['No', 'Sometimes, as a tool (sketching, reference, editing)', "Yes, it's central to my work", "I'd rather talk about it on our call"],
     refRel: ['Past client', 'Collaborator', 'Gallery or curator', 'Teacher or mentor', 'Other'],
     heard: ['Instagram', 'Another artist or creative', 'Micah or the SOV team', 'An event or workshop', 'Google or web search', 'AI search (ChatGPT, Claude, Perplexity, Gemini)', 'TikTok', 'LinkedIn', 'Facebook', 'Newsletter or email', 'Other'],
     ai: ['ChatGPT', 'Claude', 'Perplexity', 'Gemini or Google AI answers', 'Microsoft Copilot', 'Something else'],
@@ -177,6 +179,9 @@
     { id: 'rate', sec: 'Pricing and timing', type: 'fields', title: "What's your day rate for live work or installs?", hint: 'Optional. In dollars. Skip it if you price differently.', fields: [['day_rate', 'Day rate in dollars', 'number', false, '', '600']], skippable: true },
     { id: 'notice', sec: 'Pricing and timing', type: 'one', key: 'notice', title: 'How much notice do you usually need?', list: OPT.notice },
     { id: 'ins', sec: 'Pricing and timing', type: 'one', key: 'insurance', title: 'Do you carry general liability insurance?', hint: "It's fine if you don't. Many creatives get it per project.", list: OPT.insurance },
+    { id: 'lic', sec: 'Rights and process', type: 'many', key: 'licensing', title: 'Which uses would you be open to licensing?', hint: 'Optional. You keep your copyright. Each use is agreed and paid separately, and you can always say no.', list: OPT.licensing, optional: true },
+    { id: 'aiq', sec: 'Rights and process', type: 'one', key: 'ai_process', title: 'Is AI part of your creative process?', hint: "Any answer is fine. Some clients ask, so we'd rather know up front. We never train AI on your work without your written permission.", list: OPT.aiProcess },
+    { id: 'lang', sec: 'Rights and process', type: 'fields', title: 'What languages do you work in?', hint: 'Optional. Helps us match you with communities and clients.', skippable: true, fields: [['languages', 'Languages', 'text', false, '', 'English, Spanish']] },
     { id: 'heard', sec: 'Last few', type: 'one', key: 'heard_from', title: 'How did you hear about SOV?', list: OPT.heard },
     { id: 'heard2', sec: 'Last few', type: 'heard2', title: 'Tell us a little more', hint: 'Optional, but it helps us.', skippable: true },
     { id: 'refq', sec: 'Last few', type: 'refq', title: 'Would you like to add a reference?', hint: 'Optional. We only reach out after we talk with you.' },
@@ -335,7 +340,7 @@
         ${row('Name you work under', A.display_name)}${row('City', [A.city_state, A.country].filter(Boolean).join(', '))}${row('Travel range', A.travel_range)}
         ${row('Main field', A.creative_field)}${row('Kinds of work', A.disciplines)}${row('Video or audio sample', A.reel_url)}${row('Services', A.services)}${row('Portfolio', A.portfolio_url)}
         ${row('Largest piece', A.largest_piece)}${row('Where your work has lived', A.where_shown_types)}${row('Can install', A.can_install)}${row('Smallest project', A.min_project)}
-        ${row('Notice needed', A.notice)}${row('Insurance', A.insurance)}${row('How you heard about SOV', A.heard_from)}
+        ${row('Notice needed', A.notice)}${row('Insurance', A.insurance)}${row('Open to licensing', A.licensing)}${row('AI in your process', A.ai_process)}${row('Languages', A.languages)}${row('How you heard about SOV', A.heard_from)}
       </table></section>
       <a class="btn btn-ghost" href="#works" style="align-self:flex-start">See my work</a></div>`;
   }

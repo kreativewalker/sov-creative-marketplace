@@ -10,6 +10,8 @@
   function utm() { try { return JSON.parse(sessionStorage.getItem('sov_utm') || '{}'); } catch (e) { return {}; } }
 
   var OPT = {
+    mode: ['Find the creative and run the whole project', 'We have a creative. Run the project with them', 'Post a call for artists or an RFQ', 'Set up an ongoing program', 'Not sure yet, help us decide'],
+    usage: ['Shown on site only', 'Photos in our marketing and social', 'Ads or paid campaigns', 'Merchandise or products', 'Exclusive to us', 'Not sure yet'],
     sector: ['Hotel or hospitality', 'Development or placemaking', 'Healthcare', 'City, county or public agency', 'Office or workplace', 'Restaurant or retail', 'An event or launch', 'Something else'],
     procure: ['We can hire directly', 'We need to post an RFQ or RFP', 'It is grant funded', 'Not sure yet'],
     outcomes: ['Better guest or patient experience', 'Local identity, a sense of place', 'Photos and social sharing', 'Staff belonging and wellbeing', 'Tell our brand story', 'Bring in foot traffic', 'Community goodwill', 'Calm and comfort'],
@@ -18,17 +20,20 @@
     approvals: ['Historic building or historic district', 'Landmark, preservation or SHPO review', 'Building or fire code review', 'Accessibility (ADA) requirements', 'Zoning, sign or mural ordinance', 'Permits or business licenses', 'Landlord, owner or HOA approval', 'Arts commission or design review', 'Structural or engineering sign-off', 'Specific insurance or COI requirements', 'Community input or public meetings', 'Venue or union rules', "Not sure what applies, help us check"],
     age: ['Built in the last 20 years', '20 to 50 years old', 'More than 50 years old', 'Not sure', 'Outdoors or no building'],
     budget: ['Under $5,000', '$5,000 to $15,000', '$15,000 to $50,000', '$50,000 to $150,000', 'More than $150,000', 'Not sure yet'],
-    source: ['Renovation or construction', 'Furniture and fixtures', 'Marketing', 'HR or culture', 'Percent for art or public art fund', 'Grant or sponsor', 'Not sure'],
+    source: ['Renovation or construction', 'Furniture and fixtures', 'Marketing', 'HR or culture', 'Percent for art or public art fund', 'Grant or sponsor', 'Exploring, no budget approved yet', 'Not sure'],
     when: ['In the next 3 months', '3 to 6 months', '6 to 12 months', 'More than a year out', 'No set date'],
     heard: ['Google or web search', 'AI search (ChatGPT, Claude, Perplexity, Gemini)', 'Instagram', 'LinkedIn', 'A referral', 'An event', 'An artist or creative', 'Other']
   };
   var Q = [
+    { id: 'mode', sec: 'Your space', type: 'one', key: 'engagement_mode', title: 'How would you like to work with us?', hint: 'You can change this later. It just tells us where to start.', list: OPT.mode },
+    { id: 'byo', sec: 'Your space', type: 'fields', title: 'Who is the creative?', hint: "We'll invite them in and handle the agreement, insurance, payments and project room.", skippable: true, fields: [['byo_creative', 'Their name', 'text', false, 'Jordan Rivera'], ['byo_contact', 'Their email, site or Instagram (optional)', 'text', false, 'jordanrivera.studio']] },
     { id: 'sector', sec: 'Your space', type: 'one', key: 'sector', title: 'What kind of space is this for?', list: OPT.sector },
     { id: 'procure', sec: 'Your space', type: 'one', key: 'procurement_path', title: 'How does your agency usually hire for this?', hint: "No wrong answer. If you need a formal call for artists, we can help write it and run it, and creatives apply through SOV.", list: OPT.procure, optional: true },
     { id: 'outcomes', sec: 'Your space', type: 'many', key: 'outcomes', title: 'What should the work do for your space?', hint: 'Pick all that apply. This shapes who we match you with.', list: OPT.outcomes },
     { id: 'creative', sec: 'Your space', type: 'many', key: 'creative_types', title: 'What kind of creative work are you picturing?', hint: "Pick all that fit. It's fine to say you're not sure.", list: OPT.creative },
     { id: 'site', sec: 'The details', type: 'fields', title: 'Tell us about the space', fields: [['space_type', 'Which space?', 'text', true, 'Main lobby wall, about 18 ft wide'], ['city_state', 'City and state or region', 'text', true, 'Winston-Salem, NC'], ['country', 'Country (optional)', 'text', false, 'United States', 'country-name'], ['site_size', 'Size or capacity (optional)', 'text', false, '18 ft x 12 ft, or 150 guests']] },
-    { id: 'story', sec: 'The details', type: 'fields', title: 'Who will experience it, and what story should it tell?', hint: "Optional, but the more you share, the better your matches.", skippable: true, fields: [['audience', 'Who will see or experience it?', 'area', false, 'Hotel guests, many visiting for the first time, and locals who come for the bar.'], ['theme', 'Any theme or story?', 'area', false, "The city's textile history turning into its arts story today. Warm, not literal."]] },
+    { id: 'story', sec: 'The details', type: 'fields', title: 'Who will experience it, and what story should it tell?', hint: "Optional, but the more you share, the better your matches.", skippable: true, fields: [['audience', 'Who will see or experience it?', 'area', false, 'Hotel guests, many visiting for the first time, and locals who come for the bar.'], ['theme', 'Any theme or story?', 'area', false, "The city's textile history turning into its arts story today. Warm, not literal."], ['feeling', 'How should it feel? (optional)', 'text', false, 'Calm and warm, a little surprising']] },
+    { id: 'usage', sec: 'The details', type: 'many', key: 'usage_rights', title: 'How do you plan to use the work?', hint: 'Optional. Creatives keep their copyright, so we license the uses you need up front and price them in. No surprises later.', list: OPT.usage, optional: true },
     { id: 'limits', sec: 'The details', type: 'many', key: 'constraints', title: 'Anything about the site we should plan around?', hint: 'Optional. Pick any that apply.', list: OPT.constraints, optional: true },
     { id: 'age', sec: 'The details', type: 'one', key: 'building_age', title: 'How old is the building?', hint: 'Buildings over 50 years old can fall under historic rules, even when they are not listed. Knowing early saves weeks.', list: OPT.age, optional: true },
     { id: 'approvals', sec: 'The details', type: 'many', key: 'approvals', title: 'Codes, permits and approvals', hint: "Pick anything you know applies. If you're not sure, say so. Checking this is part of our job, and we price it in before anything is signed.", list: OPT.approvals, optional: true },
@@ -36,7 +41,7 @@
     { id: 'budget', sec: 'Budget and timing', type: 'one', key: 'budget_range', title: "What's your budget range?", hint: 'All in, including our fee. Many projects set aside about 0.5 to 1 percent of construction cost for art.', list: OPT.budget },
     { id: 'source', sec: 'Budget and timing', type: 'one', key: 'budget_source', title: 'Where does the budget come from?', hint: 'This helps us pick the right kind of project. A renovation budget suits a commission. A marketing budget suits a launch event.', list: OPT.source, optional: true },
     { id: 'when', sec: 'Budget and timing', type: 'one', key: 'needed_by', title: 'When do you need it?', list: OPT.when },
-    { id: 'you', sec: 'About you', type: 'fields', title: 'Who should we write back to?', hint: 'A real person from our team reads every brief.', fields: [['contact_name', 'Your name', 'text', true, '', 'name'], ['org_name', 'Organization', 'text', true, '', 'organization'], ['email', 'Work email', 'email', true, '', 'email'], ['role', 'Your role (optional)', 'text', false, 'Owner, GM, designer, facilities...', 'organization-title'], ['phone', 'Phone (optional)', 'tel', false, '', 'tel']] },
+    { id: 'you', sec: 'About you', type: 'fields', title: 'Who should we write back to?', hint: 'A real person from our team reads every brief.', fields: [['contact_name', 'Your name', 'text', true, '', 'name'], ['org_name', 'Organization', 'text', true, '', 'organization'], ['email', 'Work email', 'email', true, '', 'email'], ['role', 'Your role (optional)', 'text', false, 'Owner, GM, designer, facilities...', 'organization-title'], ['phone', 'Phone (optional)', 'tel', false, '', 'tel'], ['approver', 'Who gives final approval? (optional)', 'text', false, 'Me, our GM, the owner group, a design review board...']] },
     { id: 'heard', sec: 'About you', type: 'one', key: 'heard_from', title: 'How did you hear about SOV?', list: OPT.heard, optional: true },
     { id: 'heard2', sec: 'About you', type: 'fields', title: 'Tell us a little more', hint: 'Optional, but it helps us.', skippable: true, fields: [['heard_detail', 'Who referred you, which event, or what you asked the AI tool', 'text', false, '']] },
     { id: 'send', sec: 'Send', type: 'send', title: 'Check your brief and send it' }
@@ -44,7 +49,8 @@
   function has(k) { var x = A[k]; return !(x == null || x === '' || (Array.isArray(x) && !x.length)); }
   function visible() {
     return Q.filter(function (q) {
-      if (q.id === 'procure') return /public agency/.test(A.sector || '');
+      if (q.id === 'procure') return /public agency/.test(A.sector || '') || /Post a call/.test(A.engagement_mode || '');
+      if (q.id === 'byo') return /have a creative/.test(A.engagement_mode || '');
       if (q.id === 'approvals2') return (A.approvals || []).length > 0 || /50 years/.test(A.building_age || '');
       if (q.id === 'heard2') return /AI search|referral|event|artist/i.test(A.heard_from || '');
       return true;
@@ -56,10 +62,12 @@
     return true;
   }
   function missing() { return visible().filter(function (q) { return q.type !== 'send' && !q.skippable && !answered(q); }); }
+  var MODES = { full: 0, byo: 1, post: 2, program: 3 };
+  try { var mq = new URLSearchParams(location.search).get('mode'); if (mq && MODES[mq] != null) { A.engagement_mode = OPT.mode[MODES[mq]]; save(); } } catch (e) { }
   var qid = null, sent = false, signedIn = false;
   var start = visible().find(function (q) { return q.type !== 'send' && !q.optional && !q.skippable && !answered(q); });
   qid = (start || visible()[0]).id;
-  if (!Object.keys(A).length) qid = 'intro';
+  if (!Object.keys(A).filter(function (k) { return k !== 'engagement_mode'; }).length) qid = 'intro';
 
   function opt(type, name, val, checked) {
     return '<label class="opt"><input type="' + type + '" name="' + name + '" value="' + esc(val) + '"' + (checked ? ' checked' : '') + '><span class="box"></span><span>' + esc(val) + '</span></label>';
@@ -156,8 +164,8 @@
     if (missing().length) return render();
     btn.disabled = true; btn.textContent = 'Sending...';
     var rec = { status: 'new', utm: Object.keys(utm()).length ? utm() : null, consent_contact: true };
-    ['org_name', 'contact_name', 'email', 'phone', 'role', 'sector', 'space_type', 'city_state', 'audience', 'site_size', 'theme', 'budget_range', 'budget_source', 'needed_by', 'procurement_path', 'country', 'heard_from', 'heard_detail', 'notes', 'building_age', 'approvals_detail'].forEach(function (k) { rec[k] = A[k] ? String(A[k]).slice(0, 2000) : null; });
-    rec.outcomes = A.outcomes || []; rec.creative_types = A.creative_types || []; rec.constraints = A.constraints || []; rec.approvals = A.approvals || [];
+    ['org_name', 'contact_name', 'email', 'phone', 'role', 'sector', 'space_type', 'city_state', 'audience', 'site_size', 'theme', 'budget_range', 'budget_source', 'needed_by', 'procurement_path', 'country', 'heard_from', 'heard_detail', 'notes', 'building_age', 'approvals_detail', 'engagement_mode', 'byo_creative', 'byo_contact', 'feeling', 'approver'].forEach(function (k) { rec[k] = A[k] ? String(A[k]).slice(0, 2000) : null; });
+    rec.outcomes = A.outcomes || []; rec.creative_types = A.creative_types || []; rec.constraints = A.constraints || []; rec.approvals = A.approvals || []; rec.usage_rights = A.usage_rights || [];
     try {
       var sb = window.supabase.createClient(C.supabaseUrl, C.supabaseKey);
       var ses = (await sb.auth.getSession()).data.session;
