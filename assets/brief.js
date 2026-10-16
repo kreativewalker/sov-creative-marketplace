@@ -10,9 +10,9 @@
   function utm() { try { return JSON.parse(sessionStorage.getItem('sov_utm') || '{}'); } catch (e) { return {}; } }
 
   var OPT = {
-    mode: ['Find the creative and run the whole project', 'We have a creative. Run the project with them', 'Post a call for artists or an RFQ', 'Set up an ongoing program', 'Not sure yet, help us decide'],
+    mode: ['Help us define the project (no brief yet)', 'Find the right creative for us', 'Find the creative and run the whole project', 'We have a creative. Run the project with them', 'Post an opportunity, call for artists or RFQ', 'Set up an ongoing creative program', 'Not sure yet, help us decide'],
     usage: ['Shown on site only', 'Photos in our marketing and social', 'Ads or paid campaigns', 'Merchandise or products', 'Exclusive to us', 'Not sure yet'],
-    sector: ['Hotel or hospitality', 'Development or placemaking', 'Healthcare', 'City, county or public agency', 'Office or workplace', 'Restaurant or retail', 'An event or launch', 'Something else'],
+    sector: ['Hotel or hospitality', 'Development or placemaking', 'Healthcare', 'City, county, public agency or arts council', 'Office or workplace', 'Restaurant or retail', 'An event or launch', 'Something else'],
     procure: ['We can hire directly', 'We need to post an RFQ or RFP', 'It is grant funded', 'Not sure yet'],
     outcomes: ['Better guest or patient experience', 'Local identity, a sense of place', 'Photos and social sharing', 'Staff belonging and wellbeing', 'Tell our brand story', 'Bring in foot traffic', 'Community goodwill', 'Calm and comfort'],
     creative: ['Mural or wall art', 'Original artwork for our walls', 'Sculpture or installation', 'Art on loan that rotates', 'Live music or performance', 'Live painting at an event', 'Photo or video content', 'Design: signage, wayfinding or graphics', 'Workshops or community programs', 'Not sure yet, help me choose'],
@@ -49,7 +49,7 @@
   function has(k) { var x = A[k]; return !(x == null || x === '' || (Array.isArray(x) && !x.length)); }
   function visible() {
     return Q.filter(function (q) {
-      if (q.id === 'procure') return /public agency/.test(A.sector || '') || /Post a call/.test(A.engagement_mode || '');
+      if (q.id === 'procure') return /public agency/.test(A.sector || '') || /Post an opportunity/.test(A.engagement_mode || '');
       if (q.id === 'byo') return /have a creative/.test(A.engagement_mode || '');
       if (q.id === 'approvals2') return (A.approvals || []).length > 0 || /50 years/.test(A.building_age || '');
       if (q.id === 'heard2') return /AI search|referral|event|artist/i.test(A.heard_from || '');
@@ -62,12 +62,17 @@
     return true;
   }
   function missing() { return visible().filter(function (q) { return q.type !== 'send' && !q.skippable && !answered(q); }); }
-  var MODES = { full: 0, byo: 1, post: 2, program: 3 };
-  try { var mq = new URLSearchParams(location.search).get('mode'); if (mq && MODES[mq] != null) { A.engagement_mode = OPT.mode[MODES[mq]]; save(); } } catch (e) { }
+  var MODES = { define: 0, curated: 1, full: 2, byo: 3, post: 4, program: 5 };
+  var SECTORS = { hotel: 0, dev: 1, health: 2, city: 3, work: 4, event: 6 };
+  try {
+    var qs = new URLSearchParams(location.search), mq = qs.get('mode'), sq = qs.get('sector');
+    if (mq && MODES[mq] != null) { A.engagement_mode = OPT.mode[MODES[mq]]; save(); }
+    if (sq && SECTORS[sq] != null && !A.sector) { A.sector = OPT.sector[SECTORS[sq]]; save(); }
+  } catch (e) { }
   var qid = null, sent = false, signedIn = false;
   var start = visible().find(function (q) { return q.type !== 'send' && !q.optional && !q.skippable && !answered(q); });
   qid = (start || visible()[0]).id;
-  if (!Object.keys(A).filter(function (k) { return k !== 'engagement_mode'; }).length) qid = 'intro';
+  if (!Object.keys(A).filter(function (k) { return k !== 'engagement_mode' && k !== 'sector'; }).length) qid = 'intro';
 
   function opt(type, name, val, checked) {
     return '<label class="opt"><input type="' + type + '" name="' + name + '" value="' + esc(val) + '"' + (checked ? ' checked' : '') + '><span class="box"></span><span>' + esc(val) + '</span></label>';

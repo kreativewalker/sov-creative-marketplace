@@ -4,6 +4,6 @@ window.SOV_CONFIG = {
   supabaseUrl: 'https://hrvsnzrgheluvoehqtsu.supabase.co',
   supabaseKey: 'sb_publishable_2mZcdRi56IyUYzFRCfZytw_dcz-wkLw',
   bookingUrl: 'https://calendar.app.google/u6Lywn4RBCrpChKh8',
-  contactEmail: '2re@kreativewalker.me',
+  contactEmail: 'founder@sovcreativebrokerage.com',
   termsVersion: '2026-10-15 draft'
 };

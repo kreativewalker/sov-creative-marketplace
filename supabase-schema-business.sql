@@ -298,3 +298,7 @@ create index collection_brief_idx on public.collection_items(brief_id);
 alter table public.briefs add column if not exists approvals text[] not null default '{}', add column if not exists approvals_detail text, add column if not exists building_age text;
 alter table public.briefs add column if not exists engagement_mode text, add column if not exists byo_creative text, add column if not exists byo_contact text, add column if not exists feeling text, add column if not exists approver text, add column if not exists usage_rights text[] not null default '{}';
 alter table public.artists add column if not exists licensing text[] not null default '{}', add column if not exists ai_process text, add column if not exists languages text;
+-- contact messages (Talk with us page)
+create table if not exists public.contact_messages (id uuid primary key default gen_random_uuid(), created_at timestamptz not null default now(), name text not null, email text not null, org text, phone text, topic text not null default 'general', message text not null, page text, status text not null default 'new' check (status in ('new','replied','archived')));
+alter table public.contact_messages enable row level security;
+-- policies: anyone can insert with status 'new'; staff (is_staff()) can select and update.

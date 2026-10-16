@@ -7,13 +7,17 @@
   if (!st.data) { $('#view').innerHTML = `<div class="card pad stack" style="max-width:560px"><h1 class="disp" style="font-size:32px">Team only</h1><p>This page is for the SOV review team. <a href="index.html">Go to your dashboard</a>.</p></div>`; return; }
 
   let artists = [], works = [], urls = {}, sel = null, filter = 'submitted', q = '';
-  let briefs = [], mode = location.hash === '#briefs' ? 'briefs' : 'creatives', bsel = null;
+  let briefs = [], msgs = [], mode = location.hash === '#briefs' ? 'briefs' : location.hash === '#messages' ? 'messages' : 'creatives', bsel = null;
+  const MST = { new: ['New', 'blue'], replied: ['Replied', 'green'], archived: ['Archived', ''] };
+  const TOPIC = { call: 'Intro call', project: 'Project', creative: 'Creative question', partner: 'Partnership', press: 'Press', general: 'General' };
   const BST = { new: ['New', 'blue'], contacted: ['Contacted', 'amber'], scoping: ['Scoping', 'amber'], proposal: ['Proposal sent', 'amber'], won: ['Won', 'green'], lost: ['Lost', ''], archived: ['Archived', ''] };
   const ORDER = ['submitted', 'in_review', 'call_invited', 'call_booked', 'approved', 'active', 'not_a_fit', 'withdrawn', 'draft'];
 
   async function load() {
     const b = await sb.from('briefs').select('*').order('created_at', { ascending: false });
     briefs = b.data || [];
+    const m = await sb.from('contact_messages').select('*').order('created_at', { ascending: false });
+    msgs = m.data || [];
     const [a, w] = await Promise.all([
       sb.from('artists').select('*').order('submitted_at', { ascending: false, nullsFirst: false }),
       sb.from('works').select('*').order('position', { ascending: true, nullsFirst: false })
@@ -28,8 +32,8 @@
   const worksOf = (id) => works.filter(w => w.artist_id === id);
   const count = (s) => artists.filter(a => a.status === s).length;
 
-  const tabs = () => `<div class="row" role="tablist" aria-label="Review area"><button class="btn btn-sm ${mode === 'creatives' ? '' : 'btn-ghost'}" data-mode="creatives" role="tab" aria-selected="${mode === 'creatives'}">Creatives (${artists.filter(a => a.status !== 'draft').length})</button><button class="btn btn-sm ${mode === 'briefs' ? '' : 'btn-ghost'}" data-mode="briefs" role="tab" aria-selected="${mode === 'briefs'}">Business briefs (${briefs.filter(b => b.status === 'new').length} new)</button></div>`;
-  const wireTabs = () => $$('[data-mode]').forEach(b => b.onclick = () => { mode = b.dataset.mode; history.replaceState(null, '', mode === 'briefs' ? '#briefs' : '#'); render(); });
+  const tabs = () => `<div class="row" role="tablist" aria-label="Review area"><button class="btn btn-sm ${mode === 'creatives' ? '' : 'btn-ghost'}" data-mode="creatives" role="tab" aria-selected="${mode === 'creatives'}">Creatives (${artists.filter(a => a.status !== 'draft').length})</button><button class="btn btn-sm ${mode === 'briefs' ? '' : 'btn-ghost'}" data-mode="briefs" role="tab" aria-selected="${mode === 'briefs'}">Business briefs (${briefs.filter(b => b.status === 'new').length} new)</button><button class="btn btn-sm ${mode === 'messages' ? '' : 'btn-ghost'}" data-mode="messages" role="tab" aria-selected="${mode === 'messages'}">Messages (${msgs.filter(m => m.status === 'new').length} new)</button></div>`;
+  const wireTabs = () => $$('[data-mode]').forEach(b => b.onclick = () => { mode = b.dataset.mode; history.replaceState(null, '', mode === 'creatives' ? '#' : '#' + mode); render(); });
 
   function renderBriefs() {
     const row = (l, x) => (x == null || x === '' || (Array.isArray(x) && !x.length)) ? '' : `<tr><th scope="row" style="width:34%">${esc(l)}</th><td>${esc(Array.isArray(x) ? x.join(', ') : x)}</td></tr>`;
@@ -60,7 +64,26 @@
     });
   }
 
+  function renderMessages() {
+    $('#view').innerHTML = `<div class="stack" style="gap:20px">
+      <div class="row" style="justify-content:space-between"><h1 class="disp">Team review</h1>${tabs()}</div>
+      <p class="hint">Messages from the Talk with us page. Reply by email, then mark them replied.</p>
+      <div class="stack" style="gap:12px">${msgs.map(m => `<section class="card pad stack" style="gap:10px">
+        <div class="row" style="justify-content:space-between;gap:10px"><b>${esc(m.name)}${m.org ? ' · ' + esc(m.org) : ''}</b><span class="tag ${MST[m.status][1]}">${MST[m.status][0]}</span></div>
+        <p class="hint">${esc(TOPIC[m.topic] || m.topic)} · ${new Date(m.created_at).toLocaleString()} · <a href="mailto:${esc(m.email)}">${esc(m.email)}</a>${m.phone ? ' · ' + esc(m.phone) : ''}</p>
+        <p style="white-space:pre-wrap">${esc(m.message)}</p>
+        <div class="row"><a class="btn btn-blue btn-sm" href="mailto:${esc(m.email)}?subject=${encodeURIComponent('Re: your message to SOV')}&body=${encodeURIComponent('Hi ' + (m.name || '').split(' ')[0] + ',\n\n')}">Reply by email</a>${Object.keys(MST).map(k => `<button class="btn btn-sm ${m.status === k ? '' : 'btn-ghost'}" data-mid="${m.id}" data-mst="${k}">${MST[k][0]}</button>`).join('')}</div>
+      </section>`).join('') || '<p class="hint">No messages yet.</p>'}</div></div>`;
+    wireTabs();
+    $$('[data-mst]').forEach(x => x.onclick = async () => {
+      const m = msgs.find(y => y.id === x.dataset.mid);
+      const r = await sb.from('contact_messages').update({ status: x.dataset.mst }).eq('id', m.id).select().single();
+      if (r.error) { toast('Could not update'); return; } Object.assign(m, r.data); toast('Updated'); render();
+    });
+  }
+
   function render() {
+    if (mode === 'messages') return renderMessages();
     if (mode === 'briefs') return renderBriefs();
     const shown = artists.filter(a => (filter === 'all' || a.status === filter) && (!q || JSON.stringify([a.display_name, a.legal_name, a.email, a.city_state, a.disciplines]).toLowerCase().includes(q)));
     const sources = {};
