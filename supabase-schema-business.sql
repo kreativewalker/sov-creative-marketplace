@@ -295,3 +295,4 @@ create index org_invites_by_idx on public.org_invites(invited_by);
 create index feedback_author_idx on public.feedback(author);
 create index briefs_created_by_idx on public.briefs(created_by);
 create index collection_brief_idx on public.collection_items(brief_id);
+alter table public.briefs add column if not exists approvals text[] not null default '{}', add column if not exists approvals_detail text, add column if not exists building_age text;

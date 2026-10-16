@@ -47,7 +47,7 @@
           <section class="card pad"><table class="t">
             ${row('Sent', new Date(b.created_at).toLocaleString())}${row('Type of space', b.sector)}${row('The space', b.space_type)}${row('Where', [b.city_state, b.country].filter(Boolean).join(', '))}${row('How they hire', b.procurement_path)}${row('Size', b.site_size)}
             ${row('What it should do', b.outcomes)}${row('Creative work wanted', b.creative_types)}${row('Who experiences it', b.audience)}${row('Theme or story', b.theme)}
-            ${row('Limits', b.constraints)}${row('Budget', b.budget_range)}${row('Budget comes from', b.budget_source)}${row('Needed by', b.needed_by)}
+            ${row('Site limits', b.constraints)}${row('Building age', b.building_age)}${row('Codes and approvals', b.approvals)}${row('Approval notes', b.approvals_detail)}${row('Budget', b.budget_range)}${row('Budget comes from', b.budget_source)}${row('Needed by', b.needed_by)}
             ${row('Heard about SOV', b.heard_from)}${row('More on that', b.heard_detail)}${row('Notes', b.notes)}${row('Tracking', b.utm ? Object.entries(b.utm).map(([k, v]) => k + '=' + v).join(', ') : '')}
           </table></section><div id="room"></div></div>` : '<p class="hint">Choose a brief to see it.</p>'}</section>
       </div></div>`;

@@ -14,7 +14,9 @@
     procure: ['We can hire directly', 'We need to post an RFQ or RFP', 'It is grant funded', 'Not sure yet'],
     outcomes: ['Better guest or patient experience', 'Local identity, a sense of place', 'Photos and social sharing', 'Staff belonging and wellbeing', 'Tell our brand story', 'Bring in foot traffic', 'Community goodwill', 'Calm and comfort'],
     creative: ['Mural or wall art', 'Original artwork for our walls', 'Sculpture or installation', 'Art on loan that rotates', 'Live music or performance', 'Live painting at an event', 'Photo or video content', 'Design: signage, wayfinding or graphics', 'Workshops or community programs', 'Not sure yet, help me choose'],
-    constraints: ['Must be finished by a set date', 'Work happens while we are open', 'Outdoors or exposed to weather', 'Low-odor materials needed', 'Must be cleanable (infection control)', 'Needs permits or landlord approval', 'Arts commission or design review approval', 'Community input or public meetings', 'Venue or union rules'],
+    constraints: ['Must be finished by a set date', 'Work happens while we are open', 'Outdoors or exposed to weather', 'Low-odor or low-VOC materials needed', 'Must be cleanable (infection control)', 'Heavy or hanging work (wall, ceiling, structure)', 'Limited access, loading or work hours', 'Ongoing care or maintenance plan needed'],
+    approvals: ['Historic building or historic district', 'Landmark, preservation or SHPO review', 'Building or fire code review', 'Accessibility (ADA) requirements', 'Zoning, sign or mural ordinance', 'Permits or business licenses', 'Landlord, owner or HOA approval', 'Arts commission or design review', 'Structural or engineering sign-off', 'Specific insurance or COI requirements', 'Community input or public meetings', 'Venue or union rules', "Not sure what applies, help us check"],
+    age: ['Built in the last 20 years', '20 to 50 years old', 'More than 50 years old', 'Not sure', 'Outdoors or no building'],
     budget: ['Under $5,000', '$5,000 to $15,000', '$15,000 to $50,000', '$50,000 to $150,000', 'More than $150,000', 'Not sure yet'],
     source: ['Renovation or construction', 'Furniture and fixtures', 'Marketing', 'HR or culture', 'Percent for art or public art fund', 'Grant or sponsor', 'Not sure'],
     when: ['In the next 3 months', '3 to 6 months', '6 to 12 months', 'More than a year out', 'No set date'],
@@ -27,7 +29,10 @@
     { id: 'creative', sec: 'Your space', type: 'many', key: 'creative_types', title: 'What kind of creative work are you picturing?', hint: "Pick all that fit. It's fine to say you're not sure.", list: OPT.creative },
     { id: 'site', sec: 'The details', type: 'fields', title: 'Tell us about the space', fields: [['space_type', 'Which space?', 'text', true, 'Main lobby wall, about 18 ft wide'], ['city_state', 'City and state or region', 'text', true, 'Winston-Salem, NC'], ['country', 'Country (optional)', 'text', false, 'United States', 'country-name'], ['site_size', 'Size or capacity (optional)', 'text', false, '18 ft x 12 ft, or 150 guests']] },
     { id: 'story', sec: 'The details', type: 'fields', title: 'Who will experience it, and what story should it tell?', hint: "Optional, but the more you share, the better your matches.", skippable: true, fields: [['audience', 'Who will see or experience it?', 'area', false, 'Hotel guests, many visiting for the first time, and locals who come for the bar.'], ['theme', 'Any theme or story?', 'area', false, "The city's textile history turning into its arts story today. Warm, not literal."]] },
-    { id: 'limits', sec: 'The details', type: 'many', key: 'constraints', title: 'Anything we should plan around?', hint: 'Optional. Pick any that apply.', list: OPT.constraints, optional: true },
+    { id: 'limits', sec: 'The details', type: 'many', key: 'constraints', title: 'Anything about the site we should plan around?', hint: 'Optional. Pick any that apply.', list: OPT.constraints, optional: true },
+    { id: 'age', sec: 'The details', type: 'one', key: 'building_age', title: 'How old is the building?', hint: 'Buildings over 50 years old can fall under historic rules, even when they are not listed. Knowing early saves weeks.', list: OPT.age, optional: true },
+    { id: 'approvals', sec: 'The details', type: 'many', key: 'approvals', title: 'Codes, permits and approvals', hint: "Pick anything you know applies. If you're not sure, say so. Checking this is part of our job, and we price it in before anything is signed.", list: OPT.approvals, optional: true },
+    { id: 'approvals2', sec: 'The details', type: 'fields', title: 'Tell us what you know so far', hint: 'Optional. A district name, a contact at the city, a landlord rule, or a code you have run into before.', skippable: true, fields: [['approvals_detail', 'What should we know?', 'area', false, 'The building is in the downtown historic district. Facade changes go to the preservation commission, which meets monthly.']] },
     { id: 'budget', sec: 'Budget and timing', type: 'one', key: 'budget_range', title: "What's your budget range?", hint: 'All in, including our fee. Many projects set aside about 0.5 to 1 percent of construction cost for art.', list: OPT.budget },
     { id: 'source', sec: 'Budget and timing', type: 'one', key: 'budget_source', title: 'Where does the budget come from?', hint: 'This helps us pick the right kind of project. A renovation budget suits a commission. A marketing budget suits a launch event.', list: OPT.source, optional: true },
     { id: 'when', sec: 'Budget and timing', type: 'one', key: 'needed_by', title: 'When do you need it?', list: OPT.when },
@@ -40,6 +45,7 @@
   function visible() {
     return Q.filter(function (q) {
       if (q.id === 'procure') return /public agency/.test(A.sector || '');
+      if (q.id === 'approvals2') return (A.approvals || []).length > 0 || /50 years/.test(A.building_age || '');
       if (q.id === 'heard2') return /AI search|referral|event|artist/i.test(A.heard_from || '');
       return true;
     });
@@ -90,7 +96,7 @@
       + '<h1>What should your space feel like?</h1>'
       + '<p class="lede">A few short questions, one at a time. Nothing is booked until you sign a scope, and a real person from our team reads every brief.</p>'
       + '<ol class="timeline"><li><span class="n" style="background:var(--blue)">1</span><span><b>Your space</b><br><span class="muted">What it is and what the work should do.</span></span></li>'
-      + '<li><span class="n" style="background:var(--think)">2</span><span><b>The details</b><br><span class="muted">Where, how big, and what to plan around.</span></span></li>'
+      + '<li><span class="n" style="background:var(--think)">2</span><span><b>The details</b><br><span class="muted">Where, how big, and the codes or approvals to plan around.</span></span></li>'
       + '<li><span class="n" style="background:var(--feel)">3</span><span><b>Budget and timing</b><br><span class="muted">A range is fine. Not sure is fine too.</span></span></li>'
       + '<li><span class="n" style="background:var(--exp)">4</span><span><b>Who to write back to</b><br><span class="muted">Then we take it from there.</span></span></li></ol>'
       + '<div class="row"><button class="btn btn-blue" id="go" type="button">Let\'s start</button><span class="muted" style="font-size:15px">Your answers save in this browser as you go.</span></div></div>';
@@ -150,8 +156,8 @@
     if (missing().length) return render();
     btn.disabled = true; btn.textContent = 'Sending...';
     var rec = { status: 'new', utm: Object.keys(utm()).length ? utm() : null, consent_contact: true };
-    ['org_name', 'contact_name', 'email', 'phone', 'role', 'sector', 'space_type', 'city_state', 'audience', 'site_size', 'theme', 'budget_range', 'budget_source', 'needed_by', 'procurement_path', 'country', 'heard_from', 'heard_detail', 'notes'].forEach(function (k) { rec[k] = A[k] ? String(A[k]).slice(0, 2000) : null; });
-    rec.outcomes = A.outcomes || []; rec.creative_types = A.creative_types || []; rec.constraints = A.constraints || [];
+    ['org_name', 'contact_name', 'email', 'phone', 'role', 'sector', 'space_type', 'city_state', 'audience', 'site_size', 'theme', 'budget_range', 'budget_source', 'needed_by', 'procurement_path', 'country', 'heard_from', 'heard_detail', 'notes', 'building_age', 'approvals_detail'].forEach(function (k) { rec[k] = A[k] ? String(A[k]).slice(0, 2000) : null; });
+    rec.outcomes = A.outcomes || []; rec.creative_types = A.creative_types || []; rec.constraints = A.constraints || []; rec.approvals = A.approvals || [];
     try {
       var sb = window.supabase.createClient(C.supabaseUrl, C.supabaseKey);
       var ses = (await sb.auth.getSession()).data.session;
