@@ -854,3 +854,4 @@ h2{font-size:clamp(36px,4vw,60px)}
 
 /* beta badge */
 .logo .beta{font-family:Inter,system-ui,sans-serif;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-l,#D9C68E);border:1px solid rgba(181,158,90,.6);border-radius:999px;padding:3px 8px 2px;line-height:1;transform:translateY(-1px);font-style:normal}
+.wordmark .beta{font-family:Inter,system-ui,sans-serif;font-size:clamp(11px,1.1vw,15px);font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--brass-l,#D9C68E);border:1px solid rgba(181,158,90,.6);border-radius:999px;padding:.45em 1em .38em;line-height:1;margin:0 0 .5em .5em;align-self:flex-end;font-style:normal}
