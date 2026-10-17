@@ -558,16 +558,35 @@ main img{filter:blur(2px);transform:scale(1.03)}
 .sovmark{text-shadow:0 0 18px rgba(217,198,142,.55)}
 .tier.feat{border-color:var(--aub2)}
 
-/* Creative room: same layout, the gallery-after-hours palette */
-.room-creative .btn-orange{background:var(--aub2)}.room-creative .btn-orange:hover{background:var(--aub3)}
-.room-creative h1 em,.room-creative .sec:not(.dark):not(.cine) h2 em{color:var(--aub3)}
-.room-creative .eyebrow.orange{color:var(--brass-d)}
-.room-creative .timeline .n{background:var(--aub2)!important}
-.room-creative .principle .n{color:var(--brass-d)}
-.room-creative .band{background:var(--aub)}
-.room-creative .band::after{background:linear-gradient(90deg,rgba(36,9,31,.94),rgba(36,9,31,.45))}
-.room-creative .band .btn-light{background:var(--brass);color:#1E0819}
-.room-creative .float .chip.orange{background:#EFE6D2;color:var(--aub2)}
+/* Creative room: the whole For creatives page lives in the Artist Shield palette */
+body.room-creative{--paper:#24091F;--paper2:#33102D;--card:#2B0C26;--soft:#3A1534;--line:rgba(181,158,90,.26);--ink:#F3EEE4;--ink2:#DDD2C6;--muted:#B5A99D;background:var(--paper);color:var(--ink)}
+body.room-creative::before{mix-blend-mode:overlay;opacity:.06}
+.room-creative main img{filter:none;transform:none}
+.room-creative .cine>.bg img{filter:none;opacity:.26;transform:none}
+.room-creative .top{background:rgba(36,9,31,.88)}
+.room-creative .btn,.room-creative .btn-orange,.room-creative .nav .btn{background:var(--brass);color:#1E0819}
+.room-creative .btn:hover,.room-creative .btn-orange:hover,.room-creative .nav .btn:hover{background:var(--brass-l);color:#1E0819}
+.room-creative .btn-ghost,.room-creative .btn.btn-line-light{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px rgba(217,198,142,.65)}
+.room-creative .btn-ghost:hover,.room-creative .btn.btn-line-light:hover{background:var(--ink);color:#1E0819}
+.room-creative .eyebrow,.room-creative .eyebrow.orange{color:var(--brass)}
+.room-creative h1 em,.room-creative h2 em{color:var(--brass-l)}
+.room-creative .link:hover,.room-creative .foot a:hover{color:var(--brass-l)}
+.room-creative .float{box-shadow:0 30px 60px -24px rgba(0,0,0,.7);border:1px solid var(--line)}
+.room-creative .chip,.room-creative .float .chip.orange{background:rgba(181,158,90,.18);color:var(--brass-l)}
+.room-creative .timeline li .n{color:var(--brass-l)}
+.room-creative .principle .n{color:var(--brass)}
+.room-creative .ba-row.head span.now{color:var(--brass-l)}
+.room-creative .ba .was{text-decoration-color:rgba(181,169,157,.5)}
+.room-creative .ba .now::before{color:var(--brass)!important}
+.room-creative .quotes p{color:var(--brass-l)}
+.room-creative .irl{background:var(--soft);border:1px solid rgba(181,158,90,.35)}
+.room-creative .band{background:var(--aub);border:1px solid var(--line)}
+.room-creative .band::after{background:linear-gradient(90deg,rgba(36,9,31,.92),rgba(36,9,31,.35))}
+.room-creative .cn{background:var(--card)}
+.room-creative .cn:hover{border-color:var(--brass)}
+.room-creative .cn .ci{background:var(--brass);color:#1E0819}
+.room-creative .ph .cap{background:rgba(36,9,31,.85);color:var(--ink)}
+.room-creative .guide-btn{background:#3B003B}
 
 /* Artist Shield: four protections around the creative */
 .shield{position:relative;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:rgba(181,158,90,.4);border:1px solid rgba(181,158,90,.4)}

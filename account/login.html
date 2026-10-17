@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Log in to SOV</title>
+<title>Sign in to SOV</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="app.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
@@ -15,20 +15,23 @@
   <section class="auth-art photo" style="--bg:url('https://wsrv.nl/?url=d8j0ntlcm91z4.cloudfront.net/user_3JN9WwYdQscKQUNYgAoxraBKWrm/hf_20261015_233207_abcf0847-06d4-4889-a2c2-72d7ac064177.png&w=1100&output=webp&q=72')">
     <a class="logo" href="../index.html">sov</a>
     <div class="stack" style="gap:20px">
-      <h1 class="disp">Welcome back.</h1>
+      <h1 class="disp">Sign in to SOV.</h1>
       <p style="color:#D6D3CA;font-size:18px;max-width:30em">Creatives: pick up your application and keep your work current. Businesses and cities: follow your projects, approve milestones and see every cost.</p>
     </div>
     <p class="hint" style="color:#B9B6AC">New to SOV? <a href="signup.html" style="color:#9DB2F7">Create an account</a></p>
   </section>
   <section class="auth-form">
     <form id="f" novalidate>
-      <h2 class="disp" style="font-size:32px">Log in</h2>
+      <div class="newhere">
+        <p><b>New to SOV?</b> You don't need to sign in yet. Start here instead:</p>
+        <div class="nh-row"><a href="signup.html" data-nh>I'm a creative<span>Apply, it's free</span></a><a href="signup.html?type=business" data-nh>I'm a business or city<span>Create a free account</span></a></div>
+      </div>
+      <h2 class="disp" style="font-size:32px">Already have an account?</h2>
       <label class="f">Email <input id="email" type="email" autocomplete="email" required></label>
       <label class="f">Password <input id="pw" type="password" autocomplete="current-password" required></label>
       <p id="msg" role="alert" class="err" hidden></p>
-      <button class="btn btn-blue" id="go" type="submit">Log in</button>
+      <button class="btn btn-blue" id="go" type="submit">Sign in</button>
       <p class="hint"><button type="button" class="linkbtn" id="forgot">Forgot your password?</button></p>
-      <p class="hint">New here? <a href="signup.html">Create an account</a></p>
     </form>
   </section>
 </div>
@@ -36,7 +39,7 @@
 const next = new URLSearchParams(location.search).get('next');
 const safeNext = next && /^[a-z]+\.html(#[a-z0-9/-]*)?$/i.test(next) ? next : null;
 const go = async (user) => location.replace(safeNext || await homeFor(user));
-if (safeNext && /^business\.html/.test(safeNext)) document.querySelectorAll('a[href="signup.html"]').forEach(x => x.href = 'signup.html?type=business');
+if (safeNext && /^business\.html/.test(safeNext)) document.querySelectorAll('.auth-art a[href="signup.html"]').forEach(x => x.href = 'signup.html?type=business');
 (async () => { const { data } = await sb.auth.getSession(); if (data.session) go(data.session.user); })();
 $('#f').addEventListener('submit', async (e) => {
   e.preventDefault();

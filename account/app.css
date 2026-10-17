@@ -151,3 +151,11 @@ h1.disp,.q-title{font-size:clamp(36px,4.4vw,56px)!important;line-height:1.02}
 .btn-blue{background:var(--ink)}.btn-blue:hover{background:#2C2B28}
 .card{border-radius:6px}
 [hidden]{display:none!important}
+
+.newhere{display:flex;flex-direction:column;gap:12px;padding:18px;border:1px solid var(--line,#DCD6C8);border-radius:14px;background:#FBFAF6;margin-bottom:8px}
+.newhere p{font-size:15px;margin:0}
+.nh-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.nh-row a{display:flex;flex-direction:column;gap:4px;padding:14px;border-radius:12px;background:#24091F;color:#fff;text-decoration:none;font-weight:600;font-size:15px}
+.nh-row a span{font-weight:400;font-size:13px;color:#D9C68E}
+.nh-row a:hover{background:#3B003B}
+@media (max-width:420px){.nh-row{grid-template-columns:1fr}}
