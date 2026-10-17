@@ -36,6 +36,7 @@
 const next = new URLSearchParams(location.search).get('next');
 const safeNext = next && /^[a-z]+\.html(#[a-z0-9/-]*)?$/i.test(next) ? next : null;
 const go = async (user) => location.replace(safeNext || await homeFor(user));
+if (safeNext && /^business\.html/.test(safeNext)) document.querySelectorAll('a[href="signup.html"]').forEach(x => x.href = 'signup.html?type=business');
 (async () => { const { data } = await sb.auth.getSession(); if (data.session) go(data.session.user); })();
 $('#f').addEventListener('submit', async (e) => {
   e.preventDefault();

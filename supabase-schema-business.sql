@@ -302,3 +302,7 @@ alter table public.artists add column if not exists licensing text[] not null de
 create table if not exists public.contact_messages (id uuid primary key default gen_random_uuid(), created_at timestamptz not null default now(), name text not null, email text not null, org text, phone text, topic text not null default 'general', message text not null, page text, status text not null default 'new' check (status in ('new','replied','archived')));
 alter table public.contact_messages enable row level security;
 -- policies: anyone can insert with status 'new'; staff (is_staff()) can select and update.
+-- Oct 17: self-serve opportunities + applications (tier 1), program fields on briefs (tier 3).
+-- See migration opportunities_applications_programs: tables opportunities, applications; functions is_approved_creative, opp_org_member, opp_open, opp_applicants;
+-- RLS: org members create/edit (cannot self-open; SOV staff opens), approved creatives read open network postings and apply, org members review applicants.
+-- briefs.program_sites int, briefs.program_cadence text. Storage: artworks readable by orgs where the creative applied.

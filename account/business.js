@@ -5,7 +5,8 @@
   const user = await requireUser(); if (!user) return;
   try { await sb.rpc('accept_invites'); } catch (e) { /* fine */ }
 
-  let org = null, me = null, members = [], invites = [], briefs = [], lines = [], miles = [], docs = [], items = [], staff = false;
+  let org = null, me = null, members = [], invites = [], briefs = [], lines = [], miles = [], docs = [], items = [], staff = false, opps = [], appCounts = {};
+  const appCache = {};
   const fbCache = {}, matchCache = {}, urls = {};
 
   const STAGES = [
@@ -24,6 +25,17 @@
   const day = (d) => d ? new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
   const titleOf = (b) => b.title || [b.creative_types?.[0], b.space_type].filter(Boolean).join(', ') || 'New brief';
   const isOwner = () => me && me.role === 'owner';
+  const isProgram = (b) => /program/i.test(b.engagement_mode || '');
+  const tierOf = (b) => isProgram(b) ? 'Creative program' : /Post an opportunity/i.test(b.engagement_mode || '') ? 'Self-serve' : 'Curated match';
+  const OST = { draft: ['Draft', ''], review: ['In review by SOV', ''], open: ['Open to creatives', 'ready'], closed: ['Closed', ''], awarded: ['Creative selected', 'approved'] };
+  const DISC = ['Mural or wall art', 'Painting or original artwork', 'Sculpture or installation', 'Design, signage or wayfinding', 'Photo or video', 'Live music', 'Dance or performance', 'Live painting', 'Workshops or community programs', 'Something else'];
+  const BUD = ['Under $2,500', '$2,500 to $5,000', '$5,000 to $15,000', '$15,000 to $50,000', '$50,000 or more', 'Open to proposals'];
+  const sovMark = '<span class="sovm">sov<i><b></b><b></b><b></b><b></b><b></b></i></span>';
+  const TIERS = [
+    ['Tier 1 · Self-serve', 'Post an opportunity', 'You post the project and choose the creative.', 'Shares it with our vetted network, collects applications, and gives you agreements, payments and a project room.', '#post', 'Post an opportunity'],
+    ['Tier 2 · Full service', 'Curated match', 'Tell us what you need. We find the creative and run it with you.', 'Writes the brief, shortlists 3 to 5 vetted creatives with reasons, and runs delivery with one project lead.', '../brief.html?mode=curated', 'Start a curated match'],
+    ['Tier 3 · Ongoing', 'Creative program', 'For several spaces or year-round work.', 'Plans the year, keeps a preferred roster, runs every project and reports across your sites.', '#program', 'Plan a program']];
+  const tierCards = () => `<div class="tierc">${TIERS.map((t, i) => `<a class="tier${i === 1 ? ' feat' : ''}" href="${t[4]}"><span class="eyb">${t[0]}</span><h3>${t[1]}</h3><p class="hint">${t[2]}</p><div class="sovp">${sovMark}<span>${t[3]}</span></div><span class="go">${t[5]} →</span></a>`).join('')}</div>`;
 
   async function load() {
     const m = await sb.from('org_members').select('*, orgs(*)').eq('user_id', user.id).limit(1);
@@ -47,6 +59,9 @@
     } else {
       const d = await sb.from('documents').select('*').eq('org_id', org.id); docs = d.data || [];
     }
+    const op = await sb.from('opportunities').select('*').eq('org_id', org.id).order('created_at', { ascending: false });
+    opps = op.data || [];
+    if (opps.length) { const ac = await sb.from('applications').select('opportunity_id,status').in('opportunity_id', opps.map(o => o.id)); appCounts = {}; (ac.data || []).forEach(a => { if (a.status !== 'withdrawn') appCounts[a.opportunity_id] = (appCounts[a.opportunity_id] || 0) + 1; }); }
     const it = await sb.from('collection_items').select('*').eq('org_id', org.id).order('installed_on', { ascending: false, nullsFirst: false });
     items = it.data || [];
     return true;
@@ -64,7 +79,7 @@
   }
   function projRow(b) {
     const t = totalOf(b.id), r = readyMiles().filter(m => m.brief_id === b.id).length;
-    return `<a class="proj" href="#project/${b.id}"><div class="top"><div class="stack" style="gap:4px"><span class="eyb">${esc(b.sector || 'Project')}${b.city_state ? ' · ' + esc(b.city_state) : ''}</span><h3>${esc(titleOf(b))}</h3></div>
+    return `<a class="proj" href="#project/${b.id}"><div class="top"><div class="stack" style="gap:4px"><span class="eyb">${esc(tierOf(b))} · ${esc(b.sector || 'Project')}${b.city_state ? ' · ' + esc(b.city_state) : ''}</span><h3>${esc(titleOf(b))}</h3></div>
       <div class="row" style="gap:10px">${r ? `<span class="pill ready">${r} to approve</span>` : ''}${b.stage === 'paused' ? '<span class="pill">Paused</span>' : `<span class="pill">${STAGES[stageIdx(b.stage)][1]}</span>`}<span class="hint">${t ? money(t) : esc(b.budget_range || '')}</span></div></div>${stagebar(b)}</a>`;
   }
 
@@ -78,7 +93,8 @@
     briefs.filter(b => b.stage === 'shortlist').forEach(b => todos.push(['Review your shortlist', `${esc(titleOf(b))}. Choose who gets a paid concept.`, `#project/${b.id}/shortlist`]));
     if (members.length < 2 && !invites.length) todos.push(['Bring in your team', 'Invite your designer, facilities lead or procurement contact so approvals don\'t stall.', '#team']);
     if (!org.payment_terms && !org.vendor_portal) todos.push(['Add your vendor requirements', 'Payment terms, vendor portal and who signs off. We set up paperwork once, the way your team needs it.', '#company']);
-    if (!briefs.length) todos.push(['Send your first brief', 'About 4 minutes. Nothing is booked until you sign a scope.', '../brief.html']);
+    opps.filter(o => o.status === 'open' && appCounts[o.id]).forEach(o => todos.push([`${appCounts[o.id]} creative${appCounts[o.id] > 1 ? 's' : ''} applied`, `${esc(o.title)}. Review and pick who fits.`, `#opp/${o.id}`]));
+    if (!briefs.length && !opps.length) todos.push(['Start your first project', 'Post an opportunity, ask for a curated match, or plan a program.', '#start']);
     const first = (me.name || user.user_metadata?.display_name || '').split(' ')[0];
     return `<div class="stack" style="gap:44px">
       <div class="stack" style="gap:10px"><span class="eyb">${esc(org.name)}</span><h1 class="disp">${first ? `Welcome back, <em>${esc(first)}.</em>` : 'Your <em>projects.</em>'}</h1></div>
@@ -90,8 +106,8 @@
       </div>
       <div class="grid-main">
         <section class="stack" style="gap:0">
-          <div class="row" style="justify-content:space-between;margin-bottom:12px"><h2>Projects</h2><a class="btn btn-sm" href="../brief.html">New brief</a></div>
-          ${briefs.length ? briefs.slice(0, 6).map(projRow).join('') : `<div class="empty hair stack" style="gap:12px"><p class="hint" style="font-size:16px">No projects yet. Your first brief takes about 4 minutes, and a real person reads it.</p><div><a class="btn" href="../brief.html">Start a brief</a></div></div>`}
+          <div class="row" style="justify-content:space-between;margin-bottom:12px"><h2>Projects</h2><a class="btn btn-sm" href="#start">Start new</a></div>
+          ${briefs.length ? briefs.slice(0, 6).map(projRow).join('') : `<div class="stack" style="gap:14px"><p class="hint" style="font-size:16px">No projects yet. Choose how you'd like to start.</p>${tierCards()}</div>`}
         </section>
         <aside class="stack" style="gap:28px">
           <section><h2 style="margin-bottom:8px">Needs you</h2>${todos.length ? todos.map(t => `<a class="todo" href="${t[2]}" style="text-decoration:none;color:inherit"><span class="dotc"></span><span><b style="display:block">${t[0]}</b><span class="hint">${t[1]}</span></span></a>`).join('') : '<p class="hint hair" style="padding-top:16px">Nothing waiting on you. We\'ll flag it here when something is.</p>'}</section>
@@ -101,7 +117,7 @@
   };
 
   views.projects = () => `<div class="stack" style="gap:28px">
-      <div class="row" style="justify-content:space-between;align-items:flex-end"><div class="stack" style="gap:8px"><span class="eyb">${esc(org.name)}</span><h1 class="disp">Projects</h1></div><a class="btn" href="../brief.html">New brief</a></div>
+      <div class="row" style="justify-content:space-between;align-items:flex-end"><div class="stack" style="gap:8px"><span class="eyb">${esc(org.name)}</span><h1 class="disp">Projects</h1><p class="hint" style="font-size:16px">Curated matches and program projects SOV is running with you.</p></div><a class="btn" href="#start">Start new</a></div>
       <div>${briefs.length ? briefs.map(projRow).join('') : '<p class="hint hair" style="padding-top:20px">No projects yet.</p>'}</div></div>`;
 
   async function signWorks(cards) {
@@ -122,7 +138,7 @@
     if (tab === 'overview') {
       body = `<div class="grid-main"><ol class="timeline2">${STAGES.map((s, k) => `<li class="${b.stage === 'complete' || k < i ? 'done' : k === i ? 'now' : 'later'}"><span class="mk"></span><span><b style="display:block">${s[1]}${k === i && b.stage !== 'complete' ? ' <span class="pill ready" style="margin-left:8px">Now</span>' : ''}</b><span class="hint">${s[2]}</span></span></li>`).join('')}</ol>
         <aside class="card pad stack" style="gap:12px"><span class="eyb">Your brief</span>
-          ${[['Space', [b.space_type, b.city_state, b.country].filter(Boolean).join(', ')], ['What it should do', (b.outcomes || []).join(', ')], ['Creative work', (b.creative_types || []).join(', ')], ['Budget', [b.budget_range, b.budget_source].filter(Boolean).join(' · ')], ['Timing', b.needed_by], ['How you hire', b.procurement_path], ['Site limits', (b.constraints || []).join(', ')], ['Building age', b.building_age], ['Codes and approvals', (b.approvals || []).join(', ')], ['What you told us', b.approvals_detail], ['How you want to work', b.engagement_mode], ['Planned uses', (b.usage_rights || []).join(', ')], ['Final approval', b.approver], ['Sent', day(b.created_at)]].filter(r => r[1]).map(r => `<div><span class="hint" style="display:block;font-size:13px">${r[0]}</span>${esc(r[1])}</div>`).join('')}
+          ${[['Space', [b.space_type, b.city_state, b.country].filter(Boolean).join(', ')], ['What it should do', (b.outcomes || []).join(', ')], ['Creative work', (b.creative_types || []).join(', ')], ['Budget', [b.budget_range, b.budget_source].filter(Boolean).join(' · ')], ['Timing', b.needed_by], ['How you hire', b.procurement_path], ['Site limits', (b.constraints || []).join(', ')], ['Building age', b.building_age], ['Codes and approvals', (b.approvals || []).join(', ')], ['What you told us', b.approvals_detail], ['How you want to work', b.engagement_mode], ['Sites', b.program_sites], ['Program type', b.program_cadence], ['Creative', b.byo_creative], ['Notes', b.notes], ['Planned uses', (b.usage_rights || []).join(', ')], ['Final approval', b.approver], ['Sent', day(b.created_at)]].filter(r => r[1]).map(r => `<div><span class="hint" style="display:block;font-size:13px">${r[0]}</span>${esc(r[1])}</div>`).join('')}
         </aside></div>`;
     }
     if (tab === 'shortlist') {
@@ -171,6 +187,81 @@
       ${body}</div>`;
   }
 
+  views.start = () => `<div class="stack" style="gap:28px">
+      <div class="stack" style="gap:8px"><span class="eyb">${esc(org.name)}</span><h1 class="disp">How would you like <em>to start?</em></h1><p class="hint" style="font-size:16px;max-width:640px">Three tiers. You can start with one and move up any time. Not sure? <a href="https://calendar.app.google/ZtKt8hpRBjTjpKaC6" target="_blank" rel="noopener">Book a 20-minute call</a>.</p></div>
+      ${tierCards()}</div>`;
+
+  views.opps = () => `<div class="stack" style="gap:28px">
+      <div class="row" style="justify-content:space-between;align-items:flex-end"><div class="stack" style="gap:8px"><span class="eyb">Tier 1 · Self-serve</span><h1 class="disp">Opportunities</h1><p class="hint" style="font-size:16px;max-width:640px">Post a project to SOV's vetted network, review who applies and pick your creative. SOV checks each posting before it goes out.</p></div><a class="btn" href="#post">Post an opportunity</a></div>
+      ${opps.length ? opps.map(o => `<a class="proj" href="#opp/${o.id}"><div class="top"><div class="stack" style="gap:4px"><span class="eyb">${esc((o.disciplines || []).slice(0, 2).join(' · ') || 'Opportunity')}${o.location ? ' · ' + esc(o.location) : ''}</span><h3>${esc(o.title)}</h3></div><div class="row" style="gap:10px"><span class="pill ${OST[o.status][1]}">${OST[o.status][0]}</span><span class="hint">${appCounts[o.id] || 0} applied</span></div></div></a>`).join('')
+        : `<div class="empty hair stack" style="gap:12px"><p class="hint" style="font-size:16px">No opportunities yet. Describe the project, and approved creatives in our network can apply. You choose who fits.</p><div><a class="btn" href="#post">Post your first opportunity</a></div></div>`}</div>`;
+
+  views.post = () => `<form class="stack" id="oppForm" style="gap:28px;max-width:900px" novalidate>
+      <a href="#opps" class="hint" style="text-decoration:none">← Opportunities</a>
+      <div class="stack" style="gap:8px"><span class="eyb">Tier 1 · Self-serve</span><h1 class="disp">Post an <em>opportunity.</em></h1><p class="hint" style="font-size:16px">Plain and specific works best. SOV reviews every posting within one to two business days before it opens to the network.</p></div>
+      <section class="stack" style="gap:16px"><h2>The project</h2><div class="formgrid">
+        <label class="f" style="grid-column:1/-1">Title<input name="title" required maxlength="160" placeholder="Lobby mural for a boutique hotel, about 18 ft wide"></label>
+        <label class="f" style="grid-column:1/-1">One-line summary<input name="summary" maxlength="600" placeholder="Local, warm, a little surprising. Installed before our spring opening."></label>
+        <label class="f" style="grid-column:1/-1">Details<textarea name="details" maxlength="4000" placeholder="The space, the audience, the story, size or set length, materials, anything you need creatives to know."></textarea></label>
+        <label class="f">Where<input name="location" maxlength="200" placeholder="Winston-Salem, NC"></label>
+        <label class="f">Budget<select name="budget_range">${BUD.map(x => `<option>${x}</option>`).join('')}</select></label>
+        <label class="f">Apply by<input type="date" name="deadline"></label>
+        <label class="f">Timing<input name="timing" maxlength="200" placeholder="Install in March, or event on May 12"></label>
+      </div></section>
+      <section class="stack" style="gap:12px"><h2>What kind of creative?</h2><div class="chips">${DISC.map(d => `<label><input type="checkbox" name="disciplines" value="${esc(d)}"><span>${esc(d)}</span></label>`).join('')}</div></section>
+      <section class="stack" style="gap:12px"><h2>Rights and use</h2><label class="f">How will you use the work or the photos of it?<input name="rights" maxlength="600" placeholder="On site only, plus photos for our website and social"></label><p class="hint">Creatives keep their copyright. The uses you list here are licensed in the agreement.</p></section>
+      <section class="stack" style="gap:12px"><h2>Already have someone in mind?</h2><div class="formgrid"><label class="f">Their name (optional)<input name="invited_name" maxlength="200"></label><label class="f">Email, site or Instagram (optional)<input name="invited_contact" maxlength="300"></label></div>
+        <label class="row" style="gap:10px"><input type="checkbox" name="invite_only"><span>Only invite this person. Don't share with the network.</span></label></section>
+      <div class="sovp" style="max-width:760px">${sovMark}<span>Reviews your posting, shares it with vetted creatives, and sets up the agreement, insurance and payments once you choose. Our self-serve platform fee is set in your agreement, inside your budget.</span></div>
+      <div class="row"><button class="btn" type="submit" data-st="review">Send to SOV for review</button><button class="btn btn-ghost" type="submit" data-st="draft">Save as draft</button></div>
+    </form>`;
+
+  async function oppView(id) {
+    const o = opps.find(x => x.id === id);
+    if (!o) return `<p class="hint">We couldn't find that opportunity. <a href="#opps">See all opportunities</a></p>`;
+    if (!appCache[id]) { const r = await sb.rpc('opp_applicants', { o: id }); appCache[id] = r.data || []; await signWorks(appCache[id]); }
+    const apps = appCache[id];
+    const AST = { submitted: ['New', ''], shortlisted: ['Shortlisted', 'ready'], selected: ['Selected', 'approved'], declined: ['Not this time', ''] };
+    return `<div class="stack" style="gap:28px">
+      <a href="#opps" class="hint" style="text-decoration:none">← Opportunities</a>
+      <div class="row" style="justify-content:space-between;align-items:flex-end"><div class="stack" style="gap:8px"><span class="eyb">Tier 1 · Self-serve${o.location ? ' · ' + esc(o.location) : ''}</span><h1 class="disp">${esc(o.title)}</h1></div><span class="pill ${OST[o.status][1]}">${OST[o.status][0]}</span></div>
+      <div class="grid-main"><section class="stack" style="gap:16px"><h2>Who applied</h2>
+        ${o.status === 'review' ? '<p class="hint hair" style="padding-top:16px">SOV is reviewing your posting. Once it opens, approved creatives can apply and they appear here.</p>' : o.status === 'draft' ? '<p class="hint hair" style="padding-top:16px">This is a draft. Send it to SOV for review when you are ready.</p>' : ''}
+        ${apps.length ? apps.map(c => `<article class="mcard"><div class="imgs">${(c.works || []).slice(0, 3).map(w => w.image_path ? `<img src="${esc(urls[w.image_path] || '')}" alt="${esc(w.title || 'Work sample')}" loading="lazy">` : w.link_url ? `<a class="lt" href="${esc(w.link_url)}" target="_blank" rel="noopener"><span aria-hidden="true">${w.kind === 'audio' ? '♪' : '▶'}</span>Open ${esc(w.kind || 'link')}</a>` : '').join('')}</div>
+          <div class="stack" style="gap:10px"><div class="row" style="justify-content:space-between"><span class="eyb">${esc(c.creative_field || (c.disciplines || [])[0] || 'Creative')}${c.city ? ' · ' + esc(c.city) : ''}</span><span class="pill ${AST[c.status][1]}">${AST[c.status][0]}</span></div>
+            <h3>${esc(c.display_name || 'Creative')}</h3>${c.note ? `<p class="why">${esc(c.note)}</p>` : ''}${c.fee_note ? `<p><span class="hint">Their fee note</span> ${esc(c.fee_note)}</p>` : ''}
+            ${c.portfolio_url ? `<a class="hint" href="${esc(c.portfolio_url)}" target="_blank" rel="noopener">See more of their work</a>` : ''}
+            ${o.status === 'open' && c.status !== 'selected' ? `<div class="row">${c.status === 'submitted' ? `<button class="btn btn-sm btn-ghost" data-app="${c.application_id}" data-s="shortlisted">Shortlist</button>` : ''}<button class="btn btn-sm" data-app="${c.application_id}" data-s="selected">Choose this creative</button>${c.status !== 'declined' ? `<button class="linkbtn" data-app="${c.application_id}" data-s="declined">Not this time</button>` : ''}</div>` : ''}
+          </div></article>`).join('') : (o.status === 'open' ? '<p class="hint hair" style="padding-top:16px">No applications yet. We share new postings with matching creatives in our network.</p>' : '')}
+      </section>
+      <aside class="card pad stack" style="gap:12px"><span class="eyb">Your posting</span>
+        ${[['Summary', o.summary], ['Details', o.details], ['Creative work', (o.disciplines || []).join(', ')], ['Budget', o.budget_range], ['Apply by', o.deadline ? day(o.deadline) : ''], ['Timing', o.timing], ['Rights and use', o.rights], ['Invited', [o.invited_name, o.invited_contact].filter(Boolean).join(' · ')], ['Shared with', o.visibility === 'invite_only' ? 'Only the person you invited' : 'SOV vetted network']].filter(r => r[1]).map(r => `<div><span class="hint" style="display:block;font-size:13px">${r[0]}</span>${esc(r[1])}</div>`).join('')}
+        <div class="row">${o.status === 'draft' ? `<button class="btn btn-sm" data-ost="review">Send for review</button>` : ''}${['open', 'review', 'draft'].includes(o.status) ? `<button class="linkbtn" data-ost="closed">Close this posting</button>` : ''}</div>
+      </aside></div></div>`;
+  }
+
+  views.programs = () => {
+    const progs = briefs.filter(isProgram);
+    return `<div class="stack" style="gap:28px">
+      <div class="row" style="justify-content:space-between;align-items:flex-end"><div class="stack" style="gap:8px"><span class="eyb">Tier 3 · Ongoing</span><h1 class="disp">Creative programs</h1><p class="hint" style="font-size:16px;max-width:660px">One partner for several spaces or year-round work: an annual plan, a preferred roster, every project run for you, and one report across all your sites.</p></div><a class="btn" href="#program">Plan a program</a></div>
+      ${progs.length ? progs.map(projRow).join('') : `<div class="sovp" style="max-width:760px">${sovMark}<span>Plans the year with you, keeps a roster of creatives you trust, runs every rotation, event or commission, and reports across all your properties.</span></div><div><a class="btn" href="#program">Plan your program</a></div>`}</div>`;
+  };
+
+  views.program = () => `<form class="stack" id="progForm" style="gap:28px;max-width:900px" novalidate>
+      <a href="#programs" class="hint" style="text-decoration:none">← Programs</a>
+      <div class="stack" style="gap:8px"><span class="eyb">Tier 3 · Ongoing</span><h1 class="disp">Plan a creative <em>program.</em></h1><p class="hint" style="font-size:16px">A few details to start. Your SOV lead will set up a planning call and draft the year with you.</p></div>
+      <div class="formgrid">
+        <label class="f" style="grid-column:1/-1">Program name<input name="title" required maxlength="160" placeholder="2027 art and events program, all properties"></label>
+        <label class="f">How many sites or spaces?<input type="number" min="1" max="500" name="program_sites" placeholder="4"></label>
+        <label class="f">What kind of program?<select name="program_cadence"><option>Rotating art across our spaces</option><option>Seasonal live programming and events</option><option>An annual plan of new commissions</option><option>A mix of the above</option><option>Not sure yet</option></select></label>
+        <label class="f">Where?<input name="city_state" maxlength="200" placeholder="NC and SC properties"></label>
+        <label class="f">Yearly budget<select name="budget_range"><option>Under $25,000</option><option>$25,000 to $75,000</option><option>$75,000 to $200,000</option><option>More than $200,000</option><option>Not sure yet</option></select></label>
+        <label class="f" style="grid-column:1/-1">What should the program do for you?<textarea name="notes" maxlength="2000" placeholder="Keep our lobbies fresh, give guests a reason to return, support local creatives, a report our owners will read."></textarea></label>
+      </div>
+      <div class="sovp" style="max-width:760px">${sovMark}<span>Programs are billed as one annual fee plus the projects inside them, every line visible before you sign.</span></div>
+      <div><button class="btn" type="submit">Send to SOV</button></div>
+    </form>`;
+
   views.collection = () => `<div class="stack" style="gap:28px">
       <div class="stack" style="gap:8px"><span class="eyb">${esc(org.name)}</span><h1 class="disp">Collection</h1><p class="hint" style="max-width:620px;font-size:16px">Every finished work, where it lives, who made it, how to care for it and what rights you hold. Handy for insurance, facilities and the next rotation.</p></div>
       ${items.length ? `<div class="gallery">${items.map(x => `<figure>${x.image_url ? `<img src="${esc(x.image_url)}" alt="${esc(x.title)}" loading="lazy">` : '<div style="aspect-ratio:4/3;background:var(--soft)"></div>'}<figcaption class="stack" style="gap:4px"><b style="font-family:'Instrument Serif',serif;font-weight:400;font-size:22px">${esc(x.title)}</b><span class="hint">${esc([x.creative_name, x.medium, x.size, x.year].filter(Boolean).join(' · '))}</span><span class="hint">${esc(x.location || '')}${x.ownership !== 'owned' ? ' · ' + esc(x.ownership.replace('_', ' ')) : ''}${x.next_rotation ? ' · rotates ' + day(x.next_rotation) : ''}</span>${x.care ? `<details><summary class="hint" style="cursor:pointer">Care and rights</summary><p class="hint" style="margin-top:6px">${esc(x.care)}</p>${x.rights ? `<p class="hint">${esc(x.rights)}</p>` : ''}</details>` : ''}</figcaption></figure>`).join('')}</div>`
@@ -213,9 +304,9 @@
 
   async function render() {
     const [name, id, tab] = (location.hash.slice(1) || 'home').split('/');
-    const key = name === 'project' ? 'projects' : name;
+    const key = name === 'project' ? 'projects' : name === 'opp' || name === 'post' ? 'opps' : name === 'program' ? 'programs' : name === 'start' ? '' : name;
     $$('#nav a[href^="#"]').forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === '#' + key ? 'page' : 'false'));
-    const html = name === 'project' ? await projectView(id, tab) : (views[name] || views.home)();
+    const html = name === 'project' ? await projectView(id, tab) : name === 'opp' ? await oppView(id) : (views[name] || views.home)();
     $('#view').innerHTML = html; wire(name, id, tab);
   }
 
@@ -266,6 +357,50 @@
       org = r.data; toast('Saved'); render();
     };
     const pb = $('#printBtn'); if (pb) pb.onclick = () => window.print();
+    const offm = $('#oppForm');
+    if (offm) { let st = 'review'; $$('button[data-st]', offm).forEach(b => b.onclick = () => { st = b.dataset.st; });
+      offm.onsubmit = async (e) => {
+        e.preventDefault(); const d = new FormData(offm);
+        const title = String(d.get('title') || '').trim(); if (title.length < 3) { toast('Please add a title.'); return; }
+        const rec = { org_id: org.id, created_by: user.id, status: st, title, disciplines: d.getAll('disciplines'), visibility: d.get('invite_only') ? 'invite_only' : 'network' };
+        ['summary', 'details', 'location', 'budget_range', 'timing', 'rights', 'invited_name', 'invited_contact'].forEach(k => { const v = String(d.get(k) || '').trim(); rec[k] = v || null; });
+        rec.deadline = d.get('deadline') || null;
+        const r = await sb.from('opportunities').insert(rec).select().single();
+        if (r.error) { console.error(r.error); toast('Could not save that. Please try again.'); return; }
+        opps.unshift(r.data); toast(st === 'draft' ? 'Draft saved' : 'Sent to SOV for review'); location.hash = '#opp/' + r.data.id;
+      }; }
+    $$('[data-ost]').forEach(b => b.onclick = async () => {
+      const o = opps.find(x => x.id === id); if (!o) return;
+      if (b.dataset.ost === 'closed' && !confirm('Close this posting? Creatives will no longer be able to apply.')) return;
+      const r = await sb.from('opportunities').update({ status: b.dataset.ost }).eq('id', o.id).select().single();
+      if (r.error) { toast('Could not update.'); return; } Object.assign(o, r.data); toast('Updated'); render();
+    });
+    $$('[data-app]').forEach(b => b.onclick = async () => {
+      const o = opps.find(x => x.id === id); const s = b.dataset.s;
+      if (s === 'selected' && !confirm('Choose this creative? We will close the posting and set up the agreement, insurance and payments with you.')) return;
+      b.disabled = true;
+      const r = await sb.from('applications').update({ status: s }).eq('id', b.dataset.app);
+      if (r.error) { toast('Could not save that.'); b.disabled = false; return; }
+      const c = (appCache[id] || []).find(x => x.application_id === b.dataset.app); if (c) c.status = s;
+      if (s === 'selected' && o) {
+        const u = await sb.from('opportunities').update({ status: 'awarded' }).eq('id', o.id).select().single(); if (!u.error) Object.assign(o, u.data);
+        const br = { org_id: org.id, created_by: user.id, status: 'new', stage: 'brief', consent_contact: true, org_name: org.name, contact_name: me.name || user.user_metadata?.display_name || user.email, email: user.email, title: o.title, sector: org.sector || null, city_state: o.location || null, budget_range: o.budget_range, engagement_mode: 'Post an opportunity myself (self-serve)', byo_creative: c ? c.display_name : null, notes: 'Created from a self-serve opportunity. Selected creative: ' + (c ? c.display_name : '') };
+        const nb = await sb.from('briefs').insert(br).select().single();
+        if (!nb.error) briefs.unshift(nb.data);
+        toast('Creative selected. Your project room is set up.'); location.hash = nb.error ? '#opps' : '#project/' + nb.data.id; return;
+      }
+      toast(s === 'declined' ? 'Noted.' : 'Shortlisted'); render();
+    });
+    const pf = $('#progForm');
+    if (pf) pf.onsubmit = async (e) => {
+      e.preventDefault(); const d = Object.fromEntries(new FormData(pf));
+      if (!String(d.title || '').trim()) { toast('Please name your program.'); return; }
+      const rec = { org_id: org.id, created_by: user.id, status: 'new', stage: 'brief', consent_contact: true, org_name: org.name, contact_name: me.name || user.user_metadata?.display_name || user.email, email: user.email,
+        title: String(d.title).trim(), sector: org.sector || null, city_state: d.city_state || null, budget_range: d.budget_range || null, engagement_mode: 'Set up an ongoing creative program', program_sites: d.program_sites ? Number(d.program_sites) : null, program_cadence: d.program_cadence || null, notes: d.notes || null };
+      const r = await sb.from('briefs').insert(rec).select().single();
+      if (r.error) { console.error(r.error); toast('Could not send that. Please try again.'); return; }
+      briefs.unshift(r.data); toast('Sent. Your SOV lead will reach out to plan the year.'); location.hash = '#project/' + r.data.id;
+    };
   }
 
   if (!(await load())) {
@@ -274,6 +409,6 @@
   }
   $('#av').textContent = initials(me.name || user.email);
   if (staff) $('#teamLink').hidden = false;
-  window.addEventListener('hashchange', () => { render(); window.scrollTo(0, 0); });
+  window.addEventListener('hashchange', () => { Object.keys(appCache).forEach(k => delete appCache[k]); render(); window.scrollTo(0, 0); });
   render();
 })();

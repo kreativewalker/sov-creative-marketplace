@@ -518,6 +518,27 @@
         <p class="hint">Agreed to Terms of Use and Privacy Notice: ${A.terms_accepted_at ? new Date(A.terms_accepted_at).toLocaleString() + ' (' + esc(A.terms_version || '') + ')' : 'not yet'}. <a href="terms.html" target="_blank" rel="noopener">Read them</a>.</p>
       </section></div>`;
 
+  let opps = null, myApps = [];
+  async function loadOpps() {
+    const [o, a] = await Promise.all([sb.from('opportunities').select('id,title,summary,details,disciplines,location,budget_range,deadline,timing,rights,created_at').eq('status', 'open').eq('visibility', 'network').order('created_at', { ascending: false }), sb.from('applications').select('*').eq('artist_id', user.id)]);
+    opps = o.data || []; myApps = a.data || [];
+  }
+  views.opportunities = () => {
+    const ok = ['approved', 'active'].includes(A.status);
+    if (!ok) return `<div class="stack" style="gap:16px;max-width:760px"><h1 class="disp">Opportunities</h1><p class="notice">Open calls from hotels, developers, healthcare spaces, cities and brands appear here once you're approved. It's always free to apply.</p></div>`;
+    if (opps === null) return `<div class="stack" style="gap:16px"><h1 class="disp">Opportunities</h1><p class="hint">Loading open calls...</p></div>`;
+    const mine = (id) => myApps.find(a => a.opportunity_id === id);
+    const ST = { submitted: 'Applied', shortlisted: 'Shortlisted', selected: 'Selected', declined: 'Not this time', withdrawn: 'Withdrawn' };
+    return `<div class="stack" style="gap:20px">
+      <div class="stack" style="gap:8px"><h1 class="disp">Opportunities</h1><p class="hint" style="max-width:680px">Projects posted by organizations and reviewed by SOV. Free to apply. You'll see the budget and the rights up front, and your agreement shows your full pay before you say yes.</p></div>
+      ${opps.length ? opps.map(o => { const m = mine(o.id); return `<section class="card pad stack" style="gap:10px">
+        <div class="row" style="justify-content:space-between;gap:10px"><span class="hint">${esc((o.disciplines || []).join(' · '))}${o.location ? ' · ' + esc(o.location) : ''}</span>${m ? `<span class="tag ${m.status === 'selected' ? 'green' : m.status === 'shortlisted' ? 'blue' : ''}">${ST[m.status]}</span>` : ''}</div>
+        <h2>${esc(o.title)}</h2>${o.summary ? `<p>${esc(o.summary)}</p>` : ''}
+        <details><summary class="hint" style="cursor:pointer">Details, budget and rights</summary><div class="stack" style="gap:8px;margin-top:10px">${o.details ? `<p style="white-space:pre-wrap">${esc(o.details)}</p>` : ''}${[['Budget', o.budget_range], ['Apply by', o.deadline], ['Timing', o.timing], ['Rights and use', o.rights]].filter(r => r[1]).map(r => `<p><span class="hint">${r[0]}:</span> ${esc(r[1])}</p>`).join('')}</div></details>
+        ${m ? (m.status === 'submitted' ? `<div><button class="linkbtn" data-withdraw="${m.id}">Withdraw my application</button></div>` : '') : `<form class="stack" data-apply="${o.id}" style="gap:10px"><label class="f"><span>Why you, for this project?</span><textarea name="note" maxlength="2000" required placeholder="Two or three sentences: your approach, a related piece you've made, and your availability."></textarea></label><label class="f"><span>Your fee or rate (optional)</span><input name="fee_note" maxlength="300" placeholder="For example: $4,500 design and painting, materials separate"></label><div><button class="btn btn-blue btn-sm" type="submit">Apply, it's free</button></div></form>`}
+      </section>`; }).join('') : '<p class="hint">No open calls right now. New ones are added as organizations post them, and we email you when one fits your work.</p>'}</div>`;
+  };
+
   views.resources = () => `<div class="stack" style="gap:20px">
       <h1 class="disp">Resources</h1>
       <div class="grid2">
@@ -579,6 +600,21 @@
         const blob = new Blob([JSON.stringify({ exported_at: new Date().toISOString(), account_email: user.email, artist: A, works, consent_history: ev.data || [] }, null, 2)], { type: 'application/json' });
         const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'my-sov-data.json'; a.click(); URL.revokeObjectURL(a.href);
       });
+    }
+    if (name === 'opportunities') {
+      if (opps === null && ['approved', 'active'].includes(A.status)) { loadOpps().then(render); return; }
+      $$('form[data-apply]').forEach(f => f.addEventListener('submit', async (e) => {
+        e.preventDefault(); const d = Object.fromEntries(new FormData(f)); if (!String(d.note || '').trim()) { toast('Please add a short note.'); return; }
+        const b = f.querySelector('button'); b.disabled = true;
+        const r = await sb.from('applications').insert({ opportunity_id: f.dataset.apply, artist_id: user.id, note: String(d.note).trim(), fee_note: String(d.fee_note || '').trim() || null }).select().single();
+        if (r.error) { console.error(r.error); toast('Could not send that. Please try again.'); b.disabled = false; return; }
+        myApps.push(r.data); toast('Applied. Good luck!'); render();
+      }));
+      $$('[data-withdraw]').forEach(b => b.addEventListener('click', async () => {
+        if (!confirm('Withdraw this application?')) return;
+        const r = await sb.from('applications').update({ status: 'withdrawn' }).eq('id', b.dataset.withdraw).select().single();
+        if (!r.error) { const m = myApps.find(a => a.id === b.dataset.withdraw); Object.assign(m, r.data); render(); }
+      }));
     }
     if (name === 'call') $('#booked')?.addEventListener('click', async () => { if (await saveArtist({ status: 'call_booked' })) { toast('Great, see you on the call'); render(); } });
     if (name === 'works') {

@@ -7,7 +7,7 @@
   if (!st.data) { $('#view').innerHTML = `<div class="card pad stack" style="max-width:560px"><h1 class="disp" style="font-size:32px">Team only</h1><p>This page is for the SOV review team. <a href="index.html">Go to your dashboard</a>.</p></div>`; return; }
 
   let artists = [], works = [], urls = {}, sel = null, filter = 'submitted', q = '';
-  let briefs = [], msgs = [], mode = location.hash === '#briefs' ? 'briefs' : location.hash === '#messages' ? 'messages' : 'creatives', bsel = null;
+  let briefs = [], msgs = [], topps = [], mode = ['#briefs', '#messages', '#opps'].includes(location.hash) ? location.hash.slice(1) : 'creatives', bsel = null;
   const MST = { new: ['New', 'blue'], replied: ['Replied', 'green'], archived: ['Archived', ''] };
   const TOPIC = { call: 'Intro call', project: 'Project', creative: 'Creative question', partner: 'Partnership', press: 'Press', general: 'General' };
   const BST = { new: ['New', 'blue'], contacted: ['Contacted', 'amber'], scoping: ['Scoping', 'amber'], proposal: ['Proposal sent', 'amber'], won: ['Won', 'green'], lost: ['Lost', ''], archived: ['Archived', ''] };
@@ -18,6 +18,8 @@
     briefs = b.data || [];
     const m = await sb.from('contact_messages').select('*').order('created_at', { ascending: false });
     msgs = m.data || [];
+    const op = await sb.from('opportunities').select('*, orgs(name)').order('created_at', { ascending: false });
+    topps = op.data || [];
     const [a, w] = await Promise.all([
       sb.from('artists').select('*').order('submitted_at', { ascending: false, nullsFirst: false }),
       sb.from('works').select('*').order('position', { ascending: true, nullsFirst: false })
@@ -32,7 +34,7 @@
   const worksOf = (id) => works.filter(w => w.artist_id === id);
   const count = (s) => artists.filter(a => a.status === s).length;
 
-  const tabs = () => `<div class="row" role="tablist" aria-label="Review area"><button class="btn btn-sm ${mode === 'creatives' ? '' : 'btn-ghost'}" data-mode="creatives" role="tab" aria-selected="${mode === 'creatives'}">Creatives (${artists.filter(a => a.status !== 'draft').length})</button><button class="btn btn-sm ${mode === 'briefs' ? '' : 'btn-ghost'}" data-mode="briefs" role="tab" aria-selected="${mode === 'briefs'}">Business briefs (${briefs.filter(b => b.status === 'new').length} new)</button><button class="btn btn-sm ${mode === 'messages' ? '' : 'btn-ghost'}" data-mode="messages" role="tab" aria-selected="${mode === 'messages'}">Messages (${msgs.filter(m => m.status === 'new').length} new)</button></div>`;
+  const tabs = () => `<div class="row" role="tablist" aria-label="Review area"><button class="btn btn-sm ${mode === 'creatives' ? '' : 'btn-ghost'}" data-mode="creatives" role="tab" aria-selected="${mode === 'creatives'}">Creatives (${artists.filter(a => a.status !== 'draft').length})</button><button class="btn btn-sm ${mode === 'briefs' ? '' : 'btn-ghost'}" data-mode="briefs" role="tab" aria-selected="${mode === 'briefs'}">Business briefs (${briefs.filter(b => b.status === 'new').length} new)</button><button class="btn btn-sm ${mode === 'messages' ? '' : 'btn-ghost'}" data-mode="messages" role="tab" aria-selected="${mode === 'messages'}">Messages (${msgs.filter(m => m.status === 'new').length} new)</button><button class="btn btn-sm ${mode === 'opps' ? '' : 'btn-ghost'}" data-mode="opps" role="tab" aria-selected="${mode === 'opps'}">Opportunities (${topps.filter(o => o.status === 'review').length} to review)</button></div>`;
   const wireTabs = () => $$('[data-mode]').forEach(b => b.onclick = () => { mode = b.dataset.mode; history.replaceState(null, '', mode === 'creatives' ? '#' : '#' + mode); render(); });
 
   function renderBriefs() {
@@ -82,7 +84,27 @@
     });
   }
 
+  function renderOpps() {
+    const OS = { draft: 'Draft', review: 'Needs review', open: 'Open', closed: 'Closed', awarded: 'Creative selected' };
+    $('#view').innerHTML = `<div class="stack" style="gap:20px">
+      <div class="row" style="justify-content:space-between"><h1 class="disp">Team review</h1>${tabs()}</div>
+      <p class="hint">Self-serve postings from organizations. Check each one is clear, fairly paid and safe, then open it to approved creatives.</p>
+      <div class="stack" style="gap:12px">${topps.map(o => `<section class="card pad stack" style="gap:8px">
+        <div class="row" style="justify-content:space-between;gap:10px"><b>${esc(o.title)}</b><span class="tag ${o.status === 'review' ? 'amber' : o.status === 'open' ? 'green' : ''}">${OS[o.status]}</span></div>
+        <p class="hint">${esc(o.orgs?.name || '')} · ${new Date(o.created_at).toLocaleDateString()} · ${esc((o.disciplines || []).join(', '))}${o.location ? ' · ' + esc(o.location) : ''} · ${esc(o.budget_range || '')}${o.visibility === 'invite_only' ? ' · invite only' : ''}</p>
+        ${o.summary ? `<p>${esc(o.summary)}</p>` : ''}${o.details ? `<details><summary class="hint">Details</summary><p style="white-space:pre-wrap">${esc(o.details)}</p>${o.rights ? `<p class="hint">Rights: ${esc(o.rights)}</p>` : ''}${o.invited_name ? `<p class="hint">Invited: ${esc(o.invited_name)} ${esc(o.invited_contact || '')}</p>` : ''}</details>` : ''}
+        <div class="row">${o.status !== 'open' ? `<button class="btn btn-blue btn-sm" data-oid="${o.id}" data-os="open">Open to creatives</button>` : ''}${o.status === 'review' ? `<button class="btn btn-sm btn-ghost" data-oid="${o.id}" data-os="draft">Send back as draft</button>` : ''}${['open', 'review'].includes(o.status) ? `<button class="linkbtn" data-oid="${o.id}" data-os="closed">Close</button>` : ''}</div>
+      </section>`).join('') || '<p class="hint">No postings yet.</p>'}</div></div>`;
+    wireTabs();
+    $$('[data-os]').forEach(x => x.onclick = async () => {
+      const o = topps.find(y => y.id === x.dataset.oid);
+      const r = await sb.from('opportunities').update({ status: x.dataset.os }).eq('id', o.id).select('*, orgs(name)').single();
+      if (r.error) { toast('Could not update'); return; } Object.assign(o, r.data); toast('Updated'); render();
+    });
+  }
+
   function render() {
+    if (mode === 'opps') return renderOpps();
     if (mode === 'messages') return renderMessages();
     if (mode === 'briefs') return renderBriefs();
     const shown = artists.filter(a => (filter === 'all' || a.status === filter) && (!q || JSON.stringify([a.display_name, a.legal_name, a.email, a.city_state, a.disciplines]).toLowerCase().includes(q)));

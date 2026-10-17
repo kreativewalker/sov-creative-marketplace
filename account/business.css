@@ -73,3 +73,22 @@ table.money tr.total td{border-top:1px solid var(--ink);font-family:'Instrument 
 @media print{.topbar,#printBtn,.tabs{display:none!important}.bz{background:#fff}.kpi b{font-size:32px}}
 
 .bz .nav a.btn{padding:0 18px;border-bottom:0;min-height:38px;display:inline-flex;align-items:center}
+
+/* three tiers + lit SOV panel (matches the public site) */
+.tierc{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+@media (max-width:980px){.tierc{grid-template-columns:minmax(0,1fr)}}
+.tierc .tier{display:flex;flex-direction:column;gap:14px;padding:26px;border:1px solid var(--line,#DCD6C8);border-radius:18px;background:#FBFAF6;color:inherit;text-decoration:none;transition:border-color .2s,transform .2s}
+.tierc .tier:hover{border-color:#141413;transform:translateY(-2px)}
+.tierc .tier.feat{border-color:#141413}
+.tierc .tier h3{font-family:'Instrument Serif',serif;font-weight:400;font-size:34px;line-height:1.05}
+.tierc .tier .go{margin-top:auto;font-weight:600;font-size:15px;border-bottom:1px solid currentColor;align-self:flex-start;padding-bottom:2px}
+.sovp{display:flex;flex-direction:column;gap:8px;padding:18px 20px;border-radius:14px;background:#141413;color:#E9E4D8;font-size:15px;line-height:1.55;box-shadow:0 0 0 1px rgba(143,168,245,.55),0 14px 40px -14px rgba(47,91,234,.6)}
+.sovm{font-family:'Instrument Serif',serif;font-size:28px;line-height:1;color:#fff;display:inline-flex;align-items:center;gap:8px;text-shadow:0 0 16px rgba(143,168,245,.8)}
+.sovm i{display:inline-flex;gap:4px}.sovm b{width:6px;height:6px;border-radius:50%;display:block}
+.sovm b:nth-child(1){background:#E9B23A}.sovm b:nth-child(2){background:#D9622B}.sovm b:nth-child(3){background:#9E2338}.sovm b:nth-child(4){background:#5E3F94}.sovm b:nth-child(5){background:#2F7A55}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chips label{cursor:pointer}
+.chips input{position:absolute;opacity:0;pointer-events:none}
+.chips span{display:inline-block;padding:9px 16px;border:1px solid var(--line,#DCD6C8);border-radius:999px;background:#fff;font-size:15px}
+.chips input:checked+span{background:#141413;color:#fff;border-color:#141413}
+.chips input:focus-visible+span{outline:2px solid #2F5BEA;outline-offset:2px}
