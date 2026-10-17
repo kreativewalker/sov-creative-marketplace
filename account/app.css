@@ -164,3 +164,8 @@ h1.disp,.q-title{font-size:clamp(36px,4.4vw,56px)!important;line-height:1.02}
 .planbar a{color:#D9C68E;font-weight:600}
 .planbar.end{border-color:#D9C68E}
 .studio{border:1px solid rgba(181,158,90,.6)}
+
+/* beta badge */
+.logo .beta{display:inline-block;margin-left:8px;vertical-align:middle;font-family:Inter,system-ui,sans-serif;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-l,#D9C68E);border:1px solid rgba(181,158,90,.6);border-radius:999px;padding:3px 8px 2px;line-height:1;transform:translateY(-1px);font-style:normal}
+.logo .beta{color:#8C773A;border-color:rgba(140,119,58,.55)}
+.auth-art .logo .beta{color:#D9C68E;border-color:rgba(217,198,142,.6)}

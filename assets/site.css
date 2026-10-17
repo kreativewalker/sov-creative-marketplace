@@ -851,3 +851,6 @@ h2{font-size:clamp(36px,4vw,60px)}
 .plan .price span{color:var(--muted);font-size:15px}
 .plan .checks{flex:1}.plan .checks li{font-size:15px;padding:10px 0}
 .plan .btn{align-self:flex-start}
+
+/* beta badge */
+.logo .beta{font-family:Inter,system-ui,sans-serif;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-l,#D9C68E);border:1px solid rgba(181,158,90,.6);border-radius:999px;padding:3px 8px 2px;line-height:1;transform:translateY(-1px);font-style:normal}
