@@ -830,3 +830,8 @@ h2{font-size:clamp(36px,4vw,60px)}
 .hero-bg::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(36,9,31,.92) 0%,rgba(36,9,31,.6) 55%,rgba(36,9,31,.35) 100%)}
 /* the first photo on Who we serve stays sharp */
 .page-spaces .hero img{filter:none;transform:none}
+.paths .path,.paths .path.wide{grid-column:span 2}
+.paths .path{min-height:300px}
+.also{font-size:15px;color:var(--ink2)}
+.also .link{font-size:15px}
+.paths .path{min-height:260px}

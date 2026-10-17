@@ -12,7 +12,7 @@
   var OPT = {
     mode: ['Post an opportunity myself (self-serve)', 'Have SOV find the creative and run it (curated match)', 'Set up an ongoing creative program', 'Not sure yet, help me decide'],
     usage: ['Shown on site only', 'Photos in our marketing and social', 'Ads or paid campaigns', 'Merchandise or products', 'Exclusive to us', 'Not sure yet'],
-    sector: ['Hotel or hospitality', 'Development or placemaking', 'Healthcare', 'City, county, public agency or arts council', 'Office or workplace', 'Restaurant or retail', 'An event or launch', 'Something else'],
+    sector: ['Boutique or lifestyle hotel', 'Residential or mixed-use development', 'Restaurant, bar, food hall or private club', 'Wellness, spa or retreat', 'Winery, distillery, venue or destination', 'Office, workplace or retail', 'Healthcare', 'City, county, public agency or arts council', 'An event or launch', 'Something else'],
     procure: ['We can hire directly', 'We need to post an RFQ or RFP', 'It is grant funded', 'Not sure yet'],
     outcomes: ['Better guest or patient experience', 'Local identity, a sense of place', 'Photos and social sharing', 'Staff belonging and wellbeing', 'Tell our brand story', 'Bring in foot traffic', 'Community goodwill', 'Calm and comfort'],
     creative: ['Mural or wall art', 'Original artwork for our walls', 'Sculpture or installation', 'Art on loan that rotates', 'Live music or performance', 'Live painting at an event', 'Photo or video content', 'Design: signage, wayfinding or graphics', 'Workshops or community programs', 'Not sure yet, help me choose'],
@@ -63,7 +63,7 @@
   }
   function missing() { return visible().filter(function (q) { return q.type !== 'send' && !q.skippable && !answered(q); }); }
   var MODES = { post: 0, byo: 0, curated: 1, full: 1, define: 1, program: 2 };
-  var SECTORS = { hotel: 0, dev: 1, health: 2, city: 3, work: 4, event: 6 };
+  var SECTORS = { hotel: 0, dev: 1, dest: 2, health: 6, city: 7, work: 5, event: 8 };
   try {
     var qs = new URLSearchParams(location.search), mq = qs.get('mode'), sq = qs.get('sector');
     if (mq && MODES[mq] != null) { A.engagement_mode = OPT.mode[MODES[mq]]; save(); }
