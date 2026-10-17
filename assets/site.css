@@ -829,3 +829,6 @@ h2{font-size:clamp(36px,4vw,60px)}
 /* Who SOV is for: soft blur behind the text so titles read easily */
 .page-creatives #who .pcard .ph img{filter:blur(4px) saturate(.95);transform:scale(1.08)}
 .page-creatives #who .pcard::after{background:linear-gradient(180deg,rgba(36,9,31,.35) 0%,rgba(36,9,31,.65) 45%,rgba(36,9,31,.95) 100%)}
+/* Two ways in: same soft blur and shade as the Who SOV is for tiles */
+.door img,.door:hover img{filter:blur(4px) saturate(.95);transform:scale(1.08)}
+.door::after{background:linear-gradient(180deg,rgba(36,9,31,.35) 0%,rgba(36,9,31,.65) 45%,rgba(36,9,31,.95) 100%)}
