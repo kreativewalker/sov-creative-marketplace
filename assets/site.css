@@ -500,3 +500,24 @@ a.pcard:hover .ph img{transform:scale(1.04)}
 /* soft blur on all other photos (path cards keep their stronger blur) */
 main img{filter:blur(2px);transform:scale(1.03)}
 .path img{filter:blur(6px) saturate(.9);transform:scale(1.08)}
+
+/* three tiers, SOV panel lit */
+.tiers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:stretch}
+@media (max-width:1000px){.tiers{grid-template-columns:minmax(0,1fr)}}
+.tier{display:flex;flex-direction:column;gap:16px;padding:32px;border:1px solid var(--line);border-radius:22px;background:#FBFAF6;color:var(--ink);text-decoration:none;transition:border-color .2s,transform .2s}
+.tier:hover{border-color:var(--ink);transform:translateY(-2px)}
+.tier.feat{border-color:var(--ink);box-shadow:0 18px 50px -24px rgba(20,20,19,.35)}
+.tier .tk{font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.tier h3{font-family:var(--serif);font-weight:400;font-size:clamp(30px,2.6vw,40px);line-height:1.05}
+.tier .tl{font-size:16px;color:var(--ink2)}
+.tier .you{display:flex;flex-direction:column;gap:6px;padding:16px 18px;border:1px solid var(--line);border-radius:14px;background:#fff}
+.tier .you b{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.tier .you span{font-size:15px;color:var(--ink2)}
+.tier .sov{position:relative;display:flex;flex-direction:column;gap:10px;padding:20px;border-radius:16px;background:#141413;color:#F3F0E9;box-shadow:0 0 0 1px rgba(143,168,245,.55),0 16px 44px -14px rgba(47,91,234,.65);flex:1}
+.tier .sov>span:last-child{font-size:15px;line-height:1.55;color:#E9E4D8}
+.sovmark{font-family:var(--serif);font-size:30px;line-height:1;letter-spacing:.02em;display:inline-flex;align-items:center;gap:8px;color:#fff;text-shadow:0 0 18px rgba(143,168,245,.8)}
+.sovmark i{display:inline-flex;gap:4px}
+.sovmark b{width:6px;height:6px;border-radius:50%;display:block}
+.sovmark b:nth-child(1){background:var(--see)}.sovmark b:nth-child(2){background:var(--hear)}.sovmark b:nth-child(3){background:var(--feel)}.sovmark b:nth-child(4){background:var(--think)}.sovmark b:nth-child(5){background:var(--exp)}
+.tier .go{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:15px;align-self:flex-start;border-bottom:1px solid currentColor;padding-bottom:3px}
+.tiers-note{font-size:15px;color:var(--muted);max-width:820px}

@@ -10,7 +10,7 @@
   function utm() { try { return JSON.parse(sessionStorage.getItem('sov_utm') || '{}'); } catch (e) { return {}; } }
 
   var OPT = {
-    mode: ['Help us define the project (no brief yet)', 'Find the right creative for us', 'Find the creative and run the whole project', 'We have a creative. Run the project with them', 'Post an opportunity, call for artists or RFQ', 'Set up an ongoing creative program', 'Not sure yet, help us decide'],
+    mode: ['Post an opportunity myself (self-serve)', 'Have SOV find the creative and run it (curated match)', 'Set up an ongoing creative program', 'Not sure yet, help me decide'],
     usage: ['Shown on site only', 'Photos in our marketing and social', 'Ads or paid campaigns', 'Merchandise or products', 'Exclusive to us', 'Not sure yet'],
     sector: ['Hotel or hospitality', 'Development or placemaking', 'Healthcare', 'City, county, public agency or arts council', 'Office or workplace', 'Restaurant or retail', 'An event or launch', 'Something else'],
     procure: ['We can hire directly', 'We need to post an RFQ or RFP', 'It is grant funded', 'Not sure yet'],
@@ -26,7 +26,7 @@
   };
   var Q = [
     { id: 'mode', sec: 'Your space', type: 'one', key: 'engagement_mode', title: 'How would you like to work with us?', hint: 'You can change this later. It just tells us where to start.', list: OPT.mode },
-    { id: 'byo', sec: 'Your space', type: 'fields', title: 'Who is the creative?', hint: "We'll invite them in and handle the agreement, insurance, payments and project room.", skippable: true, fields: [['byo_creative', 'Their name', 'text', false, 'Jordan Rivera'], ['byo_contact', 'Their email, site or Instagram (optional)', 'text', false, 'jordanrivera.studio']] },
+    { id: 'byo', sec: 'Your space', type: 'fields', title: 'Already have a creative in mind?', hint: "Optional. We'll invite them in, and you can still post to our network.", skippable: true, fields: [['byo_creative', 'Their name', 'text', false, 'Jordan Rivera'], ['byo_contact', 'Their email, site or Instagram (optional)', 'text', false, 'jordanrivera.studio']] },
     { id: 'sector', sec: 'Your space', type: 'one', key: 'sector', title: 'What kind of space is this for?', list: OPT.sector },
     { id: 'procure', sec: 'Your space', type: 'one', key: 'procurement_path', title: 'How does your agency usually hire for this?', hint: "No wrong answer. If you need a formal call for artists, we can help write it and run it, and creatives apply through SOV.", list: OPT.procure, optional: true },
     { id: 'outcomes', sec: 'Your space', type: 'many', key: 'outcomes', title: 'What should the work do for your space?', hint: 'Pick all that apply. This shapes who we match you with.', list: OPT.outcomes },
@@ -50,7 +50,7 @@
   function visible() {
     return Q.filter(function (q) {
       if (q.id === 'procure') return /public agency/.test(A.sector || '') || /Post an opportunity/.test(A.engagement_mode || '');
-      if (q.id === 'byo') return /have a creative/.test(A.engagement_mode || '');
+      if (q.id === 'byo') return /Post an opportunity/.test(A.engagement_mode || '');
       if (q.id === 'approvals2') return (A.approvals || []).length > 0 || /50 years/.test(A.building_age || '');
       if (q.id === 'heard2') return /AI search|referral|event|artist/i.test(A.heard_from || '');
       return true;
@@ -62,7 +62,7 @@
     return true;
   }
   function missing() { return visible().filter(function (q) { return q.type !== 'send' && !q.skippable && !answered(q); }); }
-  var MODES = { define: 0, curated: 1, full: 2, byo: 3, post: 4, program: 5 };
+  var MODES = { post: 0, byo: 0, curated: 1, full: 1, define: 1, program: 2 };
   var SECTORS = { hotel: 0, dev: 1, health: 2, city: 3, work: 4, event: 6 };
   try {
     var qs = new URLSearchParams(location.search), mq = qs.get('mode'), sq = qs.get('sector');
