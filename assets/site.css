@@ -762,24 +762,15 @@ h2{font-size:clamp(36px,4vw,60px)}
 .page-creatives #who .pcard .k{color:var(--brass-l)!important}
 .page-creatives #who .pcard h3{font-size:clamp(22px,1.8vw,26px);color:#fff}
 .page-creatives #who .pcard p{font-size:14px;color:#E5DCD0;max-width:none}
-/* Artist Shield in one row on wide screens, You in the middle */
+/* Artist Shield: 2x2 with You in the center circle */
+.shield .sh{min-height:0;padding:clamp(28px,3vw,40px) clamp(28px,3.4vw,48px)}
+.shield .sh:nth-child(1),.shield .sh:nth-child(2){padding-bottom:clamp(52px,5vw,72px)}
+.shield .sh:nth-child(3),.shield .sh:nth-child(4){padding-top:clamp(52px,5vw,72px)}
+.shield .sh b{font-size:clamp(24px,2vw,30px)}
+.shield .sh p{max-width:44ch}
 .sec-top .next{flex-direction:column;align-items:flex-start;gap:10px}
 .cine .sec-top .next span{font-size:14px}
-@media (min-width:1100px){
-  .shield{grid-template-columns:1fr 1fr 150px 1fr 1fr}
-  .shield .sh{min-height:0;padding:34px 28px!important}
-  .shield .sh:nth-child(1){grid-column:1}.shield .sh:nth-child(2){grid-column:2}.shield .sh:nth-child(3){grid-column:4}.shield .sh:nth-child(4){grid-column:5}
-  .shield .sh,.shield .core{grid-row:1}
-  .shield .core{position:static;transform:none;width:auto;height:auto;border-radius:0;border:0;box-shadow:none;background:var(--aub);display:flex}
-  .shield .core::before{content:"";position:absolute}
-  .shield .core b{width:108px;height:108px;border-radius:50%;border:1px solid var(--brass);background:var(--aub2);box-shadow:0 0 50px rgba(181,158,90,.35);display:flex;align-items:center;justify-content:center}
-  .shield .sh b{font-size:26px}
-  .shield .sh p{font-size:14.5px}
-}
-@media (min-width:761px) and (max-width:1099px){
-  .shield .core{position:static;transform:none;grid-column:1/-1;order:-1;width:auto;height:auto;border-radius:0;box-shadow:none;border:0;padding:20px;flex-direction:row;gap:12px}
-  .shield .sh{min-height:0;padding:32px!important}
-}
+
 /* rhythm pass 2 */
 .sec{padding:clamp(68px,6.6vw,100px) 0}
 .sec-body{gap:clamp(32px,3.4vw,48px)!important}
