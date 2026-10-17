@@ -37,6 +37,15 @@
     });
     var h = location.hash.slice(1); if (h && root.querySelector('#' + CSS.escape(h) + '[role=tabpanel]')) show(h);
   });
+  // Pricing: monthly or annual
+  var bt = document.querySelectorAll('[data-bill]');
+  bt.forEach(function (b) { b.addEventListener('click', function () {
+    var k = b.getAttribute('data-bill') === 'annual' ? 'data-a' : 'data-m';
+    bt.forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+    document.querySelectorAll('[data-m][data-a]').forEach(function (el) { el.textContent = el.getAttribute(k); });
+  }); });
+  // Installable app
+  if ('serviceWorker' in navigator) window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });
   // Guide: "Where do I start?" One tap to the right next step, from anywhere.
   var g = document.getElementById('guide'), gb = document.getElementById('guide-btn'), gp = document.getElementById('guide-panel');
   if (g && gb && gp && !/brief\.html|contact\.html/.test(location.pathname)) {

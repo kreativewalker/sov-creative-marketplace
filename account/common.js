@@ -62,3 +62,5 @@
     withdrawn: { label: 'Withdrawn', tone: 'red', step: 0 }
   };
 })();
+
+if ('serviceWorker' in navigator) window.addEventListener('load', function () { navigator.serviceWorker.register('../sw.js', { scope: '../' }).catch(function () {}); });

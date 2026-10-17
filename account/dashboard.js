@@ -541,6 +541,11 @@
 
   views.resources = () => `<div class="stack" style="gap:20px">
       <h1 class="disp">Resources</h1>
+      <section class="card pad stack studio" style="gap:10px"><span class="hint" style="letter-spacing:.16em;text-transform:uppercase;font-size:12px;font-weight:600">SOV Studio · optional · coming soon</span>
+        <h3>Tools to grow your practice</h3>
+        <p class="hint">Contract, proposal and licensing templates, pricing calculators, a reference library, workshops, and inventory records for your work. $12 a month or $120 a year, with 30 days free. Studio never affects who gets invited to projects.</p>
+        <div><a class="btn" href="../contact.html?topic=studio">Join the waitlist</a></div></section>
+      <p class="hint">Free for every SOV creative:</p>
       <div class="grid2">
         <section class="card pad stack" style="gap:8px"><h3>Photograph your work</h3><p class="hint">Shoot in daylight, straight on, with the whole piece in frame. Add one photo of the work in a real room so a business can picture scale.</p></section>
         <section class="card pad stack" style="gap:8px"><h3>Price a commission</h3><p class="hint">Separate your creative fee from materials, install and travel. Businesses expect to see each on its own line.</p></section>

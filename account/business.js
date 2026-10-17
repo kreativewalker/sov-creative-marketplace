@@ -302,12 +302,24 @@
     </form>`;
   };
 
+  function planBanner() {
+    if (!org || !org.plan) return '';
+    const PRICES = { property: '$99', team: '$249', portfolio: '$599' };
+    if (org.plan === 'trial') {
+      const left = Math.ceil((new Date(org.trial_ends_at) - Date.now()) / 864e5);
+      if (left > 0) return `<div class="planbar"><span><b>Free trial</b> · ${left} day${left === 1 ? '' : 's'} left. Everything is unlocked.</span><a href="../pricing.html">See plans</a></div>`;
+      return `<div class="planbar end"><span><b>Your free trial has ended.</b> Your projects stay open while you choose a plan.</span><a href="../pricing.html">Choose a plan</a></div>`;
+    }
+    if (org.plan === 'expired') return `<div class="planbar end"><span><b>Your plan has ended.</b> Your records are safe.</span><a href="../pricing.html">Restart a plan</a></div>`;
+    const nm = org.plan.charAt(0).toUpperCase() + org.plan.slice(1);
+    return `<div class="planbar"><span><b>${nm} plan</b>${org.billing_period ? ' · billed ' + (org.billing_period === 'annual' ? 'yearly' : 'monthly') : ''}</span><a href="../pricing.html">Compare plans</a></div>`;
+  }
   async function render() {
     const [name, id, tab] = (location.hash.slice(1) || 'home').split('/');
     const key = name === 'project' ? 'projects' : name === 'opp' || name === 'post' ? 'opps' : name === 'program' ? 'programs' : name === 'start' ? '' : name;
     $$('#nav a[href^="#"]').forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === '#' + key ? 'page' : 'false'));
     const html = name === 'project' ? await projectView(id, tab) : name === 'opp' ? await oppView(id) : (views[name] || views.home)();
-    $('#view').innerHTML = html; wire(name, id, tab);
+    $('#view').innerHTML = planBanner() + html; wire(name, id, tab);
   }
 
   function wire(name, id, tab) {

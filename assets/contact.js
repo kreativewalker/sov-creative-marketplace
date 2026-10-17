@@ -3,7 +3,7 @@
   var C = window.SOV_CONFIG || {};
   var $ = function (id) { return document.getElementById(id); };
   var f = $('cf'); if (!f) return;
-  var HINT = { call: 'A few days and times that work for you, and what you would like to talk about.', project: 'The space, what you want it to feel like, and your timing.', creative: 'What you make, and what you are wondering about.', community: 'What you make, and where you are based. We will email you when the next gathering is set.', partner: 'Who you are and what you have in mind.', press: 'The outlet or event, the topic and the date.', general: 'A few lines is plenty.' };
+  var HINT = { call: 'A few days and times that work for you, and what you would like to talk about.', project: 'The space, what you want it to feel like, and your timing.', creative: 'What you make, and what you are wondering about.', studio: 'What you make, and which tools or resources would help you most.', community: 'What you make, and where you are based. We will email you when the next gathering is set.', partner: 'Who you are and what you have in mind.', press: 'The outlet or event, the topic and the date.', general: 'A few lines is plenty.' };
   try { var t = new URLSearchParams(location.search).get('topic'); if (t && HINT[t]) $('c-topic').value = t; } catch (e) { }
   function hint() { $('c-msg').placeholder = HINT[$('c-topic').value] || HINT.general; }
   $('c-topic').addEventListener('change', hint); hint();
