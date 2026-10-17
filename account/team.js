@@ -7,7 +7,7 @@
   if (!st.data) { $('#view').innerHTML = `<div class="card pad stack" style="max-width:560px"><h1 class="disp" style="font-size:32px">Team only</h1><p>This page is for the SOV review team. <a href="index.html">Go to your dashboard</a>.</p></div>`; return; }
 
   let artists = [], works = [], urls = {}, sel = null, filter = 'submitted', q = '';
-  let briefs = [], msgs = [], topps = [], mode = ['#briefs', '#messages', '#opps'].includes(location.hash) ? location.hash.slice(1) : 'creatives', bsel = null;
+  let briefs = [], msgs = [], topps = [], orgsAll = [], membersAll = [], appsAll = [], mode = ['#briefs', '#messages', '#opps', '#creatives'].includes(location.hash) ? location.hash.slice(1) : 'overview', bsel = null;
   const MST = { new: ['New', 'blue'], replied: ['Replied', 'green'], archived: ['Archived', ''] };
   const TOPIC = { call: 'Intro call', project: 'Project', creative: 'Creative question', partner: 'Partnership', press: 'Press', general: 'General' };
   const BST = { new: ['New', 'blue'], contacted: ['Contacted', 'amber'], scoping: ['Scoping', 'amber'], proposal: ['Proposal sent', 'amber'], won: ['Won', 'green'], lost: ['Lost', ''], archived: ['Archived', ''] };
@@ -20,6 +20,8 @@
     msgs = m.data || [];
     const op = await sb.from('opportunities').select('*, orgs(name)').order('created_at', { ascending: false });
     topps = op.data || [];
+    const [og, om, ap] = await Promise.all([sb.from('orgs').select('*').order('created_at', { ascending: false }), sb.from('org_members').select('*').order('created_at', { ascending: false }), sb.from('applications').select('id,status,created_at')]);
+    orgsAll = og.data || []; membersAll = om.data || []; appsAll = ap.data || [];
     const [a, w] = await Promise.all([
       sb.from('artists').select('*').order('submitted_at', { ascending: false, nullsFirst: false }),
       sb.from('works').select('*').order('position', { ascending: true, nullsFirst: false })
@@ -34,14 +36,14 @@
   const worksOf = (id) => works.filter(w => w.artist_id === id);
   const count = (s) => artists.filter(a => a.status === s).length;
 
-  const tabs = () => `<div class="row" role="tablist" aria-label="Review area"><button class="btn btn-sm ${mode === 'creatives' ? '' : 'btn-ghost'}" data-mode="creatives" role="tab" aria-selected="${mode === 'creatives'}">Creatives (${artists.filter(a => a.status !== 'draft').length})</button><button class="btn btn-sm ${mode === 'briefs' ? '' : 'btn-ghost'}" data-mode="briefs" role="tab" aria-selected="${mode === 'briefs'}">Business briefs (${briefs.filter(b => b.status === 'new').length} new)</button><button class="btn btn-sm ${mode === 'messages' ? '' : 'btn-ghost'}" data-mode="messages" role="tab" aria-selected="${mode === 'messages'}">Messages (${msgs.filter(m => m.status === 'new').length} new)</button><button class="btn btn-sm ${mode === 'opps' ? '' : 'btn-ghost'}" data-mode="opps" role="tab" aria-selected="${mode === 'opps'}">Opportunities (${topps.filter(o => o.status === 'review').length} to review)</button></div>`;
-  const wireTabs = () => $$('[data-mode]').forEach(b => b.onclick = () => { mode = b.dataset.mode; history.replaceState(null, '', mode === 'creatives' ? '#' : '#' + mode); render(); });
+  const tabs = () => `<div class="row" role="tablist" aria-label="Review area" style="flex-wrap:wrap"><button class="btn btn-sm ${mode === 'overview' ? '' : 'btn-ghost'}" data-mode="overview" role="tab" aria-selected="${mode === 'overview'}">Overview</button><button class="btn btn-sm ${mode === 'creatives' ? '' : 'btn-ghost'}" data-mode="creatives" role="tab" aria-selected="${mode === 'creatives'}">Creatives (${artists.filter(a => a.status !== 'draft').length})</button><button class="btn btn-sm ${mode === 'briefs' ? '' : 'btn-ghost'}" data-mode="briefs" role="tab" aria-selected="${mode === 'briefs'}">Business briefs (${briefs.filter(b => b.status === 'new').length} new)</button><button class="btn btn-sm ${mode === 'messages' ? '' : 'btn-ghost'}" data-mode="messages" role="tab" aria-selected="${mode === 'messages'}">Messages (${msgs.filter(m => m.status === 'new').length} new)</button><button class="btn btn-sm ${mode === 'opps' ? '' : 'btn-ghost'}" data-mode="opps" role="tab" aria-selected="${mode === 'opps'}">Opportunities (${topps.filter(o => o.status === 'review').length} to review)</button></div>`;
+  const wireTabs = () => $$('[data-mode]').forEach(b => b.onclick = () => { mode = b.dataset.mode; history.replaceState(null, '', mode === 'overview' ? '#' : '#' + mode); render(); });
 
   function renderBriefs() {
     const row = (l, x) => (x == null || x === '' || (Array.isArray(x) && !x.length)) ? '' : `<tr><th scope="row" style="width:34%">${esc(l)}</th><td>${esc(Array.isArray(x) ? x.join(', ') : x)}</td></tr>`;
     const b = briefs.find(x => x.id === bsel);
     $('#view').innerHTML = `<div class="stack" style="gap:20px">
-      <div class="row" style="justify-content:space-between"><h1 class="disp">Team review</h1>${tabs()}</div>
+      <div class="row" style="justify-content:space-between"><h1 class="disp">SOV dashboard</h1>${tabs()}</div>
       <div class="split">
         <section class="stack list" style="gap:10px">
           ${briefs.map(x => `<button class="item" data-b="${x.id}" aria-current="${bsel === x.id}"><span class="stack" style="gap:2px;min-width:0"><b>${esc(x.org_name)}</b><span class="hint">${esc([x.sector, x.city_state, x.budget_range].filter(Boolean).join(' · '))}</span><span class="hint">${new Date(x.created_at).toLocaleDateString()}</span></span><span class="tag ${BST[x.status][1]}" style="margin-left:auto">${BST[x.status][0]}</span></button>`).join('') || '<p class="hint">No briefs yet. They arrive here when a business sends one from the website.</p>'}
@@ -68,7 +70,7 @@
 
   function renderMessages() {
     $('#view').innerHTML = `<div class="stack" style="gap:20px">
-      <div class="row" style="justify-content:space-between"><h1 class="disp">Team review</h1>${tabs()}</div>
+      <div class="row" style="justify-content:space-between"><h1 class="disp">SOV dashboard</h1>${tabs()}</div>
       <p class="hint">Messages from the Talk with us page. Reply by email, then mark them replied.</p>
       <div class="stack" style="gap:12px">${msgs.map(m => `<section class="card pad stack" style="gap:10px">
         <div class="row" style="justify-content:space-between;gap:10px"><b>${esc(m.name)}${m.org ? ' · ' + esc(m.org) : ''}</b><span class="tag ${MST[m.status][1]}">${MST[m.status][0]}</span></div>
@@ -87,7 +89,7 @@
   function renderOpps() {
     const OS = { draft: 'Draft', review: 'Needs review', open: 'Open', closed: 'Closed', awarded: 'Creative selected' };
     $('#view').innerHTML = `<div class="stack" style="gap:20px">
-      <div class="row" style="justify-content:space-between"><h1 class="disp">Team review</h1>${tabs()}</div>
+      <div class="row" style="justify-content:space-between"><h1 class="disp">SOV dashboard</h1>${tabs()}</div>
       <p class="hint">Self-serve postings from organizations. Check each one is clear, fairly paid and safe, then open it to approved creatives.</p>
       <div class="stack" style="gap:12px">${topps.map(o => `<section class="card pad stack" style="gap:8px">
         <div class="row" style="justify-content:space-between;gap:10px"><b>${esc(o.title)}</b><span class="tag ${o.status === 'review' ? 'amber' : o.status === 'open' ? 'green' : ''}">${OS[o.status]}</span></div>
@@ -103,7 +105,43 @@
     });
   }
 
+  function renderOverview() {
+    const since = (d) => (Date.now() - new Date(d).getTime()) < 7 * 864e5;
+    const sub = artists.filter(a => a.status !== 'draft');
+    const k = (n, label, sub2, href) => `<a class="card pad stack" href="${href}" style="gap:4px;text-decoration:none;color:inherit"><b style="font-family:'Instrument Serif',serif;font-weight:400;font-size:52px;line-height:1">${n}</b><span>${label}</span>${sub2 ? `<span class="hint">${sub2}</span>` : ''}</a>`;
+    const orgName = (id) => (orgsAll.find(o => o.id === id) || {}).name || '';
+    const feed = [
+      ...artists.map(a => ({ t: a.created_at, who: a.display_name || a.email || 'Creative', what: 'Creative account', detail: a.email || '', tag: STATUS[a.status] ? STATUS[a.status].label : a.status })),
+      ...membersAll.map(m => ({ t: m.created_at, who: m.name || 'Business member', what: 'Business account', detail: orgName(m.org_id) + (m.title ? ' · ' + m.title : ''), tag: m.role === 'owner' ? 'Owner' : 'Member' })),
+      ...briefs.map(b => ({ t: b.created_at, who: b.org_name, what: 'Brief', detail: [b.engagement_mode, b.city_state].filter(Boolean).join(' · '), tag: BST[b.status] ? BST[b.status][0] : b.status })),
+      ...topps.map(o => ({ t: o.created_at, who: o.orgs?.name || '', what: 'Opportunity posted', detail: o.title, tag: o.status })),
+      ...msgs.map(m => ({ t: m.created_at, who: m.name, what: 'Message', detail: m.topic, tag: m.status }))
+    ].filter(x => x.t).sort((a, b) => new Date(b.t) - new Date(a.t)).slice(0, 40);
+    $('#view').innerHTML = `<div class="stack" style="gap:24px">
+      <div class="row" style="justify-content:space-between"><h1 class="disp">SOV dashboard</h1>${tabs()}</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px">
+        ${k(artists.length, 'Creative sign-ups', `${artists.filter(a => since(a.created_at)).length} this week`, '#creatives')}
+        ${k(sub.length, 'Applications sent', `${count('submitted') + count('in_review')} waiting on review`, '#creatives')}
+        ${k(count('approved') + count('active'), 'Approved creatives', `${count('call_invited') + count('call_booked')} in the call stage`, '#creatives')}
+        ${k(orgsAll.length, 'Business accounts', `${membersAll.length} people · ${orgsAll.filter(o => since(o.created_at)).length} new this week`, '#')}
+        ${k(briefs.length, 'Briefs', `${briefs.filter(b => b.status === 'new').length} new`, '#briefs')}
+        ${k(topps.length, 'Opportunities', `${topps.filter(o => o.status === 'review').length} to review · ${topps.filter(o => o.status === 'open').length} open · ${appsAll.length} applications`, '#opps')}
+        ${k(msgs.length, 'Messages', `${msgs.filter(m => m.status === 'new').length} new`, '#messages')}
+      </div>
+      <section class="card pad stack" style="gap:10px"><h2>Latest activity</h2>
+        <div style="overflow-x:auto"><table class="t"><thead><tr><th>When</th><th>Who</th><th>What</th><th>Detail</th><th>Status</th></tr></thead><tbody>
+        ${feed.map(x => `<tr><td class="hint">${new Date(x.t).toLocaleString()}</td><td><b>${esc(x.who)}</b></td><td>${esc(x.what)}</td><td class="hint">${esc(x.detail || '')}</td><td><span class="tag">${esc(x.tag || '')}</span></td></tr>`).join('') || '<tr><td colspan="5" class="hint">Nothing yet.</td></tr>'}
+        </tbody></table></div></section>
+      <section class="card pad stack" style="gap:10px"><h2>Business accounts</h2>
+        <div style="overflow-x:auto"><table class="t"><thead><tr><th>Organization</th><th>Type</th><th>People</th><th>Joined</th></tr></thead><tbody>
+        ${orgsAll.map(o => `<tr><td><b>${esc(o.name)}</b></td><td class="hint">${esc(o.sector || '')}</td><td>${membersAll.filter(m => m.org_id === o.id).map(m => esc(m.name || 'Member')).join(', ')}</td><td class="hint">${o.created_at ? new Date(o.created_at).toLocaleDateString() : ''}</td></tr>`).join('') || '<tr><td colspan="4" class="hint">No business accounts yet.</td></tr>'}
+        </tbody></table></div></section>
+    </div>`;
+    wireTabs();
+  }
+
   function render() {
+    if (mode === 'overview') return renderOverview();
     if (mode === 'opps') return renderOpps();
     if (mode === 'messages') return renderMessages();
     if (mode === 'briefs') return renderBriefs();
@@ -112,7 +150,7 @@
     artists.filter(a => a.status !== 'draft').forEach(a => { const k = a.heard_from || 'Not given'; sources[k] = (sources[k] || 0) + 1; });
     const ai = artists.filter(a => a.heard_ai_prompt).map(a => `<li>"${esc(a.heard_ai_prompt)}" <span class="hint">(${esc(a.heard_ai_tool || 'AI')})</span></li>`).join('');
     $('#view').innerHTML = `<div class="stack" style="gap:20px">
-      <div class="row" style="justify-content:space-between"><h1 class="disp">Team review</h1>${tabs()}</div>
+      <div class="row" style="justify-content:space-between"><h1 class="disp">SOV dashboard</h1>${tabs()}</div>
       <div class="kpis">
         <div class="kpi"><b>${count('submitted')}</b>New applications</div>
         <div class="kpi"><b>${count('in_review') + count('call_invited') + count('call_booked')}</b>In progress</div>
