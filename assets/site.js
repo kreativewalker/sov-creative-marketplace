@@ -37,4 +37,17 @@
     });
     var h = location.hash.slice(1); if (h && root.querySelector('#' + CSS.escape(h) + '[role=tabpanel]')) show(h);
   });
+  // Guide: "Where do I start?" One tap to the right next step, from anywhere.
+  var g = document.getElementById('guide'), gb = document.getElementById('guide-btn'), gp = document.getElementById('guide-panel');
+  if (g && gb && gp && !/brief\.html|contact\.html/.test(location.pathname)) {
+    if (document.body.classList.contains('room-creative')) { var c = gp.querySelector('[data-g=cre]'); if (c) gp.insertBefore(c, gp.querySelector('a')); }
+    function setOpen(o) { gp.hidden = !o; gb.setAttribute('aria-expanded', o ? 'true' : 'false'); }
+    gb.addEventListener('click', function (e) { e.stopPropagation(); setOpen(gp.hidden); });
+    document.addEventListener('click', function (e) { if (!g.contains(e.target)) setOpen(false); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !gp.hidden) { setOpen(false); gb.focus(); } });
+    var foot = document.querySelector('.foot'), footIn = false;
+    function place() { g.classList.toggle('show', window.scrollY > window.innerHeight * 0.6 && !footIn); if (footIn) setOpen(false); }
+    if (foot && 'IntersectionObserver' in window) new IntersectionObserver(function (es) { footIn = es[0].isIntersecting; place(); }).observe(foot);
+    window.addEventListener('scroll', place, { passive: true }); place();
+  } else if (g) g.remove();
 })();
