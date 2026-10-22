@@ -23,5 +23,8 @@ One system for every public page. Change it here first, then in assets/site.css.
 ## Components
 `.lx-hero`, `.lx-open` + `.lx-open-grid`, `.lx-two`, `.lx-split`, `.lx-list`, `.lx-cols` (+ `.panels`), `.lx-nums`, `.lx-table`, `.lx-faq`, `.lx-five`, `.lx-calc`, `.lx-field`, `.lx-end`.
 
+## Immersive layer
+`assets/immerse.css` and `assets/immerse.js`: pigment shader in the first section, film grain, canvas texture, a gallery light that follows the cursor, headline word reveals, scroll reveals, parallax and tilt on pictures, count-ups, painted edges on the brass field, the five feedback words lighting in their colours. Everything stops under reduced motion.
+
 ## Still on the older system
 Sector pages (hotels, destinations, developers, healthcare, public agencies, workplaces), brief, contact and the signed-in account pages.

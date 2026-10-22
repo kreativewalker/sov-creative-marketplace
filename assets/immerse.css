@@ -1,0 +1,182 @@
+/* SOV immersive layer (Oct 22, 2026).
+   The idea: walking a gallery at night. Pigment moves in the dark, a warm light follows you,
+   the walls have grain and canvas, the work sits forward in its frames, and each section arrives like a curtain lifting.
+   Every motion here stops under prefers-reduced-motion. */
+
+:root{
+  --deep:#12030F; --aub:#24091F; --plum:#3E0F36; --wine:#5E1736; --ember:#D9622B;
+  --brass:#C9A85C; --gold:#E8D29A; --leaf:#F2E3B3;
+  --glow-wine:rgba(122,28,66,.42); --glow-plum:rgba(84,26,92,.45); --glow-brass:rgba(201,168,92,.16);
+  --canvas:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='c'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55 .08' numOctaves='3' seed='3'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 .92 0 0 0 0 .8 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23c)'/%3E%3C/svg%3E");
+}
+
+/* richer ground: plum and wine light pooling in the corners of every dark section */
+body{background:var(--deep)}
+.lx .lx-sec{position:relative;isolation:isolate;background:
+  radial-gradient(70% 60% at 88% 0%, var(--glow-wine), transparent 62%),
+  radial-gradient(60% 70% at 0% 100%, var(--glow-plum), transparent 64%),
+  var(--aub)}
+.lx .lx-sec.lx-alt{background:
+  radial-gradient(60% 55% at 10% 0%, rgba(201,168,92,.10), transparent 60%),
+  radial-gradient(70% 70% at 100% 100%, var(--glow-wine), transparent 62%),
+  #2E0B29}
+.lx .lx-sec.lx-deep{background:
+  radial-gradient(55% 60% at 50% 120%, rgba(217,98,43,.16), transparent 65%),
+  radial-gradient(80% 60% at 100% 0%, var(--glow-plum), transparent 60%),
+  var(--deep)}
+/* canvas weave on the walls */
+.lx .lx-sec::before{content:"";position:absolute;inset:0;z-index:-1;background-image:var(--canvas);background-size:240px;opacity:.07;mix-blend-mode:overlay;pointer-events:none}
+
+/* film grain over everything, gently moving */
+.sov-grain{position:fixed;inset:-50%;z-index:90;pointer-events:none;opacity:.09;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 1.2s steps(6) infinite}
+@keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-4%,3%)}40%{transform:translate(3%,-5%)}60%{transform:translate(-2%,6%)}80%{transform:translate(5%,-2%)}100%{transform:translate(0,0)}}
+body::before{display:none}
+
+/* gallery light that follows the visitor */
+.sov-light{position:fixed;inset:0;z-index:80;pointer-events:none;opacity:0;transition:opacity .6s ease;
+  background:radial-gradient(520px circle at var(--mx,50%) var(--my,30%), rgba(242,227,179,.10), rgba(201,168,92,.05) 35%, transparent 70%);mix-blend-mode:screen}
+.sov-light.on{opacity:1}
+
+/* hero: pigment shader + slow push-in */
+.lx-hero{min-height:min(100vh,980px)}
+.lx-hero>img{animation:push 26s ease-out both;transform-origin:60% 40%}
+@keyframes push{from{transform:scale(1.14)}to{transform:scale(1)}}
+.sov-pigment{position:absolute;inset:0;z-index:-1;width:100%;height:100%;mix-blend-mode:screen;opacity:.85;pointer-events:none}
+.lx-hero .sov-pigment{opacity:.7}
+.lx-hero::after{background:
+  linear-gradient(180deg,rgba(18,3,15,.55) 0%,rgba(18,3,15,.05) 30%,rgba(18,3,15,.35) 60%,rgba(18,3,15,.95) 100%),
+  radial-gradient(80% 70% at 15% 85%, rgba(62,15,54,.75), transparent 70%)}
+.lx-hero .lx-h{text-shadow:0 2px 40px rgba(18,3,15,.45)}
+.lx-hero .wrap{position:relative;z-index:2}
+.sov-scroll{position:absolute;right:max(16px,4.5vw);bottom:clamp(40px,5vw,72px);z-index:3;display:flex;align-items:center;gap:12px;font-size:13px;color:#EDE5DA;letter-spacing:.02em}
+.sov-scroll i{display:block;width:1px;height:56px;background:linear-gradient(180deg,transparent,var(--gold));animation:drip 2.4s ease-in-out infinite;transform-origin:top}
+@keyframes drip{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+
+/* openers get a living pigment band too */
+.lx-open{position:relative;isolation:isolate;overflow:hidden;background:var(--deep)}
+.lx-open .sov-pigment{opacity:.6}
+.lx-open::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(18,3,15,.92) 0%,rgba(18,3,15,.55) 55%,rgba(18,3,15,.2) 100%);pointer-events:none}
+
+/* headline lines rise out of a mask */
+.sov-split .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em;margin-bottom:-.08em}
+.sov-split .w>span{display:inline-block;transform:translateY(105%);transition:transform 1.1s cubic-bezier(.2,.75,.15,1)}
+.sov-split.in .w>span{transform:none}
+
+/* sections arrive: content lifts, pictures unveil like a curtain rising */
+.js-immerse .sov-up{opacity:0;transform:translateY(28px);transition:opacity 1s ease,transform 1.1s cubic-bezier(.2,.75,.15,1)}
+.js-immerse .sov-up.in{opacity:1;transform:none}
+.js-immerse .sov-veil{clip-path:inset(100% 0 0 0);transition:clip-path 1.4s cubic-bezier(.7,0,.2,1)}
+.js-immerse .sov-veil.in{clip-path:inset(0 0 0 0)}
+
+/* artworks sit forward in the room: frame shadow, gallery light, depth on hover */
+.lx-split>img,.lx-open-grid>img{box-shadow:0 40px 80px -30px rgba(0,0,0,.75),0 0 0 1px rgba(232,210,154,.08);will-change:transform}
+.sov-frame{position:relative;perspective:1200px}
+.sov-frame img{transition:transform .6s cubic-bezier(.2,.75,.15,1)}
+.sov-frame::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(90% 60% at 50% 0%, rgba(242,227,179,.14), transparent 60%);mix-blend-mode:screen}
+
+/* painted edge on the field of colour */
+.lx .lx-sec.lx-field{background:
+  radial-gradient(60% 80% at 20% 30%, rgba(255,240,200,.45), transparent 60%),
+  radial-gradient(70% 90% at 90% 80%, rgba(140,100,40,.45), transparent 60%),
+  linear-gradient(115deg,#B8954A 0%,#D9BC74 38%,#C9A85C 55%,#A9853E 100%);
+  -webkit-mask:url(edge-top.svg) top/100% 46px no-repeat,linear-gradient(#000,#000) 0 45px/100% calc(100% - 90px) no-repeat,url(edge-bottom.svg) bottom/100% 46px no-repeat;
+          mask:url(edge-top.svg) top/100% 46px no-repeat,linear-gradient(#000,#000) 0 45px/100% calc(100% - 90px) no-repeat,url(edge-bottom.svg) bottom/100% 46px no-repeat;
+  margin-block:-23px;z-index:2;padding-block:clamp(120px,11vw,176px)}
+.lx .lx-sec.lx-field::before{opacity:.28;mix-blend-mode:multiply}
+.lx .lx-sec.lx-field::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:linear-gradient(105deg,transparent 30%,rgba(255,248,225,.35) 45%,transparent 60%);background-size:250% 100%;animation:sheen 9s ease-in-out infinite}
+@keyframes sheen{0%,100%{background-position:120% 0}50%{background-position:-20% 0}}
+
+/* numbers and brass details glow */
+.lx-nums b{color:var(--gold);text-shadow:0 0 40px rgba(232,210,154,.25)}
+.btn{box-shadow:0 10px 30px -12px rgba(201,168,92,.55)}
+.lx-hero .btn:not(.btn-ghost),.lx-field .btn{transition:transform .3s ease,box-shadow .3s ease}
+.lx-hero .btn:not(.btn-ghost):hover{transform:translateY(-2px);box-shadow:0 16px 40px -12px rgba(232,210,154,.7)}
+.lx-cols.panels>div{background:linear-gradient(160deg,rgba(255,255,255,.045),rgba(255,255,255,.01));box-shadow:inset 0 1px 0 rgba(232,210,154,.08);transition:transform .5s cubic-bezier(.2,.75,.15,1),background .5s}
+.lx-cols.panels>div:hover{transform:translateY(-6px);background:linear-gradient(160deg,rgba(201,168,92,.12),rgba(255,255,255,.015))}
+
+/* the five words light the room in their own colour */
+.lx-five span{transition:color .4s,text-shadow .4s;cursor:default}
+.lx-five i{box-shadow:0 0 0 0 currentColor;transition:box-shadow .5s,transform .5s}
+.lx-five span:hover i,.lx-five span.on i{transform:scale(1.6);box-shadow:0 0 34px 8px var(--c,#fff)}
+.lx-five span:hover,.lx-five span.on{color:#fff;text-shadow:0 0 30px var(--c,#fff)}
+
+/* who we serve: names glide, the picture changes to match */
+.lx-big a b{transition:color .35s,transform .5s cubic-bezier(.2,.75,.15,1);display:inline-block}
+.lx-big a:hover b{transform:translateX(12px)}
+.sov-swap{position:relative}
+.sov-swap img{transition:opacity .7s ease,transform 1.2s cubic-bezier(.2,.75,.15,1)}
+.sov-swap img+img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0}
+.sov-swap img.show{opacity:1}
+
+/* payment splitter: each stage fills */
+.lx-pay>div{position:relative;overflow:hidden;background:rgba(18,3,15,.55)}
+.lx-pay>div::before{content:"";position:absolute;left:0;bottom:0;height:3px;width:var(--w,0%);background:linear-gradient(90deg,var(--brass),var(--gold));transition:width 1.2s cubic-bezier(.2,.75,.15,1)}
+.lx-calc{background:linear-gradient(140deg,rgba(94,23,54,.55),rgba(36,9,31,.85));box-shadow:0 50px 100px -40px rgba(0,0,0,.8),inset 0 1px 0 rgba(232,210,154,.1)}
+
+/* tables glow where the Registry column is */
+.lx-table .hl{background:linear-gradient(180deg,rgba(201,168,92,.16),rgba(201,168,92,.06))}
+.lx-table td.y::before{box-shadow:0 0 12px rgba(232,210,154,.7)}
+
+/* nav darkens as you scroll into the work */
+.top{transition:background .5s ease}
+.top.past{background:rgba(18,3,15,.94)!important}
+
+@media (hover:none){.sov-light{display:none}}
+@media (prefers-reduced-motion:reduce){
+  .sov-grain,.lx-hero>img,.sov-scroll i,.lx .lx-sec.lx-field::after{animation:none}
+  .sov-split .w>span,.js-immerse .sov-up,.js-immerse .sov-veil{transform:none!important;opacity:1!important;clip-path:none!important;transition:none}
+  .sov-pigment{display:none}
+}
+
+/* ===== clear separation: sections, headings, paragraphs, pictures ===== */
+/* 1. every section is its own room: a distinct ground, a lit seam where rooms meet */
+.lx .lx-sec:nth-of-type(3n+1):not(.lx-alt):not(.lx-deep):not(.lx-field){background:
+  radial-gradient(70% 60% at 88% 0%, var(--glow-wine), transparent 62%),
+  radial-gradient(60% 70% at 0% 100%, var(--glow-plum), transparent 64%), #24091F}
+.lx .lx-sec:nth-of-type(3n+2):not(.lx-alt):not(.lx-deep):not(.lx-field){background:
+  radial-gradient(65% 70% at 0% 0%, rgba(94,23,54,.5), transparent 62%),
+  radial-gradient(50% 60% at 100% 100%, rgba(201,168,92,.08), transparent 60%), #1C0618}
+.lx .lx-sec:nth-of-type(3n):not(.lx-alt):not(.lx-deep):not(.lx-field){background:
+  radial-gradient(70% 60% at 50% 0%, rgba(84,26,92,.5), transparent 64%), #2A0A26}
+.lx .lx-sec.lx-alt{background:
+  radial-gradient(60% 55% at 10% 0%, rgba(201,168,92,.12), transparent 60%),
+  radial-gradient(70% 70% at 100% 100%, var(--glow-wine), transparent 62%), #34102F}
+.lx .lx-sec:not(.lx-field)+.lx-sec:not(.lx-field){box-shadow:inset 0 1px 0 rgba(232,210,154,.16),inset 0 40px 60px -40px rgba(0,0,0,.55)}
+.lx-strip{box-shadow:inset 0 1px 0 rgba(232,210,154,.14),inset 0 -1px 0 rgba(232,210,154,.14)}
+.lx-strip span+span{border-left-color:rgba(232,210,154,.18)}
+
+/* 2. headings, paragraphs and labels each read as their own layer */
+.lx .lx-head{gap:clamp(20px,2vw,28px)}
+.lx .lx-h.sm{font-size:clamp(38px,4.6vw,68px);line-height:1;color:#FBF6EC}
+.lx .lx-p,.lx .lx-lead{color:#D8CDBF;line-height:1.65}
+.lx .lx-lead{color:#EFE7DA}
+.lx .lx-h.sm+.lx-p,.lx .lx-h.sm+.lx-lead{padding-top:4px}
+.lx .lx-body{gap:clamp(48px,5.5vw,80px)}
+.lx .lx-two{gap:clamp(48px,7vw,120px)}
+.lx .lx-cols h3,.lx .lx-list dt,.lx .lx-six h3{color:var(--gold)}
+.lx .lx-cols p,.lx .lx-list dd{color:#CFC3B4}
+.lx .lx-src{color:#A99C8E;font-size:13px}
+
+/* 3. lists become rows you can tell apart */
+.lx .lx-list{gap:0}
+.lx .lx-list>div{padding:18px 20px;border-radius:2px}
+.lx .lx-list>div:nth-child(odd){background:rgba(255,255,255,.035)}
+.lx-field .lx-list>div:nth-child(odd){background:rgba(30,8,25,.08)}
+.lx-field .lx-list dt{color:#1E0819}
+.lx-field .lx-list dd{color:#2B0C26}
+.lx .lx-cols:not(.panels)>div{padding-top:20px;box-shadow:inset 0 2px 0 rgba(201,168,92,.45)}
+.lx .lx-nums>div{padding:28px;background:rgba(18,3,15,.35);box-shadow:inset 0 2px 0 rgba(201,168,92,.5)}
+
+/* 4. pictures sit in a mat, set apart from the words beside them */
+.lx-split>img,.lx-open-grid>img,.sov-swap{outline:1px solid rgba(232,210,154,.22);outline-offset:14px}
+.lx .lx-split{gap:clamp(56px,8vw,140px)}
+.lx-tile,.lx-hero>img{outline:none}
+.lx .lx-field .lx-h,.lx .lx-field .lx-h.sm{color:#1E0819;text-shadow:0 1px 0 rgba(255,240,200,.35)}
+.lx .lx-field .lx-list dt,.lx .lx-field .lx-cols h3{color:#1E0819}
+.lx .lx-field .lx-lead,.lx .lx-field .lx-p,.lx .lx-field .lx-cols p{color:#2B0C26}
+.lx .lx-field .lx-five span{color:#1E0819}
+.lx .lx-field .lx-five span:hover,.lx .lx-field .lx-five span.on{color:#12030F;text-shadow:none}
+.lx-split>img,.lx-open-grid>img,.sov-swap{outline-color:rgba(232,210,154,.34)}
