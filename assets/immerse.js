@@ -33,7 +33,7 @@
     if (!gl) { c.remove(); return; }
     var vs = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
     var fs = [
-      'precision mediump float;uniform vec2 r;uniform float t;uniform vec2 m;uniform float k;',
+      'precision mediump float;uniform vec2 r;uniform float t;uniform vec2 m;uniform float k;uniform float a;',
       'float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}',
       'float n(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(h(i),h(i+vec2(1,0)),f.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),f.x),f.y);}',
       'float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<5;i++){v+=a*n(p);p=p*2.03+vec2(1.7,9.2);a*=.5;}return v;}',
@@ -49,6 +49,7 @@
       'float vein=smoothstep(.48,.5,f)-smoothstep(.5,.53,f);',
       'col+=brass*vein*.9+see*pow(smoothstep(.7,1.,w.x),3.)*.35;',
       'float vig=smoothstep(1.25,.25,length(uv-vec2(.62,.42)));',
+      'col=mix(col,col*vec3(1.35,.82,.62)+vec3(.06,.012,0.),a*.7);',
       'gl_FragColor=vec4(col*vig*k,1.);}'
     ].join('\n');
     function sh(type, src) { var s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; }
@@ -58,7 +59,7 @@
     var b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
     var loc = gl.getAttribLocation(pr, 'p'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-    var ur = gl.getUniformLocation(pr, 'r'), ut = gl.getUniformLocation(pr, 't'), um = gl.getUniformLocation(pr, 'm'), uk = gl.getUniformLocation(pr, 'k');
+    var ur = gl.getUniformLocation(pr, 'r'), ut = gl.getUniformLocation(pr, 't'), um = gl.getUniformLocation(pr, 'm'), uk = gl.getUniformLocation(pr, 'k'), ua = gl.getUniformLocation(pr, 'a');
     var mx = 0, my = 0, vis = true, start = performance.now();
     host.addEventListener('pointermove', function (e) { var b2 = host.getBoundingClientRect(); mx = (e.clientX - b2.left) / b2.width - .5; my = (e.clientY - b2.top) / b2.height - .5; }, { passive: true });
     function size() { var s = Math.min(1, 900 / Math.max(1, c.clientWidth)) * Math.min(devicePixelRatio || 1, 1.5); c.width = Math.max(2, c.clientWidth * s | 0); c.height = Math.max(2, c.clientHeight * s | 0); gl.viewport(0, 0, c.width, c.height); }
@@ -69,20 +70,21 @@
       if (!vis) return;
       cm.x += (mx - cm.x) * .04; cm.y += (my - cm.y) * .04;
       gl.uniform2f(ur, c.width, c.height); gl.uniform1f(ut, (performance.now() - start) / 1000 + 20.0);
-      gl.uniform2f(um, cm.x, -cm.y); gl.uniform1f(uk, strength);
+      gl.uniform2f(um, cm.x, -cm.y); gl.uniform1f(uk, strength); gl.uniform1f(ua, document.body.classList.contains('path-artists') ? 1 : 0);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
       requestAnimationFrame(loop);
     }
     loop();
   }
+  var entry = document.querySelector('.entry-stage'); if (entry) pigment(entry, .9);
   var hero = document.querySelector('.lx-hero'); if (hero) pigment(hero, .62);
-  var open = document.querySelector('.lx-open'); if (open && !hero) pigment(open, .9);
+  var open = document.querySelector('.lx-open'); if (open && !hero && !entry) pigment(open, .9);
 
   /* scroll cue on the hero */
   if (hero) { var s = document.createElement('div'); s.className = 'sov-scroll'; s.innerHTML = '<i></i><span>Scroll</span>'; s.setAttribute('aria-hidden', 'true'); hero.appendChild(s); }
 
   /* headline words rise */
-  document.querySelectorAll('.lx-hero h1, .lx-open h1, .lx .lx-h.sm').forEach(function (h) {
+  document.querySelectorAll('.lx-hero h1, .lx-open h1, .entry-stage h1, .lx .lx-h.sm').forEach(function (h) {
     if (h.querySelector('.w')) return;
     var words = h.textContent.trim().split(/\s+/);
     h.setAttribute('aria-label', h.textContent.trim());
@@ -115,6 +117,18 @@
     if (!reduce) { var k = 0, touched = false; five.forEach(function (s) { s.addEventListener('pointerenter', function () { touched = true; five.forEach(function (o) { o.classList.remove('on'); }); }); });
       setInterval(function () { if (touched) return; five.forEach(function (o, j) { o.classList.toggle('on', j === k); }); k = (k + 1) % five.length; }, 1600); }
   }
+
+  /* guest walk: find your side */
+  var ch = document.querySelector('.sov-choose'), res = document.getElementById('result');
+  if (ch && res) ch.addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-path]'); if (!b) return;
+    ch.querySelectorAll('button').forEach(function (o) { o.setAttribute('aria-checked', o === b ? 'true' : 'false'); });
+    var p = b.getAttribute('data-path'), html;
+    if (p === 'brands') html = '<p class="lx-lead">You\'re on the brand side. Start with who we serve, then see how a project runs.</p><div class="lx-row"><a class="btn" data-choose="brands" href="brands.html">Go to the brand path</a><a class="lx-more" href="brief.html">Start a project</a></div>';
+    else if (p === 'artists') html = '<p class="lx-lead">You\'re on the artist and designer side. Start with the four tiers, then the SOV Registry.</p><div class="lx-row"><a class="btn" data-choose="artists" href="creatives.html">Go to the artist path</a><a class="lx-more" href="registry.html">Inside the Registry</a></div>';
+    else html = '<p class="lx-lead">Then see both. Designers often bring SOV to their clients and join the Registry themselves.</p><div class="lx-row"><a class="btn" data-choose="brands" href="brands.html">Brand path</a><a class="btn btn-ghost" data-choose="artists" href="creatives.html">Artist path</a></div>';
+    res.innerHTML = html; res.hidden = false;
+  });
 
   if (reduce) { document.querySelectorAll('.sov-split').forEach(function (h) { h.classList.add('in'); }); return; }
 

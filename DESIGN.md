@@ -26,5 +26,12 @@ One system for every public page. Change it here first, then in assets/site.css.
 ## Immersive layer
 `assets/immerse.css` and `assets/immerse.js`: pigment shader in the first section, film grain, canvas texture, a gallery light that follows the cursor, headline word reveals, scroll reveals, parallax and tilt on pictures, count-ups, painted edges on the brass field, the five feedback words lighting in their colours. Everything stops under reduced motion.
 
+## Two paths
+- `index.html` is the entry: two full-height doorways (brands in brass, artists in ember) and a guest walk.
+- Brand path (`body.path-brands`): brands, spaces, how-it-works, pricing, brief and the sector pages. Brass accents.
+- Artist path (`body.path-artists`): creatives, registry. Ember accents (`#D9622B`, `#F2B38A`), ember field of colour, warmer pigment.
+- Shared (`data-path="shared"`): our-story, guest, contact. They take on the path the visitor last chose (stored in localStorage as `sovPath`), including the nav, logo link and next-chapter doorway.
+- Every page ends with a next-chapter doorway along its path.
+
 ## Still on the older system
 Sector pages (hotels, destinations, developers, healthcare, public agencies, workplaces), brief, contact and the signed-in account pages.

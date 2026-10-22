@@ -7,6 +7,32 @@
   addEventListener('load', toTop);
   addEventListener('pageshow', function (e) { if (e.persisted) toTop(); });
 
+  /* two paths: remember which side the visitor chose, and dress shared pages for it */
+  var path = document.body.getAttribute('data-path'), saved = null;
+  function store(v) { try { localStorage.setItem('sovPath', v); } catch (e) {} }
+  if (path === 'brands' || path === 'artists') store(path);
+  document.addEventListener('click', function (e) { var a = e.target.closest && e.target.closest('[data-choose]'); if (a) store(a.getAttribute('data-choose')); });
+  if (path === 'shared') {
+    try { saved = localStorage.getItem('sovPath'); } catch (e) {}
+    var mainNav = document.getElementById('nav');
+    if ((saved === 'brands' || saved === 'artists') && mainNav) {
+      var tpl = document.querySelector('nav[data-nav="' + saved + '"]');
+      if (tpl) mainNav.innerHTML = tpl.innerHTML;
+      var logo = document.querySelector('.logo'); if (logo) logo.setAttribute('href', saved === 'brands' ? 'brands.html' : 'creatives.html');
+      document.body.classList.add('path-' + saved);
+      var nx = document.querySelector('[data-next-story] a');
+      if (nx) {
+        var to = saved === 'brands' ? ['spaces.html', 'Who we serve', 'Hotels, nonprofits and cultural institutions.', 'Brands'] : ['creatives.html', 'For artists and designers', 'Studio, Advisory and the SOV Registry.', 'Artists'];
+        nx.setAttribute('href', to[0]);
+        var q = function (c) { return nx.querySelector(c); };
+        if (q('.sov-next-t')) q('.sov-next-t').textContent = to[1];
+        if (q('.sov-next-l')) q('.sov-next-l').textContent = to[2];
+        if (q('.sov-ghost')) q('.sov-ghost').textContent = to[3];
+      }
+    }
+    document.querySelectorAll('nav[data-nav]').forEach(function (n) { if (n.id !== 'nav') n.remove(); });
+  }
+
   var btn = document.querySelector('.menu-btn'), nav = document.querySelector('.nav');
   if (btn && nav) btn.addEventListener('click', function () {
     var open = nav.classList.toggle('open'); btn.setAttribute('aria-expanded', open ? 'true' : 'false');
