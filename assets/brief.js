@@ -185,7 +185,7 @@
     } catch (e) {
       console.error(e);
       btn.disabled = false; btn.textContent = 'Send my brief';
-      var el = document.getElementById('err'); el.innerHTML = 'Something went wrong sending your brief. Please try again, or email it to <a href="mailto:' + esc(C.contactEmail) + '">' + esc(C.contactEmail) + '</a>.'; el.hidden = false;
+      var el = document.getElementById('err'); el.textContent = 'Something went wrong sending your brief. Your answers are saved. Please try again in a moment, or book a call instead.'; el.hidden = false;
     }
   }
   function done() {

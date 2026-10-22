@@ -22,7 +22,7 @@
 <header class="top"><div class="wrap">
   <a class="logo" href="index.html" aria-label="SOV home, beta">sov<i aria-hidden="true"><b style="background:var(--see)"></b><b style="background:var(--hear)"></b><b style="background:var(--feel)"></b><b style="background:var(--think)"></b><b style="background:var(--exp)"></b></i><span class="beta">Beta</span></a>
   <button class="menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span></button>
-  <nav class="nav" id="nav" aria-label="Main"><a href="our-story.html">Our story</a><a href="spaces.html">Who we serve</a><a href="how-it-works.html">How it works</a><a href="creatives.html">For artists &amp; designers</a><a href="pricing.html" aria-current="page">Pricing</a><a href="account/login.html">Sign in</a><a class="btn" href="brief.html">Start a project</a></nav>
+  <nav class="nav" id="nav" aria-label="Main"><a href="our-story.html">Our story</a><a href="spaces.html">For experiential brands</a><a href="how-it-works.html">How it works</a><a href="creatives.html">For artists &amp; designers</a><a href="pricing.html" aria-current="page">Pricing</a><a href="account/login.html">Sign in</a><a class="btn" href="brief.html">Start a project</a></nav>
 </div></header>
 <main id="main" class="lx">
 <section class="lx-open"><div class="wrap lx-two" style="align-items:end">
@@ -49,9 +49,33 @@
 <p class="lx-src">A creative program includes Portfolio. Need SOV to find the creative and run the project? That's a <a class="link" href="brief.html?mode=curated">curated match</a>, priced per project with every line visible.</p>
 </div></section>
 
+<section class="lx-sec lx-field" id="ways"><div class="wrap lx-body">
+  <div class="lx-two"><h2 class="lx-h sm">Three ways to work</h2><p class="lx-lead">Start with one and move up any time. Every tier has vetted creatives and line-by-line pricing.</p></div>
+  <div class="lx-cols panels" style="--n:3"><div><h3>Post an opportunity</h3><p>Self-serve. Post the project, review who applies and choose, or invite someone you already know. SOV gives you agreements, payments and a project room.</p></div><div><h3>Curated match</h3><p>Full service. Share your goals, budget and timing. SOV writes the brief, shortlists 3 to 5 creatives and runs agreements, insurance, install and payment with one lead.</p></div><div><h3>Creative program</h3><p>Year-round or across several sites. You set the standards. SOV plans the year, keeps a preferred roster and reports across every site.</p></div></div>
+</div></section>
+
+<section class="lx-sec"><div class="wrap lx-body">
+  <div class="lx-two"><h2 class="lx-h sm">One price, every line visible</h2><p class="lx-lead">Priced on scope and complexity, not a flat percentage. Our fee sits inside your budget, never on top. Try the payment schedule with your own budget.</p></div>
+  <dl class="lx-list"><div><dt>Creative services</dt><dd>The artist's, designer's or team's pay</dd></div><div><dt>Production</dt><dd>Materials, fabrication, equipment and specialist labor</dd></div><div><dt>Logistics</dt><dd>Packing, freight, travel, install and removal</dd></div><div><dt>Project requirements</dt><dd>Insurance, permits, engineering and code review</dd></div><div><dt>Project delivery</dt><dd>SOV curation, project management and documentation</dd></div></dl>
+  <div class="lx-calc" id="split">
+  <div><label for="budget">Your project budget</label><input id="budget" type="text" inputmode="numeric" value="$15,000" aria-describedby="split-note"><p class="lx-src" id="split-note" style="margin-top:12px">Every payment is released only after you approve that stage.</p></div>
+  <div class="lx-pay" aria-live="polite">
+    <div><b data-p="0.4">$6,000</b><span>40% to start, after you approve the scope</span></div>
+    <div><b data-p="0.4">$6,000</b><span>40% at the midpoint, after you approve the progress</span></div>
+    <div><b data-p="0.2">$3,000</b><span>20% at handoff, after you approve the finished work</span></div>
+  </div>
+</div>
+<script>(function(){var i=document.getElementById('budget');if(!i)return;function f(v){return '$'+Math.round(v).toLocaleString('en-US')}function u(){var n=parseFloat(String(i.value).replace(/[^0-9.]/g,''))||0;document.querySelectorAll('#split [data-p]').forEach(function(b){b.textContent=f(n*parseFloat(b.dataset.p))})}i.addEventListener('input',u);i.addEventListener('blur',function(){var n=parseFloat(String(i.value).replace(/[^0-9.]/g,''))||0;i.value=f(n)});u()})();</script>
+</div></section>
+
+<section class="lx-sec lx-alt"><div class="wrap lx-two">
+  <div class="lx-head"><h2 class="lx-h sm">Your home base</h2><p class="lx-p">A free business account keeps every project, your preferred roster and everyone who signs off in one place.</p><a class="btn" href="account/signup.html?type=business">Create a business account</a></div>
+  <dl class="lx-list"><div><dt>Shortlists with reasons</dt><dd>Vetted creatives and why each fits.</dd></div><div><dt>Preferred roster</dt><dd>Keep the creatives you trust ready for the next project.</dd></div><div><dt>Line-by-line budgets</dt><dd>And the share that reaches the creative.</dd></div><div><dt>Milestone approvals</dt><dd>Nothing is paid until you approve it.</dd></div><div><dt>Paperwork in one place</dt><dd>Scope, contract, insurance and invoices.</dd></div><div><dt>Your collection</dt><dd>Location, care notes, rights and rotation dates.</dd></div><div><dt>Board reports</dt><dd>What was spent and how much reached the makers.</dd></div></dl>
+</div></section>
+
 <section class="lx-sec"><div class="wrap lx-two">
   <div class="lx-head"><h2 class="lx-h sm">For artists and designers</h2><p class="lx-p">The SOV Registry is by application, with no payment. Studio, Studio+ and Advisory are optional memberships that never affect who gets invited.</p><a class="lx-more" href="creatives.html#tiers">Compare the four tiers</a></div>
-  <dl class="lx-list"><div><dt>Studio</dt><dd>Templates, the wellness hub and community chat.</dd></div><div><dt>Studio+</dt><dd>Adds group office hours and feedback on your application.</dd></div><div><dt>Advisory</dt><dd>Adds one-on-one guidance.</dd></div><div><dt>SOV Registry</dt><dd>Vetted commercial work and matchmaking. No payment.</dd></div></dl>
+  <dl class="lx-list"><div><dt>Studio</dt><dd>Templates, the wellness hub and community chat.</dd></div><div><dt>Studio+</dt><dd>Adds group office hours and feedback on your application.</dd></div><div><dt>Advisory</dt><dd>Adds one-on-one guidance.</dd></div><div><dt>SOV Registry</dt><dd>Everything in Advisory, plus vetted commercial work and matchmaking. No payment.</dd></div></dl>
 </div></section>
 
 <section class="lx-sec tight lx-alt"><div class="wrap lx-two">
@@ -59,17 +83,22 @@
   <div class="lx-faq"><details><summary>Do I need a card for the trial?</summary><p>No. Start free for 30 days. Nothing is charged until you choose a plan.</p></details><details><summary>What's the difference between a plan and a project fee?</summary><p>A plan is the software. A curated match, where SOV finds the creative and runs the project, is priced per project.</p></details><details><summary>Can I switch plans or cancel?</summary><p>Yes. Move up or down any time. Monthly plans cancel at the end of the month.</p></details><details><summary>Do artists and designers ever pay to be booked?</summary><p>Never. Memberships are optional and have no effect on invitations.</p></details><details><summary>Is there pricing for nonprofits and cultural institutions?</summary><p>Yes. Talk with us about pilot and annual agreements.</p></details></div>
 </div></section>
 
+<section class="sov-next"><a href="brief.html" class="sov-next-in">
+  <img src="assets/photos/lobby-1200.webp" srcset="assets/photos/lobby-480.webp 480w, assets/photos/lobby-800.webp 800w, assets/photos/lobby-1200.webp 1200w, assets/photos/lobby-1280.webp 1280w" sizes="100vw" alt="A geometric pyramid painting by Micah The Artyst hung above a leather sofa against a brick wall" loading="lazy" decoding="async">
+  <span class="sov-ghost" aria-hidden="true">Begin</span>
+  <div class="wrap"><span class="sov-next-k">Next</span><b class="sov-next-t">Start a project</b><span class="sov-next-l">A few questions about your goals, budget and timing.</span><span class="sov-next-go" aria-hidden="true"></span></div>
+</a></section>
 <section class="lx-sec lx-deep"><div class="wrap lx-end">
   <div class="lx-head"><h2 class="lx-h">Talk it through first.</h2><p class="lx-p">Twenty minutes on your project, your goals and your timing. A person on our team writes back, with no obligation.</p></div>
-  <div class="lx-contact"><div class="lx-row"><a class="btn" href="https://calendar.app.google/ZtKt8hpRBjTjpKaC6" target="_blank" rel="noopener">Book a 20-minute call</a><a class="btn btn-ghost" href="contact.html">Send a message</a></div><span>founder@sovcreativebrokerage.com</span></div>
+  <div class="lx-contact"><div class="lx-row"><a class="btn" href="https://calendar.app.google/ZtKt8hpRBjTjpKaC6" target="_blank" rel="noopener">Book a 20-minute call</a><a class="btn btn-ghost" href="contact.html">Send a message</a></div></div>
 </div></section>
 </main>
 <footer class="foot"><div class="wrap">
   <div class="foot-grid">
     <div class="stack" style="gap:12px"><p style="font-family:var(--serif);font-size:30px;line-height:1.1;max-width:14ch">Good work, made on a deal both sides trust.</p><p class="muted" style="max-width:300px">An ArtTech platform and talent marketplace. Piloting in North Carolina.</p></div>
-    <div><h4>Brands and institutions</h4><a href="brief.html">Start a project</a><a href="account/signup.html?type=business">Business account</a><a href="spaces.html">Who we serve</a><a href="spaces.html#ways">Ways to work with us</a><a href="pricing.html">Pricing</a><a href="how-it-works.html">How it works</a></div>
+    <div><h4>Experiential brands</h4><a href="brief.html">Start a project</a><a href="account/signup.html?type=business">Business account</a><a href="spaces.html">For experiential brands</a><a href="pricing.html#ways">Ways to work with us</a><a href="pricing.html">Pricing</a><a href="how-it-works.html">How it works</a></div>
     <div><h4>Artists and designers</h4><a href="creatives.html">Why SOV</a><a href="creatives.html#tiers">Studio, Studio+ and Registry</a><a href="account/signup.html?utm_source=sov-website&amp;utm_medium=apply-button">Apply to the Registry</a><a href="account/login.html">Sign in</a></div>
-    <div><h4>SOV</h4><a href="our-story.html">Our story</a><a href="contact.html">Talk with us</a><a href="mailto:founder@sovcreativebrokerage.com">founder@sovcreativebrokerage.com</a><a href="account/terms.html">Terms and privacy</a></div>
+    <div><h4>SOV</h4><a href="our-story.html">Our story</a><a href="contact.html">Talk with us</a><a href="account/terms.html">Terms and privacy</a></div>
   </div>
   <a class="wordmark" href="index.html" aria-label="SOV home, beta" style="text-decoration:none">sov<i aria-hidden="true"><b style="background:var(--see)"></b><b style="background:var(--hear)"></b><b style="background:var(--feel)"></b><b style="background:var(--think)"></b><b style="background:var(--exp)"></b></i><span class="beta">Beta</span></a>
   <div class="fine"><span>Early access. Services and partners may change.</span></div>

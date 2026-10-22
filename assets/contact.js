@@ -23,7 +23,7 @@
     } catch (x) {
       console.error(x);
       btn.disabled = false; btn.textContent = 'Send message';
-      err.innerHTML = 'Something went wrong. Please try again, or email <a href="mailto:' + (C.contactEmail || 'founder@sovcreativebrokerage.com') + '">' + (C.contactEmail || 'founder@sovcreativebrokerage.com') + '</a>.'; err.hidden = false;
+      err.textContent = 'Something went wrong. Please try again in a moment, or book a call instead.'; err.hidden = false;
     }
   });
 })();
