@@ -18,7 +18,6 @@
     if ((saved === 'brands' || saved === 'artists') && mainNav) {
       var tpl = document.querySelector('nav[data-nav="' + saved + '"]');
       if (tpl) mainNav.innerHTML = tpl.innerHTML;
-      var logo = document.querySelector('.logo'); if (logo) logo.setAttribute('href', saved === 'brands' ? 'brands.html' : 'creatives.html');
       document.body.classList.add('path-' + saved);
       var nx = document.querySelector('[data-next-story] a');
       if (nx) {
