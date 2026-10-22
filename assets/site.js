@@ -1,5 +1,12 @@
 /* SOV public site: menu, header, gentle reveal, and keeping where visitors came from. */
 (function () {
+  /* every page opens at the top, unless the link points to a section (#anchor) */
+  try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; } catch (e) {}
+  function toTop() { if (!location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); }
+  toTop();
+  addEventListener('load', toTop);
+  addEventListener('pageshow', function (e) { if (e.persisted) toTop(); });
+
   var btn = document.querySelector('.menu-btn'), nav = document.querySelector('.nav');
   if (btn && nav) btn.addEventListener('click', function () {
     var open = nav.classList.toggle('open'); btn.setAttribute('aria-expanded', open ? 'true' : 'false');
