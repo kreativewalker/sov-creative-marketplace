@@ -141,6 +141,10 @@
       h.style.setProperty('--ry', (x * 14).toFixed(2) + 'deg'); h.style.setProperty('--rx', (-y * 10 + 4).toFixed(2) + 'deg'); }, { passive: true });
     sec.addEventListener('pointerleave', function () { h.style.removeProperty('--ry'); h.style.removeProperty('--rx'); });
   });
+
+  /* who we serve: a link to a world opens its line */
+  function openHash() { var el = location.hash && document.getElementById(location.hash.slice(1)); var d = el && el.querySelector('details.serve-row'); if (d) d.open = true; }
+  openHash(); addEventListener('hashchange', openHash);
   /* five words: each carries its own light; they take turns when untouched */
   var five = document.querySelectorAll('.lx-five span');
   if (five.length) {
