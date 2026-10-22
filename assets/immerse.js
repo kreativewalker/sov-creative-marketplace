@@ -132,6 +132,15 @@
       setInterval(function () { if (seen && !touched && !document.hidden) show(cur + 1); }, 4200);
     }
   });
+
+  /* the gold statement turns toward the visitor */
+  document.querySelectorAll('.sov-3d').forEach(function (h) {
+    if (reduce) return;
+    var sec = h.closest('section') || h;
+    sec.addEventListener('pointermove', function (e) { var r = sec.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+      h.style.setProperty('--ry', (x * 14).toFixed(2) + 'deg'); h.style.setProperty('--rx', (-y * 10 + 4).toFixed(2) + 'deg'); }, { passive: true });
+    sec.addEventListener('pointerleave', function () { h.style.removeProperty('--ry'); h.style.removeProperty('--rx'); });
+  });
   /* five words: each carries its own light; they take turns when untouched */
   var five = document.querySelectorAll('.lx-five span');
   if (five.length) {

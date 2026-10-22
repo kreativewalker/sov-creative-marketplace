@@ -19,6 +19,10 @@
       var tpl = document.querySelector('nav[data-nav="' + saved + '"]');
       if (tpl) mainNav.innerHTML = tpl.innerHTML;
       document.body.classList.add('path-' + saved);
+      var fn = document.querySelector('.foot-nav'), APPLY = 'account/signup.html?utm_source=sov-website&utm_medium=apply-button';
+      var FL = { brands: [['brands.html', 'Brand home'], ['our-story.html', 'Our story'], ['spaces.html', 'Who we serve'], ['how-it-works.html', 'How it works'], ['pricing.html', 'Pricing'], ['brief.html', 'Start a project'], ['account/login.html', 'Sign in'], ['index.html', 'Choose your path']],
+                 artists: [['creatives.html', 'Artist home'], ['our-story.html', 'Our story'], ['creatives.html#tiers', 'Tiers'], ['registry.html', 'The Registry'], ['creatives.html#community', 'Community'], [APPLY, 'Apply'], ['account/login.html', 'Sign in'], ['index.html', 'Choose your path']] };
+      if (fn) { fn.textContent = ''; FL[saved].forEach(function (l) { var a = document.createElement('a'); a.href = l[0]; a.textContent = l[1]; fn.appendChild(a); }); }
       var nx = document.querySelector('[data-next-story] a');
       if (nx) {
         var to = saved === 'brands' ? ['spaces.html', 'Who we serve', 'Hotels, nonprofits and cultural institutions.', 'Brands'] : ['creatives.html', 'For artists and designers', 'Studio, Advisory and the SOV Registry.', 'Artists'];
