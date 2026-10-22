@@ -99,7 +99,7 @@
     if (img) {
       var wrap = document.createElement('div'); wrap.className = 'sov-swap sov-frame'; img.parentNode.insertBefore(wrap, img); wrap.appendChild(img); img.classList.add('show');
       var map = { brands: img.cloneNode(), nonprofits: null, institutions: null };
-      var srcs = { nonprofits: 'assets/photos/civic-800.webp', institutions: 'assets/photos/meeting-750.webp' };
+      var srcs = { nonprofits: 'assets/photos/audience-800.webp', institutions: 'assets/photos/gallery-800.webp' };
       Object.keys(srcs).forEach(function (k) { var i = new Image(); i.src = srcs[k]; i.alt = ''; i.loading = 'lazy'; wrap.appendChild(i); map[k] = i; });
       map.brands = img;
       big.querySelectorAll('a').forEach(function (a) {
@@ -110,6 +110,28 @@
     }
   }
 
+
+  /* dashboard walkthroughs: step through every stage; they advance on their own until touched */
+  document.querySelectorAll('.sov-dash').forEach(function (d) {
+    var tabs = [].slice.call(d.querySelectorAll('[role="tab"]')), meter = d.querySelector('.dash-meter i'), cur = 0, touched = false, seen = false;
+    function show(i, focus) {
+      cur = (i + tabs.length) % tabs.length;
+      tabs.forEach(function (b, j) { var on = j === cur; b.setAttribute('aria-selected', on ? 'true' : 'false'); b.tabIndex = on ? 0 : -1; b.classList.toggle('done', j < cur);
+        var p = document.getElementById(b.getAttribute('aria-controls')); if (p) p.hidden = !on; });
+      if (meter) meter.style.setProperty('--p', ((cur + 1) / tabs.length * 100).toFixed(1) + '%');
+      if (focus) tabs[cur].focus();
+    }
+    tabs.forEach(function (b, j) { b.addEventListener('click', function () { touched = true; show(j); }); });
+    d.querySelector('[role="tablist"]').addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { e.preventDefault(); touched = true; show(cur + 1, true); }
+      if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { e.preventDefault(); touched = true; show(cur - 1, true); }
+    });
+    show(0);
+    if (!reduce) {
+      new IntersectionObserver(function (es) { seen = es[0].isIntersecting; }, { threshold: .35 }).observe(d);
+      setInterval(function () { if (seen && !touched && !document.hidden) show(cur + 1); }, 4200);
+    }
+  });
   /* five words: each carries its own light; they take turns when untouched */
   var five = document.querySelectorAll('.lx-five span');
   if (five.length) {
