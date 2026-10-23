@@ -1,0 +1,15 @@
+/* Type: Familjen Grotesk for reading, JetBrains Mono for small labels. Headings stay Instrument Serif. */
+:root{--sans:'Familjen Grotesk',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,Menlo,monospace}
+body{font-family:var(--sans);font-size:18px;letter-spacing:.003em}
+.lx-p,.lx-lead,.lx-list dd,.lx-cols p,.lx-faq p{letter-spacing:.004em}
+.btn,.nav a,.lx-more{font-family:var(--sans);letter-spacing:.01em}
+/* small labels */
+.sov-next-k,.lx-src,.dash-bar>span:first-child,.dash-lanes span,.dash-shows>span,.dn,.door-k,.lx-strip span,
+.lx-table thead th small,.sov-path,.sov-ch .n,.entry-guest span,.beta,.foot-fine{font-family:var(--mono);letter-spacing:.02em}
+.sov-next-k,.door-k,.dash-lanes span,.dash-shows>span{font-size:12.5px;letter-spacing:.06em}
+.lx-src{font-size:12px}
+.lx-strip span,.sov-path{font-size:12.5px}
+.dash-bar>span:first-child{font-size:12px}
+/* readable sizes for running text */
+.lx .lx-head .lx-p{font-size:clamp(17px,1.2vw,19px);line-height:1.6}
+.lx-cols p,.lx-list dd,.dash-lanes p,.dash-shows li,.serve-row .d,.sov-ch .d{font-size:clamp(15.5px,1.05vw,17px);line-height:1.55}

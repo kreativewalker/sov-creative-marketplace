@@ -38,7 +38,7 @@
   .fit-on .lx-head .lx-p{margin-top:8px}
   .fit-on .serve-row summary b{font-size:min(clamp(36px,5vw,84px),5.4vh)}
   .fit-on .serve-row summary{padding-block:clamp(10px,1.5vh,26px)}
-  .fit-on .lx-table th,.fit-on .lx-table td{padding-block:min(14px,.75vh)}
+  .fit-on .lx-table th,.fit-on .lx-table td{padding-block:min(14px,.6vh)}
   .fit-on .lx-table thead th small{margin-top:2px;font-size:12.5px}
   .fit-on .lx-table tfoot td{padding-top:12px}
   .fit-on .lx-calc{gap:clamp(18px,3vh,40px)}
