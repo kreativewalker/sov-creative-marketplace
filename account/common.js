@@ -34,7 +34,19 @@
     const { data } = await sb.from('org_members').select('org_id').limit(1);
     return !!(data && data.length);
   };
-  window.homeFor = async (user) => (user?.user_metadata?.account_type === 'business' || await isBusiness()) ? 'business.html' : 'index.html';
+  window.isStaffUser = async () => { try { const s = await sb.rpc('is_staff'); return !!s.data; } catch (e) { return false; } };
+  window.homeFor = async (user) => (await isStaffUser()) ? 'team.html' : (user?.user_metadata?.account_type === 'business' || await isBusiness()) ? 'business.html' : 'index.html';
+
+  // SOV staff only: switch between the SOV dashboard and the business and artist views, for demos and support.
+  window.staffSwitch = async (current) => {
+    if (!(await isStaffUser())) return false;
+    const bar = document.createElement('div');
+    bar.className = 'viewas';
+    const b = (k, href, label) => `<a href="${href}"${k === current ? ' aria-current="page"' : ''}>${label}</a>`;
+    bar.innerHTML = `<div class="wrap"><span>View as</span><nav aria-label="Switch view">${b('sov', 'team.html', 'SOV dashboard')}${b('business', 'business.html', 'Business')}${b('artist', 'index.html', 'Artist')}</nav></div>`;
+    const h = document.querySelector('header'); if (h) h.after(bar); else document.body.prepend(bar);
+    return true;
+  };
 
   window.signOut = async () => { await sb.auth.signOut(); location.href = '../index.html'; };
 

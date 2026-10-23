@@ -7,7 +7,9 @@
   if (!st.data) { $('#view').innerHTML = `<div class="card pad stack" style="max-width:560px"><h1 class="disp" style="font-size:32px">Team only</h1><p>This page is for the SOV review team. <a href="index.html">Go to your dashboard</a>.</p></div>`; return; }
 
   let artists = [], works = [], urls = {}, sel = null, filter = 'submitted', q = '';
-  let briefs = [], msgs = [], topps = [], orgsAll = [], membersAll = [], appsAll = [], mode = ['#briefs', '#messages', '#opps', '#creatives'].includes(location.hash) ? location.hash.slice(1) : 'overview', bsel = null;
+  const MODES = ['overview', 'projects', 'programs', 'opps', 'collections', 'reports', 'teams', 'companies', 'creatives', 'briefs', 'messages'];
+  let briefs = [], msgs = [], topps = [], orgsAll = [], membersAll = [], appsAll = [], lines = [], miles = [], items = [], invitesAll = [], mode = MODES.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'overview', bsel = null;
+  staffSwitch('sov');
   const MST = { new: ['New', 'blue'], replied: ['Replied', 'green'], archived: ['Archived', ''] };
   const TOPIC = { call: 'Intro call', project: 'Project', creative: 'Creative question', partner: 'Partnership', press: 'Press', general: 'General' };
   const BST = { new: ['New', 'blue'], contacted: ['Contacted', 'amber'], scoping: ['Scoping', 'amber'], proposal: ['Proposal sent', 'amber'], won: ['Won', 'green'], lost: ['Lost', ''], archived: ['Archived', ''] };
@@ -22,11 +24,13 @@
     topps = op.data || [];
     const [og, om, ap] = await Promise.all([sb.from('orgs').select('*').order('created_at', { ascending: false }), sb.from('org_members').select('*').order('created_at', { ascending: false }), sb.from('applications').select('id,status,created_at')]);
     orgsAll = og.data || []; membersAll = om.data || []; appsAll = ap.data || [];
+    const [bl, ms, ci, iv] = await Promise.all([sb.from('budget_lines').select('*'), sb.from('milestones').select('*').order('position'), sb.from('collection_items').select('*').order('installed_on', { ascending: false, nullsFirst: false }), sb.from('org_invites').select('*').is('accepted_at', null)]);
+    lines = bl.data || []; miles = ms.data || []; items = ci.data || []; invitesAll = iv.data || [];
     const [a, w] = await Promise.all([
       sb.from('artists').select('*').order('submitted_at', { ascending: false, nullsFirst: false }),
       sb.from('works').select('*').order('position', { ascending: true, nullsFirst: false })
     ]);
-    artists = a.data || []; works = w.data || [];
+    artists = (a.data || []).filter(x => x.id !== user.id); works = w.data || [];
     const paths = works.map(x => x.image_path).filter(Boolean);
     for (let i = 0; i < paths.length; i += 100) {
       const { data } = await sb.storage.from('artworks').createSignedUrls(paths.slice(i, i + 100), 3600);
@@ -36,7 +40,9 @@
   const worksOf = (id) => works.filter(w => w.artist_id === id);
   const count = (s) => artists.filter(a => a.status === s).length;
 
-  const tabs = () => `<div class="row" role="tablist" aria-label="Review area" style="flex-wrap:wrap"><button class="btn btn-sm ${mode === 'overview' ? '' : 'btn-ghost'}" data-mode="overview" role="tab" aria-selected="${mode === 'overview'}">Overview</button><button class="btn btn-sm ${mode === 'creatives' ? '' : 'btn-ghost'}" data-mode="creatives" role="tab" aria-selected="${mode === 'creatives'}">Creatives (${artists.filter(a => a.status !== 'draft').length})</button><button class="btn btn-sm ${mode === 'briefs' ? '' : 'btn-ghost'}" data-mode="briefs" role="tab" aria-selected="${mode === 'briefs'}">Business briefs (${briefs.filter(b => b.status === 'new').length} new)</button><button class="btn btn-sm ${mode === 'messages' ? '' : 'btn-ghost'}" data-mode="messages" role="tab" aria-selected="${mode === 'messages'}">Messages (${msgs.filter(m => m.status === 'new').length} new)</button><button class="btn btn-sm ${mode === 'opps' ? '' : 'btn-ghost'}" data-mode="opps" role="tab" aria-selected="${mode === 'opps'}">Opportunities (${topps.filter(o => o.status === 'review').length} to review)</button></div>`;
+  const TABS = [['overview', 'Overview'], ['projects', 'Projects'], ['programs', 'Programs'], ['opps', 'Opportunities'], ['collections', 'Collections'], ['reports', 'Reports'], ['teams', 'Teams'], ['companies', 'Companies'], ['creatives', 'Creatives'], ['briefs', 'Briefs'], ['messages', 'Messages']];
+  const badge = (k) => { const n = k === 'briefs' ? briefs.filter(b => b.status === 'new').length : k === 'messages' ? msgs.filter(m => m.status === 'new').length : k === 'opps' ? topps.filter(o => o.status === 'review').length : k === 'creatives' ? count('submitted') : 0; return n ? ` (${n})` : ''; };
+  const tabs = () => `<div class="tabs-wide" role="tablist" aria-label="Dashboard area" style="flex-basis:100%">${TABS.map(([k, l]) => `<button class="btn btn-sm ${mode === k ? '' : 'btn-ghost'}" data-mode="${k}" role="tab" aria-selected="${mode === k}">${l}${badge(k)}</button>`).join('')}</div>`;
   const wireTabs = () => $$('[data-mode]').forEach(b => b.onclick = () => { mode = b.dataset.mode; history.replaceState(null, '', mode === 'overview' ? '#' : '#' + mode); render(); });
 
   function renderBriefs() {
@@ -123,7 +129,7 @@
         ${k(artists.length, 'Creative sign-ups', `${artists.filter(a => since(a.created_at)).length} this week`, '#creatives')}
         ${k(sub.length, 'Applications sent', `${count('submitted') + count('in_review')} waiting on review`, '#creatives')}
         ${k(count('approved') + count('active'), 'Approved creatives', `${count('call_invited') + count('call_booked')} in the call stage`, '#creatives')}
-        ${k(orgsAll.length, 'Business accounts', `${membersAll.length} people · ${orgsAll.filter(o => since(o.created_at)).length} new this week`, '#')}
+        ${k(orgsAll.length, 'Business accounts', `${membersAll.length} people · ${orgsAll.filter(o => since(o.created_at)).length} new this week`, '#companies')}
         ${k(briefs.length, 'Briefs', `${briefs.filter(b => b.status === 'new').length} new`, '#briefs')}
         ${k(topps.length, 'Opportunities', `${topps.filter(o => o.status === 'review').length} to review · ${topps.filter(o => o.status === 'open').length} open · ${appsAll.length} applications`, '#opps')}
         ${k(msgs.length, 'Messages', `${msgs.filter(m => m.status === 'new').length} new`, '#messages')}
@@ -140,7 +146,91 @@
     wireTabs();
   }
 
+
+  // ---------- across every company ----------
+  const money = (n) => '$' + Number(n || 0).toLocaleString('en-US', { maximumFractionDigits: 0 });
+  const day = (d) => d ? new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
+  const coName = (id) => (orgsAll.find(o => o.id === id) || {}).name || '';
+  const isDemo = (id) => /\[demo\]/i.test((orgsAll.find(o => o.id === id) || {}).notes || '');
+  const isProgram = (b) => /program/i.test(b.engagement_mode || '');
+  const tierOf = (b) => isProgram(b) ? 'Creative program' : /Post an opportunity/i.test(b.engagement_mode || '') ? 'Self-serve' : 'Curated match';
+  const STG = { brief: 'Brief', shortlist: 'Shortlist', concept: 'Concepts', scope: 'Scope', make: 'Making', install: 'Install', complete: 'Complete', paused: 'Paused' };
+  const sum = (arr, f) => arr.reduce((s, x) => s + Number(f(x) || 0), 0);
+  const totalOf = (id) => sum(lines.filter(l => l.brief_id === id), l => l.amount);
+  const creOf = (id) => sum(lines.filter(l => l.brief_id === id && l.category === 'creative_fee'), l => l.amount);
+  const paidOf = (id) => sum(miles.filter(m => m.brief_id === id && m.status === 'paid'), m => m.amount);
+  const titleOf = (b) => b.title || [b.creative_types?.[0], b.space_type].filter(Boolean).join(', ') || 'New brief';
+  const demoTag = (id) => isDemo(id) ? ' <span class="tag">Demo</span>' : '';
+  const openCo = (id) => id ? `<a class="btn btn-sm btn-ghost" href="business.html?org=${id}">Open as business</a>` : '';
+  const page = (title, note, body) => `<div class="stack" style="gap:20px"><div class="row" style="justify-content:space-between;flex-wrap:wrap"><h1 class="disp">SOV dashboard</h1>${tabs()}</div><div class="stack" style="gap:4px"><h2>${title}</h2>${note ? `<p class="hint">${note}</p>` : ''}</div>${body}</div>`;
+  const table = (cols, rows, empty) => `<section class="card pad"><div style="overflow-x:auto"><table class="t"><thead><tr>${cols.map(c => `<th>${c}</th>`).join('')}</tr></thead><tbody>${rows.join('') || `<tr><td colspan="${cols.length}" class="hint">${empty}</td></tr>`}</tbody></table></div></section>`;
+  const projects = () => briefs.filter(b => b.org_id || b.stage);
+  function wireCommon() {
+    wireTabs();
+    $$('[data-openbrief]').forEach(x => x.onclick = () => { bsel = x.dataset.openbrief; mode = 'briefs'; history.replaceState(null, '', '#briefs'); render(); window.scrollTo(0, 0); });
+  }
+
+  function renderProjects() {
+    const list = projects().filter(b => !isProgram(b));
+    $('#view').innerHTML = page('Projects', 'Every project from every company, with where it stands and where the money is.', table(
+      ['Project', 'Company', 'Type', 'Stage', 'Budget', 'To creatives', 'Paid out', 'Started', ''],
+      list.map(b => `<tr><td><b>${esc(titleOf(b))}</b></td><td>${esc(coName(b.org_id) || b.org_name)}${demoTag(b.org_id)}</td><td class="hint">${tierOf(b)}</td><td><span class="tag">${STG[b.stage] || 'Brief'}</span></td><td>${money(totalOf(b.id))}</td><td>${money(creOf(b.id))}</td><td>${money(paidOf(b.id))}</td><td class="hint">${day(b.created_at)}</td><td class="row" style="gap:6px;flex-wrap:nowrap"><button class="btn btn-sm btn-ghost" data-openbrief="${b.id}">Open</button>${openCo(b.org_id)}</td></tr>`),
+      'No projects yet. They appear here once a business account starts one.'));
+    wireCommon();
+  }
+  function renderPrograms() {
+    const list = briefs.filter(isProgram);
+    $('#view').innerHTML = page('Programs', 'Year-round and multi-site creative programs.', table(
+      ['Program', 'Company', 'Sites', 'Cadence', 'Stage', 'Budget', 'Started', ''],
+      list.map(b => `<tr><td><b>${esc(titleOf(b))}</b></td><td>${esc(coName(b.org_id) || b.org_name)}${demoTag(b.org_id)}</td><td class="hint">${esc(b.program_sites || '')}</td><td class="hint">${esc(b.program_cadence || '')}</td><td><span class="tag">${STG[b.stage] || 'Brief'}</span></td><td>${money(totalOf(b.id))}</td><td class="hint">${day(b.created_at)}</td><td class="row" style="gap:6px;flex-wrap:nowrap"><button class="btn btn-sm btn-ghost" data-openbrief="${b.id}">Open</button>${openCo(b.org_id)}</td></tr>`),
+      'No programs yet.'));
+    wireCommon();
+  }
+  function renderCollections() {
+    $('#view').innerHTML = page('Collections', 'Every finished work in every company\'s collection.', table(
+      ['Work', 'Creative', 'Company', 'Location', 'Installed', 'Next rotation', 'Rights', ''],
+      items.map(i => `<tr><td><b>${esc(i.title || 'Untitled')}</b><br><span class="hint">${esc([i.medium, i.size, i.year].filter(Boolean).join(' · '))}</span></td><td>${esc(i.creative_name || '')}</td><td>${esc(coName(i.org_id))}${demoTag(i.org_id)}</td><td class="hint">${esc(i.location || '')}</td><td class="hint">${day(i.installed_on)}</td><td class="hint">${day(i.next_rotation)}</td><td class="hint">${esc(i.rights || '')}</td><td>${openCo(i.org_id)}</td></tr>`),
+      'No collection records yet.'));
+    wireCommon();
+  }
+  function renderReports() {
+    const real = projects().filter(b => !isDemo(b.org_id));
+    const tot = sum(real, b => totalOf(b.id)), cre = sum(real, b => creOf(b.id)), paid = sum(real, b => paidOf(b.id));
+    const fee = sum(lines.filter(l => l.category === 'sov_fee' && real.some(b => b.id === l.brief_id)), l => l.amount);
+    const k = (n, l, s) => `<div class="card pad stack" style="gap:4px"><b style="font-family:'Instrument Serif',serif;font-weight:400;font-size:44px;line-height:1">${n}</b><span>${l}</span>${s ? `<span class="hint">${s}</span>` : ''}</div>`;
+    const rows = orgsAll.map(o => { const bs = projects().filter(b => b.org_id === o.id); const t2 = sum(bs, b => totalOf(b.id)), c2 = sum(bs, b => creOf(b.id));
+      return `<tr><td><b>${esc(o.name)}</b>${demoTag(o.id)}</td><td>${bs.length}</td><td>${bs.filter(b => b.stage === 'complete').length}</td><td>${money(t2)}</td><td>${money(c2)}</td><td>${t2 ? Math.round(c2 / t2 * 100) + '%' : ''}</td><td>${money(sum(bs, b => paidOf(b.id)))}</td><td>${items.filter(i => i.org_id === o.id).length}</td><td>${openCo(o.id)}</td></tr>`; });
+    $('#view').innerHTML = page('Reports', 'Totals across every company. Demo companies are left out of the totals.', `
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px">
+        ${k(money(tot), 'Committed budgets', `${real.length} projects`)}
+        ${k(money(cre), 'To creatives', tot ? Math.round(cre / tot * 100) + '% of budgets' : '')}
+        ${k(money(paid), 'Paid out', `${miles.filter(m => m.status === 'ready').length} milestones waiting on approval`)}
+        ${k(money(fee), 'SOV fees', '')}
+        ${k(real.filter(b => b.stage === 'complete').length, 'Completed projects', `${real.filter(b => !['complete', 'paused'].includes(b.stage || 'brief')).length} in progress`)}
+        ${k(items.filter(i => !isDemo(i.org_id)).length, 'Works in collections', '')}
+      </div>` + table(['Company', 'Projects', 'Complete', 'Budget', 'To creatives', 'Share', 'Paid out', 'Works', ''], rows, 'No companies yet.'));
+    wireCommon();
+  }
+  function renderTeams() {
+    $('#view').innerHTML = page('Teams', 'Who is on each company\'s account, and who has been invited.', orgsAll.map(o => {
+      const ms = membersAll.filter(m => m.org_id === o.id), iv = invitesAll.filter(v => v.org_id === o.id);
+      return `<section class="card pad stack" style="gap:10px"><div class="row" style="justify-content:space-between"><h3>${esc(o.name)}${demoTag(o.id)}</h3>${openCo(o.id)}</div>
+        <div style="overflow-x:auto"><table class="t"><thead><tr><th>Name</th><th>Role at company</th><th>Account</th><th>Joined</th></tr></thead><tbody>
+        ${ms.map(m => `<tr><td><b>${esc(m.name || 'Team member')}</b></td><td class="hint">${esc(m.title || '')}</td><td>${m.role === 'owner' ? 'Owner' : 'Member'}</td><td class="hint">${day(m.created_at)}</td></tr>`).join('')}
+        ${iv.map(v => `<tr><td>${esc(v.email)}</td><td></td><td class="hint">Invited</td><td class="hint">${day(v.created_at)}</td></tr>`).join('')}
+        </tbody></table></div></section>`; }).join('') || '<p class="hint">No companies yet.</p>');
+    wireCommon();
+  }
+  function renderCompanies() {
+    $('#view').innerHTML = page('Companies', 'Every business account. Open one to see exactly what that team sees.', table(
+      ['Company', 'Type', 'City', 'Plan', 'People', 'Projects', 'Opportunities', 'Joined', ''],
+      orgsAll.map(o => `<tr><td><b>${esc(o.name)}</b>${demoTag(o.id)}</td><td class="hint">${esc(o.sector || '')}</td><td class="hint">${esc(o.city || '')}</td><td class="hint">${esc(o.plan || '')}</td><td>${membersAll.filter(m => m.org_id === o.id).length}</td><td>${briefs.filter(b => b.org_id === o.id).length}</td><td>${topps.filter(x => x.org_id === o.id).length}</td><td class="hint">${day(o.created_at)}</td><td>${openCo(o.id)}</td></tr>`),
+      'No business accounts yet.'));
+    wireCommon();
+  }
   function render() {
+    const V = { projects: renderProjects, programs: renderPrograms, collections: renderCollections, reports: renderReports, teams: renderTeams, companies: renderCompanies };
+    if (V[mode]) return V[mode]();
     if (mode === 'overview') return renderOverview();
     if (mode === 'opps') return renderOpps();
     if (mode === 'messages') return renderMessages();
@@ -236,5 +326,6 @@
     Object.assign(a, r.data); toast('Status: ' + STATUS[s].label); render();
   }
 
+  addEventListener('hashchange', () => { const h = location.hash.slice(1); if (MODES.includes(h) && h !== mode) { mode = h; render(); window.scrollTo(0, 0); } });
   await load(); render();
 })();

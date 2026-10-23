@@ -169,3 +169,14 @@ h1.disp,.q-title{font-size:clamp(36px,4.4vw,56px)!important;line-height:1.02}
 .logo .beta{display:inline-block;margin-left:8px;vertical-align:middle;font-family:Inter,system-ui,sans-serif;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-l,#D9C68E);border:1px solid rgba(181,158,90,.6);border-radius:999px;padding:3px 8px 2px;line-height:1;transform:translateY(-1px);font-style:normal}
 .logo .beta{color:#8C773A;border-color:rgba(140,119,58,.55)}
 .auth-art .logo .beta{color:#D9C68E;border-color:rgba(217,198,142,.6)}
+
+/* staff view switch */
+.viewas{background:#24091F;color:#E8D29A;font-size:13px}
+.viewas .wrap{display:flex;align-items:center;gap:14px;padding-top:8px;padding-bottom:8px;flex-wrap:wrap}
+.viewas span{letter-spacing:.08em;text-transform:uppercase;font-weight:700;font-size:11px;opacity:.8}
+.viewas nav{display:flex;gap:6px;flex-wrap:wrap}
+.viewas a{color:#F6EEDC;text-decoration:none;padding:6px 14px;border-radius:999px;border:1px solid rgba(232,210,154,.35)}
+.viewas a:hover{border-color:#E8D29A}
+.viewas a[aria-current="page"]{background:#E8D29A;color:#24091F;border-color:#E8D29A;font-weight:700}
+.staffnote{background:#FBF4E4;border:1px solid #E8D29A;border-radius:14px;padding:12px 16px;margin-bottom:18px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.tabs-wide{display:flex;gap:8px;flex-wrap:wrap}

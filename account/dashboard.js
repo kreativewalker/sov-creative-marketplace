@@ -650,6 +650,7 @@
   });
   window.addEventListener('beforeunload', () => { if ($('#qForm')) saveStep(); });
 
+  staffSwitch('artist');
   try { await load(); render(); }
   catch (e) { console.error(e); $('#view').innerHTML = `<p class="notice bad">We couldn't load your dashboard. Please refresh the page. If it keeps happening, write to ${esc(C.contactEmail)}.</p>`; }
 })();

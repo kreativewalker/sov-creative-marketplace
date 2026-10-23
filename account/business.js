@@ -37,10 +37,18 @@
     ['Tier 3 · Ongoing', 'Creative program', 'For several spaces or year-round work.', 'Plans the year, keeps a preferred roster, runs every project and reports across your sites.', '#program', 'Plan a program']];
   const tierCards = () => `<div class="tierc">${TIERS.map((t, i) => `<a class="tier${i === 1 ? ' feat' : ''}" href="${t[4]}"><span class="eyb">${t[0]}</span><h3>${t[1]}</h3><p class="hint">${t[2]}</p><div class="sovp">${sovMark}<span>${t[3]}</span></div><span class="go">${t[5]} →</span></a>`).join('')}</div>`;
 
+  const orgParam = new URLSearchParams(location.search).get('org');
   async function load() {
-    const m = await sb.from('org_members').select('*, orgs(*)').eq('user_id', user.id).limit(1);
-    if (!m.data || !m.data.length) return false;
-    me = m.data[0]; org = me.orgs;
+    staff = await isStaffUser();
+    if (staff && orgParam) { // SOV staff opening a client's company to support them
+      const o = await sb.from('orgs').select('*').eq('id', orgParam).maybeSingle();
+      if (!o.data) return false;
+      org = o.data; me = { role: 'member', name: 'SOV staff', title: '', user_id: user.id, staffView: true };
+    } else {
+      const m = await sb.from('org_members').select('*, orgs(*)').eq('user_id', user.id).limit(1);
+      if (!m.data || !m.data.length) return false;
+      me = m.data[0]; org = me.orgs;
+    }
     const [mm, inv, br, st] = await Promise.all([
       sb.from('org_members').select('*').eq('org_id', org.id).order('created_at'),
       sb.from('org_invites').select('*').eq('org_id', org.id).is('accepted_at', null).order('created_at'),
@@ -187,7 +195,7 @@
       ${body}</div>`;
   }
 
-  views.start = () => `<div class="stack" style="gap:28px">
+  views.start = () => me.staffView ? `<div class="stack" style="gap:12px;max-width:620px"><h1 class="disp">Starting a project</h1><p class="hint">New projects are started by the company's own team. To demo this step, use the Business view with your demo company.</p></div>` : `<div class="stack" style="gap:28px">
       <div class="stack" style="gap:8px"><span class="eyb">${esc(org.name)}</span><h1 class="disp">How would you like <em>to start?</em></h1><p class="hint" style="font-size:16px;max-width:640px">Three tiers. You can start with one and move up any time. Not sure? <a href="https://calendar.app.google/ZtKt8hpRBjTjpKaC6" target="_blank" rel="noopener">Book a 20-minute call</a>.</p></div>
       ${tierCards()}</div>`;
 
@@ -287,7 +295,7 @@
       ${invites.length ? `<section><h2 style="margin-bottom:8px">Invited</h2>${invites.map(v => `<div class="todo"><span class="dotc"></span><span style="flex:1"><b>${esc(v.email)}</b><br><span class="hint">Invited ${day(v.created_at)}</span></span>${isOwner() ? `<button class="linkbtn" data-uninv="${v.id}">Cancel</button>` : ''}</div>`).join('')}</section>` : ''}
       ${isOwner() ? `<form class="card pad stack" id="invForm" style="gap:14px"><h3>Invite a colleague</h3><p class="hint">They create an account with this email and join your team automatically. We'll open an email you can send them.</p>
         <div class="row" style="align-items:flex-end"><label class="f" style="flex:1;min-width:240px">Their work email<input type="email" name="email" required></label><button class="btn btn-sm" type="submit">Invite</button></div></form>` : '<p class="hint">Only the account owner can invite or remove people.</p>'}
-      <section class="stack" style="gap:8px"><h3>Your profile</h3><form id="meForm" class="formgrid"><label class="f">Your name<input name="name" value="${esc(me.name || '')}"></label><label class="f">Your role<input name="title" value="${esc(me.title || '')}" placeholder="Owner, GM, designer, facilities..."></label><div><button class="btn btn-ghost btn-sm" type="submit">Save</button></div></form></section></div>`;
+      ${me.staffView ? '' : `<section class="stack" style="gap:8px"><h3>Your profile</h3><form id="meForm" class="formgrid"><label class="f">Your name<input name="name" value="${esc(me.name || '')}"></label><label class="f">Your role<input name="title" value="${esc(me.title || '')}" placeholder="Owner, GM, designer, facilities..."></label><div><button class="btn btn-ghost btn-sm" type="submit">Save</button></div></form></section>`}</div>`;
 
   views.company = () => {
     const f = (k, l, ph, area) => `<label class="f">${l}${area ? `<textarea name="${k}" placeholder="${esc(ph || '')}" ${isOwner() ? '' : 'disabled'}>${esc(org[k] || '')}</textarea>` : `<input name="${k}" value="${esc(org[k] || '')}" placeholder="${esc(ph || '')}" ${isOwner() ? '' : 'disabled'}>`}</label>`;
@@ -415,12 +423,25 @@
     };
   }
 
+  const switched = staffSwitch('business');
   if (!(await load())) {
+    if (staff) {
+      const all = await sb.from('orgs').select('id,name,sector,city').order('name');
+      $('#view').innerHTML = `<div class="stack" style="gap:16px;max-width:720px"><h1 class="disp">Choose a company to view</h1><p class="hint" style="font-size:16px">You're signed in as SOV staff. Open any business account to see exactly what they see.</p>${(all.data || []).map(o => `<a class="card pad row" style="justify-content:space-between;text-decoration:none;color:inherit" href="business.html?org=${o.id}"><span><b>${esc(o.name)}</b><br><span class="hint">${esc([o.sector, o.city].filter(Boolean).join(' · '))}</span></span><span class="btn btn-sm btn-ghost">Open</span></a>`).join('') || '<p class="hint">No business accounts yet.</p>'}</div>`;
+      await switched; return;
+    }
     $('#view').innerHTML = `<div class="stack" style="gap:16px;max-width:620px"><h1 class="disp">This account isn't linked to a business yet.</h1><p class="hint" style="font-size:16px">If a colleague invited you, make sure they used this email address, then refresh. If you're a creative, your dashboard is <a href="index.html">here</a>.</p></div>`;
     return;
   }
   $('#av').textContent = initials(me.name || user.email);
   if (staff) $('#teamLink').hidden = false;
+  await switched;
+  if (me.staffView) {
+    const n = document.createElement('div'); n.className = 'wrap';
+    n.innerHTML = `<div class="staffnote"><span>You're viewing <b>${esc(org.name)}</b> as SOV staff. Owner-only settings and new projects are hidden.</span><a class="btn btn-sm btn-ghost" href="team.html#companies">All companies</a></div>`;
+    $('#view').before(n);
+    const sn = $('#nav a.btn[href="#start"]'); if (sn) sn.hidden = true;
+  }
   window.addEventListener('hashchange', () => { Object.keys(appCache).forEach(k => delete appCache[k]); render(); window.scrollTo(0, 0); });
   render();
 })();
