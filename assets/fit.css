@@ -1,0 +1,50 @@
+/* Screen fit: every section fills one screen, or two short sections share one. Desktop and tablet only. */
+@media (min-width:900px) and (min-height:600px){
+  html.fit-on{scroll-snap-type:y proximity}
+  .fit-on [data-fit-snap]{scroll-snap-align:start;scroll-margin-top:var(--fit-top,0px)}
+  .fit-on [data-fit].lx-sec,.fit-on [data-fit].lx-open{display:flex;flex-direction:column;justify-content:center}
+  .fit-on [data-fit].lx-sec>.wrap,.fit-on [data-fit].lx-open>.wrap{width:100%}
+  .fit-on .lx-sec{padding-block:clamp(40px,6.5vh,92px)}
+  .fit-on .lx-sec.big{padding-block:clamp(48px,7vh,104px)}
+  .fit-on .lx-sec.tight{padding-block:clamp(32px,5vh,72px)}
+  .fit-on .lx-open{padding-block:clamp(56px,8vh,120px) clamp(40px,6vh,88px)}
+  .fit-on .lx-hero,.fit-on .entry-stage{min-height:0}
+  .fit-on .sov-next{display:flex;flex-direction:column}
+  .fit-on .sov-next-in{min-height:0;flex:1}
+  /* size the big moments to the screen height so they fit */
+  .fit-on .entry-doors{height:clamp(320px,52vh,600px)}
+  .fit-on .sov-3d{font-size:min(clamp(68px,11.5vw,210px),16vh)}
+  .fit-on .sov-ch a,.fit-on .serve-row summary{padding-block:clamp(12px,1.8vh,30px)}
+  .fit-on .sov-ch b,.fit-on .serve-row summary b{font-size:min(clamp(36px,5vw,84px),6.4vh)}
+  .fit-on .sov-dash-sec{padding-block:clamp(32px,4.5vh,72px)}
+  .fit-on .dash-panel{padding:clamp(18px,2.4vh,36px);gap:clamp(14px,2vh,28px)}
+  .fit-on .lx-nums b{font-size:min(clamp(64px,8vw,128px),11vh)}
+  .fit-on .lx-table th,.fit-on .lx-table td{padding-block:min(16px,1.15vh)}
+  .fit-on .lx-calc{padding:clamp(22px,3vh,48px)}
+  .fit-on .lx-sec{padding-block:clamp(36px,5.5vh,84px)}
+  .fit-on .sov-keeps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,2vw,32px)}
+  .fit-on .sov-keeps>div{display:block}
+  .fit-on .sov-statement .lx-lead{margin-top:clamp(12px,2vh,28px)}
+  /* lean base padding: any spare room is given back when a section stretches to fill its screen */
+  .fit-on .lx-sec,.fit-on .lx-sec.big,.fit-on .lx-sec.tight,.fit-on .sov-dash-sec{padding-block:clamp(28px,4.2vh,64px)!important}
+  .fit-on .lx-sec.lx-field{padding-block:clamp(56px,7vh,96px)!important}
+  .fit-on .sov-statement .wrap{gap:clamp(20px,3vh,48px)}
+  .fit-on .lx-nums b,.fit-on .lx-nums.two b,.fit-on .lx-nums.two.compact b{font-size:min(clamp(56px,6.4vw,104px),9vh)}
+  .fit-on .lx-nums>div,.fit-on .lx-nums.two.compact>div{padding:clamp(18px,2.6vh,36px)}
+  .fit-on .sov-3d{font-size:min(clamp(68px,11.5vw,210px),13vh)}
+  .fit-on .lx-body{gap:clamp(18px,3vh,44px)!important}
+  .fit-on .lx-table th,.fit-on .lx-table td{font-size:14.5px;line-height:1.35}
+  .fit-on .lx-table thead th{font-size:clamp(20px,2.6vh,28px)}
+  .fit-on .lx-head .lx-p{margin-top:8px}
+  .fit-on .serve-row summary b{font-size:min(clamp(36px,5vw,84px),5.4vh)}
+  .fit-on .serve-row summary{padding-block:clamp(10px,1.5vh,26px)}
+  .fit-on .lx-table th,.fit-on .lx-table td{padding-block:min(14px,.75vh)}
+  .fit-on .lx-table thead th small{margin-top:2px;font-size:12.5px}
+  .fit-on .lx-table tfoot td{padding-top:12px}
+  .fit-on .lx-calc{gap:clamp(18px,3vh,40px)}
+  .fit-on .lx-body:has(> .lx-calc){display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;column-gap:clamp(24px,4vw,64px)}
+  .fit-on .lx-body:has(> .lx-calc)>.lx-two{grid-column:1/-1}
+  .fit-on .lx-body:has(> .lx-calc) .lx-calc{grid-template-columns:minmax(0,1fr)}
+  .fit-on #tiers .lx-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:end;column-gap:clamp(24px,4vw,64px)}
+  .fit-on #tiers .lx-head .lx-p{margin:0}
+}
