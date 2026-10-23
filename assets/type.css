@@ -11,5 +11,14 @@ body{font-family:var(--sans);font-size:18px;letter-spacing:.003em}
 .lx-strip span,.sov-path{font-size:12.5px}
 .dash-bar>span:first-child{font-size:12px}
 /* readable sizes for running text */
-.lx .lx-head .lx-p{font-size:clamp(17px,1.2vw,19px);line-height:1.6}
-.lx-cols p,.lx-list dd,.dash-lanes p,.dash-shows li,.serve-row .d,.sov-ch .d{font-size:clamp(15.5px,1.05vw,17px);line-height:1.55}
+.lx .lx-head .lx-p{font-size:clamp(18px,1.3vw,20px);line-height:1.6}
+.lx-cols p,.lx-list dd,.dash-lanes p,.dash-shows li,.serve-row .d,.sov-ch .d{font-size:clamp(16px,1.15vw,17.5px);line-height:1.55}
+/* artist path: warm, hand-set labels instead of mono */
+.path-artists .sov-next-k,.path-artists .lx-src,.path-artists .dash-bar>span:first-child,.path-artists .dash-lanes span,.path-artists .dash-shows>span,
+.path-artists .door-k,.path-artists .lx-strip span,.path-artists .lx-table thead th small,.path-artists .sov-path,.path-artists .sov-ch .n,
+.door-x[data-choose="artists"] .door-k{font-family:var(--serif);font-style:italic;letter-spacing:0}
+.path-artists .sov-next-k,.path-artists .door-k,.path-artists .dash-lanes span,.path-artists .dash-shows>span,.door-x[data-choose="artists"] .door-k{font-size:17px}
+.path-artists .lx-strip span,.path-artists .sov-path,.path-artists .dash-bar>span:first-child{font-size:16px}
+.path-artists .lx-src,.path-artists .lx-table thead th small{font-size:15px}
+.path-artists .dn{font-family:var(--serif);font-size:15px;letter-spacing:0}
+.path-artists .lx-p,.path-artists .lx-lead,.path-artists .lx-list dd,.path-artists .lx-cols p{letter-spacing:.008em;line-height:1.65}
