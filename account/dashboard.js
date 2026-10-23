@@ -98,7 +98,7 @@
     let next;
     if (A.status === 'draft') next = `<h2>Finish your application</h2><p>Your answers save as you go. ${pieces < 3 ? `You've added ${pieces} of 3 pieces so far.` : 'Your three pieces are in.'}</p><div><a class="btn btn-blue" href="#apply">Continue my application</a></div>`;
     else if (A.status === 'submitted' || A.status === 'in_review') next = `<h2>We're looking at your work</h2><p>A real person on our team reads every application. If it's a good fit, we'll email you and a button to book your video call will appear here.</p><div class="row"><a class="btn btn-ghost" href="#profile">Add your bio while you wait</a></div>`;
-    else if (A.status === 'call_invited') next = `<h2>You're invited to a video call</h2><p>About 30 minutes on Google Meet with a working creative from our team. Have 3 to 5 samples ready to talk about, including the one you're proudest of.</p><div><a class="btn btn-blue" href="${esc(C.bookingUrl)}" target="_blank" rel="noopener">Pick a time for my call</a></div>`;
+    else if (A.status === 'call_invited') next = `<h2>You're invited to a video call</h2><p>About 20 minutes on Google Meet with a working creative from our team. Have 3 to 5 samples ready to talk about, including the one you're proudest of.</p><div><a class="btn btn-blue" href="${esc(C.bookingUrl)}" target="_blank" rel="noopener">Pick a time for my call</a></div>`;
     else if (A.status === 'call_booked') next = `<h2>Your call is booked</h2><p>Your Google Meet link is in your email and calendar invite. We're looking forward to it.</p>`;
     else if (A.status === 'approved') next = `<h2>Welcome to SOV</h2><p>We'll send your Artist Network Agreement by email to sign. Once it's signed, you're active and we start matching you with projects.</p>`;
     else if (A.status === 'active') next = `<h2>You're active in the network</h2><p>Keep your work and availability current so we can match you well.</p><div class="row"><a class="btn btn-blue" href="#works">Update my work</a></div>`;
@@ -488,7 +488,7 @@
   views.call = () => {
     const s = A.status;
     let body;
-    if (s === 'call_invited') body = `<p>You're invited to a 30-minute video call on Google Meet with a working creative from our team. It's a conversation between creatives, not a test.</p>
+    if (s === 'call_invited') body = `<p>You're invited to a 20-minute video call on Google Meet with a working creative from our team. It's a conversation between creatives, not a test.</p>
       <ul><li>Have 3 to 5 samples ready to talk about, including the one you're proudest of.</li><li>Be ready to walk through one project from first conversation to finished work.</li><li>Bring your questions for us, too.</li></ul>
       <div class="row"><a class="btn btn-blue" href="${esc(C.bookingUrl)}" target="_blank" rel="noopener">Pick a time for my call</a><button class="btn btn-ghost" id="booked" type="button">I've booked it</button></div>`;
     else if (s === 'call_booked') body = `<p class="notice ok">Your call is booked. The Google Meet link is in your email and calendar invite.</p><p class="hint">Need to move it? Use the link in your calendar invite, or write to us at ${esc(C.contactEmail)}.</p>`;
