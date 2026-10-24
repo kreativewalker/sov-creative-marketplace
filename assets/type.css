@@ -22,3 +22,10 @@ body{font-family:var(--sans);font-size:18px;letter-spacing:.003em}
 .path-artists .lx-src,.path-artists .lx-table thead th small{font-size:15px}
 .path-artists .dn{font-family:var(--serif);font-size:15px;letter-spacing:0}
 .path-artists .lx-p,.path-artists .lx-lead,.path-artists .lx-list dd,.path-artists .lx-cols p{letter-spacing:.008em;line-height:1.65}
+/* You belong here: mediums, not job titles, so people find themselves in it */
+.sov-mediums{margin:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:.15em .5em;font-family:var(--serif);font-size:clamp(34px,4.6vw,72px);line-height:1.05;letter-spacing:-.02em;color:var(--ink,#F3EEE4);}
+.sov-mediums span{display:inline-flex;align-items:baseline;gap:.5em;transition:color .4s}
+.sov-mediums span:not(:last-child)::after{content:"";width:.14em;height:.14em;border-radius:50%;background:currentColor;opacity:.35;transform:translateY(-.25em)}
+.sov-mediums .i{font-style:italic;color:#F2B38A}
+.sov-mediums span:hover{color:#E8D29A}
+@media (prefers-reduced-motion:reduce){.sov-mediums span{transition:none}}
